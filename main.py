@@ -20,6 +20,8 @@ class checker:
         
         self.first_run = self.welcome_screen()
 
+        self.start_gui()
+
 
 
 
@@ -70,8 +72,8 @@ class checker:
             return "Check manually; not found via regex"
     
     def welcome_screen(self):
+        first_run = True
         if not os.path.isfile(self.report_file):  # if this program is being run for the first time
-            first_run = True
             print("Welcome to the CS270 grading assistant")
             print()
 
@@ -106,6 +108,32 @@ class checker:
             print("Welcome back!")
         
         return first_run
+        
+    def start_gui(self):
+        if self.first_run:
+            options = ["Start Grading", "Print Grade Report", "View Grading Status", "Save and Exit"]
+        else:
+            options = ["Continue Grading", "Print Grade Report",
+                       "View Grading Status", "Save and Exit"]
+        choice = pyip.inputMenu(options, numbered=True)
+        
+        if choice == "Start Grading" or choice == "Continue Grading":
+            self.grading()
+        
+        elif choice == "Print Grade Report":
+            self.print_report()
+        
+        elif choice == "View Grading Status":
+            self.print_grading_status()
+        
+        elif choice == "Save and Exit":
+            self.end_program()
+    
+    def grading(self):
+        pass
+
+
+
 
 
 if __name__ == "__main__":

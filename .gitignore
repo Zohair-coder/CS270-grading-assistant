@@ -3,3 +3,5 @@ test*
 /students
 /hw
 students.json
+/key
+grade_report.json
