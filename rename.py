@@ -9,7 +9,7 @@ import os
 import re
 
 def main():
-    directory = "hw2"
+    directory = "hw"
 
     os.chdir(directory)
 
