@@ -283,6 +283,8 @@ class checker:
             if grade['id'] == id:
                 if ('comments' in grade) and (comment in grade['comments']):
                     grade['comments'].remove(comment)
+                    return comment
+
         
 
     def save_score(self, question, id):
