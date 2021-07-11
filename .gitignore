@@ -4,5 +4,6 @@ test*
 /hw
 students.json
 /key
+/backup
 grade_report.json
 save_file.json

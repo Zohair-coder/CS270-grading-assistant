@@ -153,63 +153,64 @@ class checker:
 
         
         while self.ungraded_questions[current_question] != 0:
-            for student in self.ungraded_questions[current_question]:
-                with open("{}/{}/{}.txt".format(self.key_dir, self.key_answers_dir, current_question)) as f:
-                    correct_answer = f.read()
-                
-                with open("{}/{}/{}.txt".format(self.main_dir_name, student, current_question)) as f:
-                    student_answer = f.read()
-                
-                comments = []
-                while True:
-                    print(Fore.CYAN + "======================================================")
-                    print()
-                    print(Fore.CYAN +
-                          "Grading {}".format(self.all_student_names[student]))
-                    print(
-                        Fore.CYAN + "Currently grading Question {}".format(current_question))
-                    print()
-                    print(Fore.CYAN + "Correct Answer:")
-                    print()
-                    print(Fore.YELLOW + correct_answer)
-                    print()
-                    print(Fore.CYAN + "Student Answer:")
-                    print()
-                    print(Fore.YELLOW + student_answer)
-                    print()
-                    if len(comments) > 0:
-                        print(Fore.CYAN + "Comments Added:")
-                        for comment in comments:
-                            print(Fore.CYAN + comment)
-                    print()
+            student = self.ungraded_questions[current_question][0]
+            with open("{}/{}/{}.txt".format(self.key_dir, self.key_answers_dir, current_question)) as f:
+                correct_answer = f.read()
+            
+            with open("{}/{}/{}.txt".format(self.main_dir_name, student, current_question)) as f:
+                student_answer = f.read()
+            
+            comments = []
+            while True:
+                print(Fore.CYAN + "======================================================")
+                print()
+                print(Fore.CYAN +
+                        "Grading {}".format(self.all_student_names[student]))
+                print(
+                    Fore.CYAN + "Currently grading Question {}".format(current_question))
+                print()
+                print(Fore.CYAN + "Correct Answer:")
+                print()
+                print(Fore.YELLOW + correct_answer)
+                print()
+                print(Fore.CYAN + "Student Answer:")
+                print()
+                print(Fore.YELLOW + student_answer)
+                print()
+                if len(comments) > 0:
+                    print(Fore.CYAN + "Comments Added:")
+                    for comment in comments:
+                        print(Fore.CYAN + comment)
+                print()
 
 
-                    options = ["Add comment", "Enter score", "Skip student", "Save and Exit"]
-                    choice = pyip.inputMenu(options, numbered=True)
-                    print()
+                options = ["Add comment", "Enter score", "Skip student", "Save and Exit"]
+                choice = pyip.inputMenu(options, numbered=True)
+                print()
 
-                    if choice == "Add comment":
-                        comment = self.add_comment(current_question)
-                        if comment:
-                            comments.append(comment)
-                            self.save_comment(comment, student)
+                if choice == "Add comment":
+                    comment = self.add_comment(current_question)
+                    if comment:
+                        comments.append(comment)
+                        self.save_comment(comment, student)
 
-                    elif choice == "Enter score":
-                        self.save_score(current_question, student)
-                        print(Fore.YELLOW + "Autosaving..")
-                        self.save_files()
-                        print(Fore.GREEN + "Saved.")
-                        print(Fore.CYAN + "Next student..")
-                        break
+                elif choice == "Enter score":
+                    self.save_score(current_question, student)
+                    self.remove_student(current_question, student)
+                    print(Fore.YELLOW + "Autosaving..")
+                    self.save_files()
+                    print(Fore.GREEN + "Saved.")
+                    print(Fore.CYAN + "Next student..")
+                    break
 
-                    elif choice == "Skip student":
-                        break
+                elif choice == "Skip student":
+                    break
 
-                    elif choice == "Save and Exit":
-                        self.end_program()
+                elif choice == "Save and Exit":
+                    self.end_program()
 
-                    else:
-                        print(Fore.RED + "Oops - error :o")
+                else:
+                    print(Fore.RED + "Oops - error :o")
     
     def add_comment(self, question):
         with open("{}/{}/{}.txt".format(self.key_dir, self.key_comments_dir, question)) as f:
@@ -245,15 +246,27 @@ class checker:
         for grade in self.data:
             if grade['id'] == id:
                 found = True
+                if 'questions' not in grade:
+                    grade['questions'] = dict()
+                    
                 grade['questions'][question] = score 
                 
-                if grade['score']:
+                if 'total_score' in grade:
                     grade['total_score'] += score
                 else:
                     grade['total_score'] = score
 
         if not found:
             self.data.append({"id": id, "questions": {question: score}, "total_score": score})
+    
+    def remove_student(self, q, id):
+        for question, students in self.ungraded_questions.items():
+            if question == q:
+                students.remove(id)
+                return
+        raise Exception("Trying to remove student that isn't in self.ungraded_questions")
+    
+
 
     def print_report(self):
         for grade in self.data:
