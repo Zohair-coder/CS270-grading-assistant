@@ -249,7 +249,17 @@ class checker:
             self.data.append({"id": id, "score": score})
 
     def print_report(self):
-        pass
+        for grade in self.data:
+            print(self.all_student_names[grade['id']])
+            print()
+            for question, score in grade['questions'].items():
+                print("Question {}: {}".format(question, score))
+            print()
+            print("Comments:")
+            for comment in grade['comments']:
+                print(comment)
+            print()
+            print("==================================")
 
     def print_grading_status(self):
         current_question = min(self.ungraded_questions)
