@@ -252,7 +252,20 @@ class checker:
         pass
 
     def print_grading_status(self):
-        pass
+        current_question = min(self.ungraded_questions)
+        total_questions = self.total_questions * len(self.all_student_names)
+        remaining_questions = 0
+        
+        for students in self.ungraded_questions.values():
+            remaining_questions += len(students)
+
+        graded_questions = total_questions - remaining_questions
+
+        print(Fore.YELLOW + "Currently grading question {}".format(current_question))
+        print(Fore.YELLOW + "Graded {} questions".format(graded_questions))
+        print(Fore.YELLOW + "{} questions remaining".format(remaining_questions))
+        print()
+        print(Fore.GREEN + "{}% completed".format(round(graded_questions/total_questions) * 100))
 
     def end_program(self):
         self.save_files()
