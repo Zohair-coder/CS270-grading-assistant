@@ -24,7 +24,7 @@ class checker:
         
         self.welcome_screen()
 
-        self.start_gui()
+        self.options()
 
 
 
@@ -121,7 +121,7 @@ class checker:
         
         
         
-    def start_gui(self):
+    def options(self):
         options = ["Start Grading", "Print Grade Report", "View Grading Status", "Save and Exit"]
         
         choice = pyip.inputMenu(options, numbered=True)
@@ -141,8 +141,6 @@ class checker:
     
     def grading(self):
         pass
-                
-        
 
     def print_report(self):
         pass
