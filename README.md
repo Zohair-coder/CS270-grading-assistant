@@ -10,4 +10,8 @@ A csv file will be generated. Place the csv file in the project root directory. 
 
 Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download, select all and click submit to download the zip file. Extract the zip file into a folder named "hw" in the projects root directory. Run rename.py.
 
+Now create a "key" directory and then create an "answers" and "comments" directory inside of it. Populate the answers and comments directory with as many text files as there are questions in the form {question_number}.txt. Open the grading key racket file and copy and paste the answers of individuals questions into the individual text files. Then, inside the comments directory, populate the text files with possible comments for each question.
+
+Open up main.py and scroll the bottom where the checker object is being initialized. Change the input to however many questions are in your homework.
+
 You're all set! Run main.py to run the program.
