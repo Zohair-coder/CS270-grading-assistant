@@ -153,7 +153,7 @@ class checker:
         current_question = min(self.ungraded_questions)
 
         
-        while self.ungraded_questions[current_question] != 0:
+        while len(self.ungraded_questions[current_question]) != 0:
             student = self.ungraded_questions[current_question][0]
             with open("{}/{}/{}.txt".format(self.key_dir, self.key_answers_dir, current_question)) as f:
                 correct_answer = f.read()
