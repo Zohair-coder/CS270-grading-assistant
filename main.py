@@ -4,12 +4,15 @@ import re
 import pyinputplus as pyip
 
 class checker:
-    def __init__(self, total_questions, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json"):
+    def __init__(self, total_questions, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json"):
         self.total_questions = total_questions
         self.submissions_directory = submissions_directory
         self.student_data_file = student_data_file
         self.main_dir_name = main_dir_name
         self.report_file = report_file
+        self.save_file = save_file
+
+
 
         self.all_student_names = self.get_all_students()
         self.submitted_student_names = self.get_submitted_students()
@@ -17,8 +20,9 @@ class checker:
         self.create_student_dirs()
         self.questions = [i for i in range(1, total_questions+1)]
         self.copy_student_answers()
+        self.initialize_files()
         
-        self.first_run = self.welcome_screen()
+        self.welcome_screen()
 
         self.start_gui()
 
@@ -71,53 +75,59 @@ class checker:
             print("match not found for {}, question {}".format(file, question))
             return "Check manually; not found via regex"
     
-    def welcome_screen(self):
-        first_run = True
-        if not os.path.isfile(self.report_file):  # if this program is being run for the first time
-            print("Welcome to the CS270 grading assistant")
-            print()
+    def initialize_files(self):
+        if not os.path.isfile(self.save_file):
+            self.ungraded_questions = {}
+            for question in self.questions:
+                self.ungraded_questions[question] = self.submitted_student_names
 
-            print("There are {} total students and {} submissions".format(
-                len(self.all_student_names), len(self.submitted_student_names)))
+            with open(self.save_file, "w") as f:
+                f.write(json.dumps(self.ungraded_questions, indent=4))
+            
+            questions = {}
+            for i in self.questions:
+                questions[i] = 0
+            self.data = [{"id": student, "questions": questions, "score": 0, "comments": [
+                "Not submitted."]} for student in self.unsubmitted_student_names]
 
-            if len(self.unsubmitted_student_names) > 0:
-                print("The following students did not send any submissions: ")
-
-                names = []
-                for student in self.unsubmitted_student_names:
-                    names.append(self.all_student_names[student])
-                print(*names, sep=", ")
-
-                print()
-
-            choice = pyip.inputYesNo(
-                prompt="Generate grade report file? (yes/no): ")
-            if choice == "yes":
-
-                data = [{"id": student, "score": 0, "comments": [
-                    "Not submitted."]} for student in self.unsubmitted_student_names]
-
-                if not data:
-                    data = [{}]
-
-                with open(self.report_file, "w") as f:
-                    f.write(json.dumps(data, indent=4))
-
+            with open(self.report_file, "w") as f:
+                f.write(json.dumps(self.data, indent=4))
         else:
-            first_run = False
-            print("Welcome back!")
+            with open(self.save_file, "r") as f:
+                self.ungraded_questions = json.load(f)
+            
+            with open(self.report_file, "r") as f:
+                self.data = json.load(f)
+
+    def welcome_screen(self):
+        print("Welcome to the CS270 grading assistant")
+        print()
+
+        print("There are {} total students and {} submissions".format(
+            len(self.all_student_names), len(self.submitted_student_names)))
+
+        if len(self.unsubmitted_student_names) > 0:
+            print("The following students did not send any submissions: ")
+
+            names = []
+            for student in self.unsubmitted_student_names:
+                names.append(self.all_student_names[student])
+            print(*names, sep=", ")
+
+            print()
         
-        return first_run
+        print("You are currently working on question {}".format(min(self.ungraded_questions)))
+        print()
+        
+        
         
     def start_gui(self):
-        if self.first_run:
-            options = ["Start Grading", "Print Grade Report", "View Grading Status", "Save and Exit"]
-        else:
-            options = ["Continue Grading", "Print Grade Report",
-                       "View Grading Status", "Save and Exit"]
-        choice = pyip.inputMenu(options, numbered=True)
+        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Save and Exit"]
         
-        if choice == "Start Grading" or choice == "Continue Grading":
+        choice = pyip.inputMenu(options, numbered=True)
+        print()
+        
+        if choice == "Start Grading":
             self.grading()
         
         elif choice == "Print Grade Report":
@@ -130,6 +140,17 @@ class checker:
             self.end_program()
     
     def grading(self):
+        pass
+                
+        
+
+    def print_report(self):
+        pass
+
+    def print_grading_status(self):
+        pass
+
+    def end_program(self):
         pass
 
 
