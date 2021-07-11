@@ -196,7 +196,7 @@ class checker:
                 print()
 
 
-                options = ["Add comment", "Enter score", "Skip student", "Save and Exit"]
+                options = ["Add comment", "Remove comment", "Enter score", "Skip student", "Save and Exit"]
                 choice = pyip.inputMenu(options, numbered=True)
                 print()
 
@@ -205,6 +205,13 @@ class checker:
                     if comment:
                         comments.append(comment)
                         self.save_comment(comment, student)
+
+                elif choice == "Remove comment":
+                    if not comment:
+                        print(Fore.RED + "No comments to remove")
+                        continue
+                    comment = self.delete_comment(comments, student)
+                    comments.remove(comment)
 
                 elif choice == "Enter score":
                     res = self.save_score(current_question, student)
@@ -266,6 +273,17 @@ class checker:
         
         if not found:
             self.data.append({"id": id, "comments": [comment]})
+    
+    def delete_comment(self, comments, id):
+        comment = pyip.inputMenu(comments, numbered=True, prompt="Select which comment to delete\n", blank=True)
+        if comment == "":
+            comment = comments[0]
+
+        for grade in self.data:
+            if grade['id'] == id:
+                if ('comments' in grade) and (comment in grade['comments']):
+                    grade['comments'].remove(comment)
+        
 
     def save_score(self, question, id):
         score = pyip.inputInt(prompt="Score: ")
