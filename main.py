@@ -1,16 +1,22 @@
 import os
+import sys
 import json
 import re
 import pyinputplus as pyip
+from colorama import Fore
+import colorama
 
 class checker:
-    def __init__(self, total_questions, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json"):
+    def __init__(self, total_questions, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments"):
         self.total_questions = total_questions
         self.submissions_directory = submissions_directory
         self.student_data_file = student_data_file
         self.main_dir_name = main_dir_name
         self.report_file = report_file
         self.save_file = save_file
+        self.key_dir = key_dir
+        self.key_answers_dir = key_answers_dir
+        self.key_comments_dir = key_comments_dir
 
 
 
@@ -100,23 +106,22 @@ class checker:
                 self.data = json.load(f)
 
     def welcome_screen(self):
-        print("Welcome to the CS270 grading assistant")
+        print(Fore.CYAN + "Welcome to the CS270 grading assistant")
         print()
 
-        print("There are {} total students and {} submissions".format(
+        print(Fore.CYAN + "There are {} total students and {} submissions".format(
             len(self.all_student_names), len(self.submitted_student_names)))
 
         if len(self.unsubmitted_student_names) > 0:
-            print("The following students did not send any submissions: ")
+            print(Fore.CYAN + "The following students did not send any submissions: ")
 
-            names = []
             for student in self.unsubmitted_student_names:
-                names.append(self.all_student_names[student])
-            print(*names, sep=", ")
+                print(Fore.CYAN + self.all_student_names[student])
+
 
             print()
         
-        print("You are currently working on question {}".format(min(self.ungraded_questions)))
+        print(Fore.CYAN + "You are currently working on question {}".format(min(self.ungraded_questions)))
         print()
         
         
@@ -138,8 +143,84 @@ class checker:
         
         elif choice == "Save and Exit":
             self.end_program()
+        else:
+            print(Fore.RED + "Oops - error :o")
     
     def grading(self):
+        current_question = min(self.ungraded_questions)
+
+        
+        while self.ungraded_questions[current_question] != 0:
+            for student in self.ungraded_questions[current_question]:
+                with open("{}/{}/{}.txt".format(self.key_dir, self.key_answers_dir, current_question)) as f:
+                    correct_answer = f.read()
+                
+                with open("{}/{}/{}.txt".format(self.main_dir_name, student, current_question)) as f:
+                    student_answer = f.read()
+                
+                comments = []
+                while True:
+                    print(Fore.CYAN + "======================================================")
+                    print()
+                    print(Fore.CYAN +
+                          "Grading {}".format(self.all_student_names[student]))
+                    print(
+                        Fore.CYAN + "Currently grading Question {}".format(current_question))
+                    print()
+                    print(Fore.CYAN + "Correct Answer:")
+                    print()
+                    print(Fore.YELLOW + correct_answer)
+                    print()
+                    print(Fore.CYAN + "Student Answer:")
+                    print()
+                    print(Fore.YELLOW + student_answer)
+                    print()
+                    if len(comments) > 0:
+                        print(Fore.CYAN + "Comments Added:")
+                        for comment in comments:
+                            print(Fore.CYAN + comment)
+                    print()
+
+
+                    options = ["Add comment", "Enter score", "Skip student", "Save and Exit"]
+                    choice = pyip.inputMenu(options, numbered=True)
+                    print()
+
+                    if choice == "Add comment":
+                        comment = self.add_comment(current_question)
+                        if comment:
+                            comments.append(comment)
+
+                    elif choice == "Enter score":
+                        self.save_score()
+                        break
+
+                    elif choice == "Skip student":
+                        break
+
+                    elif choice == "Save and Exit":
+                        self.end_program()
+
+                    else:
+                        print(Fore.RED + "Oops - error :o")
+    
+    def add_comment(self, question):
+        with open("{}/{}/{}.txt".format(self.key_dir, self.key_comments_dir, question)) as f:
+            comments = f.read()
+        comments_list = comments.split("\n")
+        comments_list.append("Custom comment")
+        comments_list.append("No comment")
+
+        choice = pyip.inputMenu(comments_list, numbered=True)
+        if choice == "Custom comment":
+            comment = pyip.inputStr("Enter custom comment: ")
+        elif choice == "No comment":
+            return None
+        else:
+            comment = choice
+        return comment
+
+    def save_score(self):
         pass
 
     def print_report(self):
@@ -149,11 +230,19 @@ class checker:
         pass
 
     def end_program(self):
-        pass
+        self.save_files()
+        print(Fore.GREEN + "Progress saved. Exiting program.")
+        sys.exit()
 
 
-
-
+    def save_files(self):
+        with open(self.save_file, "w") as f:
+            f.write(json.dumps(self.ungraded_questions, indent=4))
+    
+        with open(self.report_file, "w") as f:
+            f.write(json.dumps(self.data, indent=4))
 
 if __name__ == "__main__":
+    colorama.init(autoreset=True)
     checker(15)
+    colorama.deinit()
