@@ -93,7 +93,7 @@ class checker:
             questions = {}
             for i in self.questions:
                 questions[i] = 0
-            self.data = [{"id": student, "questions": questions, "score": 0, "comments": [
+            self.data = [{"id": student, "questions": questions, "total_score": 0, "comments": [
                 "Not submitted."]} for student in self.unsubmitted_student_names]
 
             with open(self.report_file, "w") as f:
@@ -137,10 +137,12 @@ class checker:
         
         elif choice == "Print Grade Report":
             self.print_report()
+            self.options()
         
         elif choice == "View Grading Status":
             self.print_grading_status()
-        
+            self.options()
+
         elif choice == "Save and Exit":
             self.end_program()
         else:
@@ -193,7 +195,7 @@ class checker:
                             self.save_comment(comment, student)
 
                     elif choice == "Enter score":
-                        self.save_score(student)
+                        self.save_score(current_question, student)
                         print(Fore.YELLOW + "Autosaving..")
                         self.save_files()
                         print(Fore.GREEN + "Saved.")
@@ -236,29 +238,41 @@ class checker:
         if not found:
             self.data.append({"id": id, "comments": [comment]})
 
-    def save_score(self, id):
+    def save_score(self, question, id):
         score = pyip.inputInt(prompt="Score: ")
         found = False
         
         for grade in self.data:
             if grade['id'] == id:
                 found = True
-                grade['score'] = score
-        
+                grade['questions'][question] = score 
+                
+                if grade['score']:
+                    grade['total_score'] += score
+                else:
+                    grade['total_score'] = score
+
         if not found:
-            self.data.append({"id": id, "score": score})
+            self.data.append({"id": id, "questions": {question: score}, "total_score": score})
 
     def print_report(self):
         for grade in self.data:
-            print(self.all_student_names[grade['id']])
+            print(Fore.GREEN + self.all_student_names[grade['id']])
             print()
             for question, score in grade['questions'].items():
-                print("Question {}: {}".format(question, score))
+                print(Fore.CYAN + "Question {}: {}".format(question, score))
             print()
-            print("Comments:")
-            for comment in grade['comments']:
-                print(comment)
+            print(Fore.CYAN + "Total Score: {}".format(grade['total_score']))
             print()
+            if 'comments' in grade:
+                print(Fore.CYAN + "Comments:")
+                for comment in grade['comments']:
+                    print(Fore.CYAN + comment)
+            else:
+                print(Fore.CYAN + "No comments")
+
+            print()
+
             print("==================================")
 
     def print_grading_status(self):
