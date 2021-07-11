@@ -190,9 +190,14 @@ class checker:
                         comment = self.add_comment(current_question)
                         if comment:
                             comments.append(comment)
+                            self.save_comment(comment, student)
 
                     elif choice == "Enter score":
-                        self.save_score()
+                        self.save_score(student)
+                        print(Fore.YELLOW + "Autosaving..")
+                        self.save_files()
+                        print(Fore.GREEN + "Saved.")
+                        print(Fore.CYAN + "Next student..")
                         break
 
                     elif choice == "Skip student":
@@ -218,10 +223,30 @@ class checker:
             return None
         else:
             comment = choice
+        
         return comment
+    
+    def save_comment(self, comment, id):
+        found = False
+        for grade in self.data:
+            if grade['id'] == id:
+                found = True
+                grade['comments'].append(comment)
+        
+        if not found:
+            self.data.append({"id": id, "comments": [comment]})
 
-    def save_score(self):
-        pass
+    def save_score(self, id):
+        score = pyip.inputInt(prompt="Score: ")
+        found = False
+        
+        for grade in self.data:
+            if grade['id'] == id:
+                found = True
+                grade['score'] = score
+        
+        if not found:
+            self.data.append({"id": id, "score": score})
 
     def print_report(self):
         pass
