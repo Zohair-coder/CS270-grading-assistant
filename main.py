@@ -355,7 +355,7 @@ class checker:
         print(Fore.YELLOW + "Graded {} questions".format(graded_questions))
         print(Fore.YELLOW + "{} questions remaining".format(remaining_questions))
         print()
-        print(Fore.GREEN + "{}% completed".format(round(graded_questions/total_questions) * 100))
+        print(Fore.GREEN + "{}% completed".format(round(graded_questions/total_questions * 100, 1)))
 
     def end_program(self):
         self.save_files()
