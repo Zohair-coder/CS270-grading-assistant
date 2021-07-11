@@ -5,6 +5,7 @@ import re
 import pyinputplus as pyip
 from colorama import Fore
 import colorama
+import subprocess
 
 class checker:
     def __init__(self, total_questions, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments"):
@@ -159,7 +160,9 @@ class checker:
             
             with open("{}/{}/{}.txt".format(self.main_dir_name, student, current_question)) as f:
                 student_answer = f.read()
-            
+
+            auto_feedback = self.auto_grader(student, current_question)
+
             comments = []
             while True:
                 print(Fore.CYAN + "======================================================")
@@ -177,6 +180,15 @@ class checker:
                 print()
                 print(Fore.YELLOW + student_answer)
                 print()
+
+                if auto_feedback:
+                    if auto_feedback.group(1) == auto_feedback.group(2):
+                        print(Fore.GREEN + auto_feedback.group())
+                    else:
+                        print(Fore.RED + auto_feedback.group())
+                else:
+                    print(Fore.YELLOW + "Auto grader unable to check rkt file automatically")
+
                 if len(comments) > 0:
                     print(Fore.CYAN + "Comments Added:")
                     for comment in comments:
@@ -195,7 +207,9 @@ class checker:
                         self.save_comment(comment, student)
 
                 elif choice == "Enter score":
-                    self.save_score(current_question, student)
+                    res = self.save_score(current_question, student)
+                    if not res:
+                        continue
                     self.remove_student(current_question, student)
                     print(Fore.YELLOW + "Autosaving..")
                     self.save_files()
@@ -204,6 +218,9 @@ class checker:
                     break
 
                 elif choice == "Skip student":
+                    first = student
+                    self.remove_student(current_question, student)
+                    self.ungraded_questions[current_question].append(first)
                     break
 
                 elif choice == "Save and Exit":
@@ -212,6 +229,17 @@ class checker:
                 else:
                     print(Fore.RED + "Oops - error :o")
     
+    def auto_grader(self, student, quesiton):
+        process = subprocess.run(["Racket.exe", "{}/{}.rkt".format(self.submissions_directory, student)], capture_output=True)
+        output = process.stdout.decode("utf-8")
+        search_string = "Q{} passed (\d+)/(\d+)".format(quesiton)
+        match = re.search(search_string, output)
+        if match:
+            return match
+        else:
+            return None
+
+
     def add_comment(self, question):
         with open("{}/{}/{}.txt".format(self.key_dir, self.key_comments_dir, question)) as f:
             comments = f.read()
@@ -241,6 +269,10 @@ class checker:
 
     def save_score(self, question, id):
         score = pyip.inputInt(prompt="Score: ")
+
+        if score == -1:
+            return False
+
         found = False
         
         for grade in self.data:
@@ -248,7 +280,7 @@ class checker:
                 found = True
                 if 'questions' not in grade:
                     grade['questions'] = dict()
-                    
+
                 grade['questions'][question] = score 
                 
                 if 'total_score' in grade:
@@ -258,6 +290,7 @@ class checker:
 
         if not found:
             self.data.append({"id": id, "questions": {question: score}, "total_score": score})
+        return True
     
     def remove_student(self, q, id):
         for question, students in self.ungraded_questions.items():
