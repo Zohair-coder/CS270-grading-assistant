@@ -123,6 +123,9 @@ class checker:
             print()
         
         int_ungraded_questions = [int(i) for i in self.ungraded_questions]
+        if len(int_ungraded_questions) == 0:
+            print(Fore.GREEN + "Completed Grading!")
+            return
         print(Fore.CYAN + "You are currently working on question {}".format(min(int_ungraded_questions)))
         print()
         
