@@ -139,6 +139,7 @@ class checker:
         
         if choice == "Start Grading":
             self.grading()
+            print(Fore.GREEN + "Finished Grading!")
         
         elif choice == "Print Grade Report":
             self.print_report()
