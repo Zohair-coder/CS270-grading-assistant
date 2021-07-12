@@ -213,7 +213,8 @@ class checker:
                             print(Fore.RED + "No comments to remove")
                             continue
                         comment = self.delete_comment(comments, student)
-                        comments.remove(comment)
+                        if comment:
+                            comments.remove(comment)
 
                     elif choice == "Enter score":
                         res = self.save_score(current_question, student)
@@ -281,6 +282,10 @@ class checker:
             self.data.append({"id": id, "comments": [comment]})
     
     def delete_comment(self, comments, id):
+        if comments == []:
+            print(Fore.RED + "No comments to delete!")
+            return None
+
         comment = pyip.inputMenu(comments, numbered=True, prompt="Select which comment to delete\n", blank=True)
         if comment == "":
             comment = comments[0]
