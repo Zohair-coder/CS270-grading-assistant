@@ -273,6 +273,8 @@ class checker:
         for grade in self.data:
             if grade['id'] == id:
                 found = True
+                if not 'comments' in grade:
+                    grade['comments'] = []
                 grade['comments'].append(comment)
         
         if not found:
