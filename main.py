@@ -122,7 +122,8 @@ class checker:
 
             print()
         
-        print(Fore.CYAN + "You are currently working on question {}".format(min(self.ungraded_questions)))
+        int_ungraded_questions = [int(i) for i in self.ungraded_questions]
+        print(Fore.CYAN + "You are currently working on question {}".format(min(int_ungraded_questions)))
         print()
         
         
@@ -198,7 +199,7 @@ class checker:
                     print()
 
 
-                    options = ["Add comment", "Remove comment", "Enter score", "Skip student", "Save and Exit"]
+                    options = ["Add comment", "Remove comment", "Enter score", "Skip student", "Exit to main menu"]
                     choice = pyip.inputMenu(options, numbered=True)
                     print()
 
@@ -233,8 +234,9 @@ class checker:
                         self.ungraded_questions[current_question].append(first)
                         break
 
-                    elif choice == "Save and Exit":
-                        self.end_program()
+                    elif choice == "Exit to main menu":
+                        print(Fore.CYAN + "Main Menu")
+                        self.options()
 
                     else:
                         print(Fore.RED + "Oops - error :o")
