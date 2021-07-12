@@ -150,91 +150,95 @@ class checker:
             print(Fore.RED + "Oops - error :o")
     
     def grading(self):
-        current_question = min(self.ungraded_questions)
+        while len(self.ungraded_questions) != 0:
+            int_ungraded_questions = [int(i) for i in self.ungraded_questions]
+            current_question = min(int_ungraded_questions)
+            current_question = str(current_question)
 
-        
-        while len(self.ungraded_questions[current_question]) != 0:
-            student = self.ungraded_questions[current_question][0]
-            with open("{}/{}/{}.txt".format(self.key_dir, self.key_answers_dir, current_question)) as f:
-                correct_answer = f.read()
-            
-            with open("{}/{}/{}.txt".format(self.main_dir_name, student, current_question)) as f:
-                student_answer = f.read()
+            while len(self.ungraded_questions[current_question]) != 0:
+                student = self.ungraded_questions[current_question][0]
+                with open("{}/{}/{}.txt".format(self.key_dir, self.key_answers_dir, current_question)) as f:
+                    correct_answer = f.read()
+                
+                with open("{}/{}/{}.txt".format(self.main_dir_name, student, current_question)) as f:
+                    student_answer = f.read()
 
-            auto_feedback = self.auto_grader(student, current_question)
+                auto_feedback = self.auto_grader(student, current_question)
 
-            comments = []
-            while True:
-                print(Fore.CYAN + "======================================================")
-                print()
-                print(Fore.CYAN +
-                        "Grading {}".format(self.all_student_names[student]))
-                print(
-                    Fore.CYAN + "Currently grading Question {}".format(current_question))
-                print()
-                print(Fore.CYAN + "Correct Answer:")
-                print()
-                print(Fore.YELLOW + correct_answer)
-                print()
-                print(Fore.CYAN + "Student Answer:")
-                print()
-                print(Fore.YELLOW + student_answer)
-                print()
+                comments = []
+                while True:
+                    print(Fore.CYAN + "======================================================")
+                    print()
+                    print(Fore.CYAN +
+                            "Grading {}".format(self.all_student_names[student]))
+                    print(
+                        Fore.CYAN + "Currently grading Question {}".format(current_question))
+                    print()
+                    print(Fore.CYAN + "Correct Answer:")
+                    print()
+                    print(Fore.YELLOW + correct_answer)
+                    print()
+                    print(Fore.CYAN + "Student Answer:")
+                    print()
+                    print(Fore.YELLOW + student_answer)
+                    print()
 
-                if auto_feedback:
-                    if auto_feedback.group(1) == auto_feedback.group(2):
-                        print(Fore.GREEN + auto_feedback.group())
+                    if auto_feedback:
+                        if auto_feedback.group(1) == auto_feedback.group(2):
+                            print(Fore.GREEN + auto_feedback.group())
+                        else:
+                            print(Fore.RED + auto_feedback.group())
                     else:
-                        print(Fore.RED + auto_feedback.group())
-                else:
-                    print(Fore.YELLOW + "Auto grader unable to check rkt file automatically")
+                        print(Fore.YELLOW + "Auto grader unable to check rkt file automatically")
 
-                if len(comments) > 0:
-                    print(Fore.CYAN + "Comments Added:")
-                    for comment in comments:
-                        print(Fore.CYAN + comment)
-                print()
+                    if len(comments) > 0:
+                        print(Fore.CYAN + "Comments Added:")
+                        for comment in comments:
+                            print(Fore.CYAN + comment)
+                    print()
 
 
-                options = ["Add comment", "Remove comment", "Enter score", "Skip student", "Save and Exit"]
-                choice = pyip.inputMenu(options, numbered=True)
-                print()
+                    options = ["Add comment", "Remove comment", "Enter score", "Skip student", "Save and Exit"]
+                    choice = pyip.inputMenu(options, numbered=True)
+                    print()
 
-                if choice == "Add comment":
-                    comment = self.add_comment(current_question)
-                    if comment:
-                        comments.append(comment)
-                        self.save_comment(comment, student)
+                    if choice == "Add comment":
+                        comment = self.add_comment(current_question)
+                        if comment:
+                            comments.append(comment)
+                            self.save_comment(comment, student)
 
-                elif choice == "Remove comment":
-                    if not comment:
-                        print(Fore.RED + "No comments to remove")
-                        continue
-                    comment = self.delete_comment(comments, student)
-                    comments.remove(comment)
+                    elif choice == "Remove comment":
+                        if not comment:
+                            print(Fore.RED + "No comments to remove")
+                            continue
+                        comment = self.delete_comment(comments, student)
+                        comments.remove(comment)
 
-                elif choice == "Enter score":
-                    res = self.save_score(current_question, student)
-                    if not res:
-                        continue
-                    self.remove_student(current_question, student)
-                    print(Fore.YELLOW + "Autosaving..")
-                    self.save_files()
-                    print(Fore.GREEN + "Saved.")
-                    print(Fore.CYAN + "Next student..")
-                    break
+                    elif choice == "Enter score":
+                        res = self.save_score(current_question, student)
+                        if not res:
+                            continue
+                        self.remove_student(current_question, student)
+                        print(Fore.YELLOW + "Autosaving..")
+                        self.save_files()
+                        print(Fore.GREEN + "Saved.")
+                        print(Fore.CYAN + "Next student..")
+                        break
 
-                elif choice == "Skip student":
-                    first = student
-                    self.remove_student(current_question, student)
-                    self.ungraded_questions[current_question].append(first)
-                    break
+                    elif choice == "Skip student":
+                        first = student
+                        self.remove_student(current_question, student)
+                        self.ungraded_questions[current_question].append(first)
+                        break
 
-                elif choice == "Save and Exit":
-                    self.end_program()
+                    elif choice == "Save and Exit":
+                        self.end_program()
 
-                else:
-                    print(Fore.RED + "Oops - error :o")
+                    else:
+                        print(Fore.RED + "Oops - error :o")
+
+            self.ungraded_questions.pop(current_question)
     
     def auto_grader(self, student, quesiton):
         process = subprocess.run(["Racket.exe", "{}/{}.rkt".format(self.submissions_directory, student)], capture_output=True)
