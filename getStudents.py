@@ -12,13 +12,12 @@ def main():
     read_filename = "gc_41672.202045_fullgc_2021-07-07-21-12-54.csv"
     write_filename = "students.json"
     
-    fields = []
     rows = []
     
     with open(read_filename, 'r') as csvfile:
         csvreader = csv.reader(csvfile)
         
-        fields = next(csvreader)
+        next(csvreader)
     
         for row in csvreader:
             rows.append(row)
