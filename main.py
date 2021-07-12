@@ -190,7 +190,7 @@ class checker:
                         else:
                             print(Fore.RED + auto_feedback.group())
                     else:
-                        print(Fore.YELLOW + "Auto grader unable to check rkt file automatically")
+                        print(Fore.RED + "Auto grader unable to check rkt file automatically")
 
                     if len(comments) > 0:
                         print(Fore.CYAN + "Comments Added:")
