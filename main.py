@@ -142,7 +142,12 @@ class checker:
             print(Fore.GREEN + "Finished Grading!")
         
         elif choice == "Print Grade Report":
-            self.print_report()
+            save_to_file = pyip.inputYesNo(prompt="Save to file? (yes/no): ")
+            if save_to_file == "yes":
+                save_to_file = True
+            else:
+                save_to_file = False
+            self.print_report(save_to_file)
             self.options()
         
         elif choice == "View Grading Status":
@@ -338,25 +343,32 @@ class checker:
     
 
 
-    def print_report(self):
+    def print_report(self, save):
+        report = ""
         for grade in self.data:
-            print(Fore.GREEN + self.all_student_names[grade['id']])
-            print()
+            report += (self.all_student_names[grade['id']]) + "\n"
+            report += "\n"
             for question, score in grade['questions'].items():
-                print(Fore.CYAN + "Question {}: {}".format(question, score))
-            print()
-            print(Fore.CYAN + "Total Score: {}".format(grade['total_score']))
-            print()
+                report += ("Question {}: {}".format(question, score)) + "\n"
+            report += "\n"
+            report += ("Total Score: {}".format(grade['total_score'])) + "\n"
+            report += "\n"
             if 'comments' in grade:
-                print(Fore.CYAN + "Comments:")
+                report += ("Comments:") + "\n"
                 for comment in grade['comments']:
-                    print(Fore.CYAN + comment)
+                    report += (comment) + "\n"
             else:
-                print(Fore.CYAN + "No comments")
+                report += ("No comments") + "\n"
 
-            print()
+            report += "\n"
 
-            print("==================================")
+            report += ("==================================") + "\n"
+        
+        if save:
+            with open("hr_grade_report.txt", "w") as f:
+                f.write(report)
+        else:
+            print(report)
 
     def print_grading_status(self):
         int_ungraded_questions = [int(i) for i in self.ungraded_questions]
