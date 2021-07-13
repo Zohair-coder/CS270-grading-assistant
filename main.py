@@ -175,6 +175,9 @@ class checker:
 
                 self.auto_feedback = self.auto_grader(student)
 
+                if self.auto_feedback:
+                    self.score = int(self.auto_feedback.group(2))
+
                 comments = []
                 while True:
                     print(Fore.CYAN + "======================================================")
@@ -215,7 +218,11 @@ class checker:
                     if choice == "Add comment":
                         comment = self.add_comment()
                         if comment:
-                            self.score = self.extract_score(comment) 
+                            num = self.extract_score(comment)
+                            if num >= 0:
+                                self.score = num
+                            else:
+                                self.score += num 
                             comments.append(comment)
                             self.save_comment(comment, student)
 
@@ -223,6 +230,7 @@ class checker:
                         if not comment:
                             print(Fore.RED + "No comments to remove")
                             continue
+                        self.score -= self.extract_score(comment)
                         comment = self.delete_comment(comments, student)
                         if comment:
                             comments.remove(comment)
@@ -282,7 +290,7 @@ class checker:
         return comment
 
     def extract_score(self, comment):
-        search_string = "#{}: (-?\d*)".format(self.current_question)
+        search_string = "#{}: (-?\d+)".format(self.current_question)
         match = re.search(search_string, comment)
         if match:
             s = int(match.group(1))
@@ -290,7 +298,6 @@ class checker:
             print(Fore.RED + "Unable to extract score from comments")
             print(Fore.YELLOW + "Make sure comment follows the syntax:\n\t#1: -1 use (zero? a) instead of (equal? a 0)")
             s = pyip.inputInt(prompt="Please input score manually: ")
-        
         return s
 
     def save_comment(self, comment, id):
@@ -323,10 +330,12 @@ class checker:
         
 
     def save_score(self, id):
-        score = pyip.inputInt(prompt="Score: ")
-
-        if score == -1:
-            return False
+        if not self.auto_feedback:
+            self.score = pyip.inputInt(prompt="Score: ")
+        else:
+            print(Fore.GREEN + "Score: {}/{}".format(self.score, self.auto_feedback.group(2)))
+            if input("Input blank to confirm: ") != "":
+                return False
 
         found = False
         
@@ -336,15 +345,15 @@ class checker:
                 if 'questions' not in grade:
                     grade['questions'] = dict()
 
-                grade['questions'][self.current_question] = score 
+                grade['questions'][self.current_question] = self.score 
                 
                 if 'total_score' in grade:
-                    grade['total_score'] += score
+                    grade['total_score'] += self.score
                 else:
-                    grade['total_score'] = score
+                    grade['total_score'] = self.score
 
         if not found:
-            self.data.append({"id": id, "questions": {self.current_question: score}, "total_score": score})
+            self.data.append({"id": id, "questions": {self.current_question: self.score}, "total_score": self.score})
         return True
     
     def remove_student(self, id):
