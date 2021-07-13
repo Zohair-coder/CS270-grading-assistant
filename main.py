@@ -173,7 +173,7 @@ class checker:
                 with open("{}/{}/{}.txt".format(self.main_dir_name, student, current_question)) as f:
                     student_answer = f.read()
 
-                auto_feedback = self.auto_grader(student, current_question)
+                self.auto_feedback = self.auto_grader(student, current_question)
 
                 comments = []
                 while True:
@@ -193,11 +193,11 @@ class checker:
                     print(Fore.YELLOW + student_answer)
                     print()
 
-                    if auto_feedback:
-                        if auto_feedback.group(1) == auto_feedback.group(2):
-                            print(Fore.GREEN + auto_feedback.group())
+                    if self.auto_feedback:
+                        if self.auto_feedback.group(1) == self.auto_feedback.group(2):
+                            print(Fore.GREEN + self.auto_feedback.group())
                         else:
-                            print(Fore.RED + auto_feedback.group())
+                            print(Fore.RED + self.auto_feedback.group())
                     else:
                         print(Fore.RED + "Auto grader unable to check rkt file automatically")
 
