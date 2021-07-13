@@ -86,7 +86,7 @@ class checker:
         if not os.path.isfile(self.save_file):
             self.ungraded_questions = {}
             for question in self.questions:
-                self.ungraded_questions[question] = self.submitted_student_names
+                self.ungraded_questions[str(question)] = self.submitted_student_names
 
             with open(self.save_file, "w") as f:
                 f.write(json.dumps(self.ungraded_questions, indent=4))
@@ -162,18 +162,18 @@ class checker:
     def grading(self):
         while len(self.ungraded_questions) != 0:
             int_ungraded_questions = [int(i) for i in self.ungraded_questions]
-            current_question = min(int_ungraded_questions)
-            current_question = str(current_question)
+            self.current_question = min(int_ungraded_questions)
+            self.current_question = str(self.current_question)
 
-            while len(self.ungraded_questions[current_question]) != 0:
-                student = self.ungraded_questions[current_question][0]
-                with open("{}/{}/{}.txt".format(self.key_dir, self.key_answers_dir, current_question)) as f:
+            while len(self.ungraded_questions[self.current_question]) != 0:
+                student = self.ungraded_questions[self.current_question][0]
+                with open("{}/{}/{}.txt".format(self.key_dir, self.key_answers_dir, self.current_question)) as f:
                     correct_answer = f.read()
                 
-                with open("{}/{}/{}.txt".format(self.main_dir_name, student, current_question)) as f:
+                with open("{}/{}/{}.txt".format(self.main_dir_name, student, self.current_question)) as f:
                     student_answer = f.read()
 
-                self.auto_feedback = self.auto_grader(student, current_question)
+                self.auto_feedback = self.auto_grader(student)
 
                 comments = []
                 while True:
@@ -182,7 +182,7 @@ class checker:
                     print(Fore.CYAN +
                             "Grading {}".format(self.all_student_names[student]))
                     print(
-                        Fore.CYAN + "Currently grading Question {}".format(current_question))
+                        Fore.CYAN + "Currently grading Question {}".format(self.current_question))
                     print()
                     print(Fore.CYAN + "Correct Answer:")
                     print()
@@ -208,13 +208,14 @@ class checker:
                     print()
 
 
-                    options = ["Add comment", "Remove comment", "Enter score", "Skip student", "Exit to main menu"]
+                    options = ["Add comment", "Remove comment", "Confirm score", "Skip student", "Exit to main menu"]
                     choice = pyip.inputMenu(options, numbered=True)
                     print()
 
                     if choice == "Add comment":
-                        comment = self.add_comment(current_question)
+                        comment = self.add_comment()
                         if comment:
+                            self.score = self.extract_score(comment) 
                             comments.append(comment)
                             self.save_comment(comment, student)
 
@@ -226,11 +227,11 @@ class checker:
                         if comment:
                             comments.remove(comment)
 
-                    elif choice == "Enter score":
-                        res = self.save_score(current_question, student)
+                    elif choice == "Confirm score":
+                        res = self.save_score(student)
                         if not res:
                             continue
-                        self.remove_student(current_question, student)
+                        self.remove_student(student)
                         print(Fore.YELLOW + "Autosaving..")
                         self.save_files()
                         print(Fore.GREEN + "Saved.")
@@ -239,8 +240,8 @@ class checker:
 
                     elif choice == "Skip student":
                         first = student
-                        self.remove_student(current_question, student)
-                        self.ungraded_questions[current_question].append(first)
+                        self.remove_student(student)
+                        self.ungraded_questions[self.current_question].append(first)
                         break
 
                     elif choice == "Exit to main menu":
@@ -250,12 +251,12 @@ class checker:
                     else:
                         print(Fore.RED + "Oops - error :o")
 
-            self.ungraded_questions.pop(current_question)
+            self.ungraded_questions.pop(self.current_question)
     
-    def auto_grader(self, student, quesiton):
+    def auto_grader(self, student):
         process = subprocess.run(["Racket.exe", "{}/{}.rkt".format(self.submissions_directory, student)], capture_output=True)
         output = process.stdout.decode("utf-8")
-        search_string = "Q{} passed (\d+)/(\d+)".format(quesiton)
+        search_string = "Q{} passed (\d+)/(\d+)".format(self.current_question)
         match = re.search(search_string, output)
         if match:
             return match
@@ -263,8 +264,8 @@ class checker:
             return None
 
 
-    def add_comment(self, question):
-        with open("{}/{}/{}.txt".format(self.key_dir, self.key_comments_dir, question)) as f:
+    def add_comment(self):
+        with open("{}/{}/{}.txt".format(self.key_dir, self.key_comments_dir, self.current_question)) as f:
             comments = f.read()
         comments_list = comments.split("\n")
         comments_list.append("Custom comment")
@@ -279,7 +280,11 @@ class checker:
             comment = choice
         
         return comment
-    
+
+    def extract_score(self, comment):
+        
+        pass
+
     def save_comment(self, comment, id):
         found = False
         for grade in self.data:
@@ -309,7 +314,7 @@ class checker:
 
         
 
-    def save_score(self, question, id):
+    def save_score(self, id):
         score = pyip.inputInt(prompt="Score: ")
 
         if score == -1:
@@ -323,7 +328,7 @@ class checker:
                 if 'questions' not in grade:
                     grade['questions'] = dict()
 
-                grade['questions'][question] = score 
+                grade['questions'][self.current_question] = score 
                 
                 if 'total_score' in grade:
                     grade['total_score'] += score
@@ -331,12 +336,12 @@ class checker:
                     grade['total_score'] = score
 
         if not found:
-            self.data.append({"id": id, "questions": {question: score}, "total_score": score})
+            self.data.append({"id": id, "questions": {self.current_question: score}, "total_score": score})
         return True
     
-    def remove_student(self, q, id):
+    def remove_student(self, id):
         for question, students in self.ungraded_questions.items():
-            if question == q:
+            if question == self.current_question:
                 students.remove(id)
                 return
         raise Exception("Trying to remove student that isn't in self.ungraded_questions")
@@ -372,7 +377,7 @@ class checker:
 
     def print_grading_status(self):
         int_ungraded_questions = [int(i) for i in self.ungraded_questions]
-        current_question = min(int_ungraded_questions)
+        self.current_question = min(int_ungraded_questions)
         total_questions = self.total_questions * len(self.all_student_names)
         remaining_questions = 0
         
@@ -381,7 +386,7 @@ class checker:
 
         graded_questions = total_questions - remaining_questions
 
-        print(Fore.YELLOW + "Currently grading question {}".format(current_question))
+        print(Fore.YELLOW + "Currently grading question {}".format(self.current_question))
         print(Fore.YELLOW + "Graded {} questions".format(graded_questions))
         print(Fore.YELLOW + "{} questions remaining".format(remaining_questions))
         print()
