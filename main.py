@@ -282,8 +282,16 @@ class checker:
         return comment
 
     def extract_score(self, comment):
+        search_string = "#{}: (-?\d*)".format(self.current_question)
+        match = re.search(search_string, comment)
+        if match:
+            s = int(match.group(1))
+        else:
+            print(Fore.RED + "Unable to extract score from comments")
+            print(Fore.YELLOW + "Make sure comment follows the syntax:\n\t#1: -1 use (zero? a) instead of (equal? a 0)")
+            s = pyip.inputInt(prompt="Please input score manually: ")
         
-        pass
+        return s
 
     def save_comment(self, comment, id):
         found = False
