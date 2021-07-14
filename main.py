@@ -303,7 +303,6 @@ class checker:
                 return None
             else:
                 comment = choice
-        
 
             if comment in self.comments:
                 print(Fore.RED + "The same comment can't be added twice. Try again.")
