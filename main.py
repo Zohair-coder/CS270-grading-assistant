@@ -8,7 +8,7 @@ import colorama
 import subprocess
 
 class checker:
-    def __init__(self, total_questions, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments"):
+    def __init__(self, total_questions, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt"):
         self.total_questions = total_questions
         self.submissions_directory = submissions_directory
         self.student_data_file = student_data_file
@@ -18,6 +18,7 @@ class checker:
         self.key_dir = key_dir
         self.key_answers_dir = key_answers_dir
         self.key_comments_dir = key_comments_dir
+        self.rkt_report_file = rkt_report_file
 
 
 
@@ -27,6 +28,7 @@ class checker:
         self.create_student_dirs()
         self.questions = [i for i in range(1, total_questions+1)]
         self.copy_student_answers()
+        self.run_all_rkt_files()
         self.initialize_files()
         
         self.welcome_screen()
@@ -81,7 +83,22 @@ class checker:
         else:
             print("match not found for {}, question {}".format(file, question))
             return "Check manually; not found via regex"
-    
+
+
+    def run_all_rkt_files(self):
+        for student in self.submitted_student_names:
+            rkt_report_path = "{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file)
+            if os.path.isfile(rkt_report_path):
+                continue
+            print(Fore.YELLOW + "Running {}.rkt... ".format(student), end='')
+            process = subprocess.run(["Racket.exe", "{}/{}.rkt".format(self.submissions_directory, student)], capture_output=True)
+            output = process.stdout.decode("utf-8")
+            print(Fore.GREEN + "Done")
+
+            with open(rkt_report_path, "w") as f:
+                f.write(output)
+
+
     def initialize_files(self):
         if not os.path.isfile(self.save_file):
             self.ungraded_questions = {}
@@ -262,8 +279,8 @@ class checker:
             self.ungraded_questions.pop(self.current_question)
     
     def auto_grader(self, student):
-        process = subprocess.run(["Racket.exe", "{}/{}.rkt".format(self.submissions_directory, student)], capture_output=True)
-        output = process.stdout.decode("utf-8")
+        with open("{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file), "r") as f:
+            output = f.read()
         search_string = "Q{} passed (\d+)/(\d+)".format(self.current_question)
         match = re.search(search_string, output)
         if match:
