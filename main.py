@@ -20,8 +20,6 @@ class checker:
         self.key_comments_dir = key_comments_dir
         self.rkt_report_file = rkt_report_file
 
-
-
         self.all_student_names = self.get_all_students()
         self.submitted_student_names = self.get_submitted_students()
         self.unsubmitted_student_names = self.get_unsubmitted_students()
