@@ -147,7 +147,7 @@ class checker:
         
         
     def options(self):
-        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Save and Exit"]
+        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Save report as .csv for Blackboard","Save and Exit"]
         
         choice = pyip.inputMenu(options, numbered=True)
         print()
@@ -167,6 +167,10 @@ class checker:
         
         elif choice == "View Grading Status":
             self.print_grading_status()
+            self.options()
+        
+        elif choice == "Save report as .csv for Blackboard":
+            self.save_as_csv()
             self.options()
 
         elif choice == "Save and Exit":
@@ -431,6 +435,9 @@ class checker:
         print(Fore.GREEN + "{}% completed".format(round(graded_questions/total_questions * 100, 1)))
         print()
 
+    def save_as_csv(self):
+        pass
+    
     def end_program(self):
         self.save_files()
         print(Fore.GREEN + "Progress saved. Exiting program.")
