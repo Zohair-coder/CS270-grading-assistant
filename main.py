@@ -195,7 +195,7 @@ class checker:
                 if self.auto_feedback:
                     self.score = int(self.auto_feedback.group(2))
 
-                comments = []
+                self.comments = []
                 while True:
                     print(Fore.CYAN + "======================================================")
                     print()
@@ -221,9 +221,9 @@ class checker:
                     else:
                         print(Fore.RED + "Auto grader unable to check rkt file automatically")
 
-                    if len(comments) > 0:
+                    if len(self.comments) > 0:
                         print(Fore.CYAN + "Comments Added:")
-                        for comment in comments:
+                        for comment in self.comments:
                             print(Fore.CYAN + comment)
                     print()
 
@@ -236,21 +236,20 @@ class checker:
                         comment = self.add_comment()
                         if comment:
                             num = self.extract_score(comment)
-                            if num >= 0:
-                                self.score = num
-                            else:
-                                self.score += num 
-                            comments.append(comment)
+                            if not num:
+                                continue
+                            self.score += num
+                            self.comments.append(comment)
                             self.save_comment(comment, student)
 
                     elif choice == "Remove comment":
                         if not comment:
                             print(Fore.RED + "No comments to remove")
                             continue
+                        num = self.extract_score(comment)
                         self.score -= self.extract_score(comment)
-                        comment = self.delete_comment(comments, student)
-                        if comment:
-                            comments.remove(comment)
+                        comment = self.delete_comment(student)
+                        self.comments.remove(comment)
 
                     elif choice == "Confirm score":
                         res = self.save_score(student)
@@ -311,6 +310,9 @@ class checker:
         match = re.search(search_string, comment)
         if match:
             s = int(match.group(1))
+            if s >= 0:
+                print(Fore.RED + "Positive values not accepted. Please change comment to negative value")
+                return None
         else:
             print(Fore.RED + "Unable to extract score from comments")
             print(Fore.YELLOW + "Make sure comment follows the syntax:\n\t#1: -1 use (zero? a) instead of (equal? a 0)")
@@ -329,14 +331,10 @@ class checker:
         if not found:
             self.data.append({"id": id, "comments": [comment]})
     
-    def delete_comment(self, comments, id):
-        if comments == []:
-            print(Fore.RED + "No comments to delete!")
-            return None
-
-        comment = pyip.inputMenu(comments, numbered=True, prompt="Select which comment to delete\n", blank=True)
+    def delete_comment(self, id):
+        comment = pyip.inputMenu(self.comments, numbered=True, prompt="Select which comment to delete\n", blank=True)
         if comment == "":
-            comment = comments[0]
+            comment = self.comments[0]
 
         for grade in self.data:
             if grade['id'] == id:
