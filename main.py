@@ -295,13 +295,22 @@ class checker:
         comments_list.append("Custom comment")
         comments_list.append("No comment")
 
-        choice = pyip.inputMenu(comments_list, numbered=True)
-        if choice == "Custom comment":
-            comment = pyip.inputStr("Enter custom comment: ")
-        elif choice == "No comment":
-            return None
-        else:
-            comment = choice
+        while True:
+            choice = pyip.inputMenu(comments_list, numbered=True)
+            if choice == "Custom comment":
+                comment = pyip.inputStr("Enter custom comment: ")
+            elif choice == "No comment":
+                return None
+            else:
+                comment = choice
+        
+
+            if comment in self.comments:
+                print(Fore.RED + "The same comment can't be added twice. Try again.")
+                continue
+            else:
+                break
+
         
         return comment
 
