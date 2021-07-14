@@ -8,8 +8,7 @@ import colorama
 import subprocess
 
 class checker:
-    def __init__(self, total_questions, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt"):
-        self.total_questions = total_questions
+    def __init__(self, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt"):
         self.submissions_directory = submissions_directory
         self.student_data_file = student_data_file
         self.main_dir_name = main_dir_name
@@ -20,11 +19,12 @@ class checker:
         self.key_comments_dir = key_comments_dir
         self.rkt_report_file = rkt_report_file
 
+        self.total_questions = self.get_total_questions()
         self.all_student_names = self.get_all_students()
         self.submitted_student_names = self.get_submitted_students()
         self.unsubmitted_student_names = self.get_unsubmitted_students()
         self.create_student_dirs()
-        self.questions = [i for i in range(1, total_questions+1)]
+        self.questions = [i for i in range(1, self.total_questions+1)]
         self.copy_student_answers()
         self.run_all_rkt_files()
         self.initialize_files()
@@ -35,7 +35,8 @@ class checker:
 
 
 
-
+    def get_total_questions(self):
+        return len(os.listdir("{}/{}".format(self.key_dir, self.key_answers_dir)))
 
     def get_all_students(self):
         with open(self.student_data_file, "r") as jfile:
@@ -437,7 +438,7 @@ class checker:
 
     def save_as_csv(self):
         pass
-    
+
     def end_program(self):
         self.save_files()
         print(Fore.GREEN + "Progress saved. Exiting program.")
@@ -453,5 +454,5 @@ class checker:
 
 if __name__ == "__main__":
     colorama.init(autoreset=True)
-    checker(15)
+    checker()
     colorama.deinit()
