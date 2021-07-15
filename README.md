@@ -21,6 +21,7 @@ You're all set! Run main.py to run the program.
 * Fix Blackboard csv file feature to easily upload grades
 * Add ability to save custom comments
 * Parse student name text file from Blackboard instead of parsing the full grade center
+* Write a script for copying grading key to specified location
 * Import all files to main.py so the user only has to run `python main.py`
 * View anonymous animal names instead of student names when grading to avoid bias
 * Add ability to go back a submission when grading
