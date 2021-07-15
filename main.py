@@ -2,13 +2,15 @@ import os
 import sys
 import json
 import re
+import csv
 import pyinputplus as pyip
 from colorama import Fore
 import colorama
 import subprocess
 
 class checker:
-    def __init__(self, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt"):
+    def __init__(self, csv_file_name, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt"):
+        self.csv_file_name = csv_file_name
         self.submissions_directory = submissions_directory
         self.student_data_file = student_data_file
         self.main_dir_name = main_dir_name
@@ -172,6 +174,7 @@ class checker:
         
         elif choice == "Save report as .csv for Blackboard":
             self.save_as_csv()
+            print(Fore.GREEN + "Done!")
             self.options()
 
         elif choice == "Save and Exit":
@@ -437,7 +440,43 @@ class checker:
         print()
 
     def save_as_csv(self):
-        pass
+        file = self.csv_file_name
+
+        csv_data = []
+        with open(file, "r") as f:
+            csvFile = csv.reader(f)
+            header = next(csvFile)
+            for lines in csvFile:
+                csv_data.append(lines)
+        
+        for data in csv_data:
+            empty_strings = ['' for i in data]
+            if data == empty_strings or data == []:
+                csv_data.remove(data)
+
+        for record in csv_data:
+            student_grade = self.search_json("id", record[2])
+            if not student_grade:
+                print(Fore.RED + "Grade for {} not found. Skipping..".format(record[2]))
+                continue
+            record[4] = student_grade["total_score"]
+
+            comments = ""
+            if student_grade["comments"]:
+                for comment in student_grade["comments"]:
+                    comments += "<p>" + comment + "\p\n"
+            record[7] = comments
+        
+        with open(file, "w") as f:
+            csvwriter = csv.writer(f)
+            csvwriter.writerow(header)
+            csvwriter.writerows(csv_data)
+        
+    def search_json(self, field, search):
+        for student in self.data:
+            if student[field] == field:
+                return student
+        return None
 
     def end_program(self):
         self.save_files()
@@ -454,5 +493,6 @@ class checker:
 
 if __name__ == "__main__":
     colorama.init(autoreset=True)
-    checker()
+    csv_file_name = "gc_41672.202045_column_2021-07-14-09-22-08.csv"
+    checker(csv_file_name=csv_file_name)
     colorama.deinit()

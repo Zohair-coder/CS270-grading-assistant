@@ -15,3 +15,16 @@ Now create a "key" directory and then create an "answers" and "comments" directo
 Open up main.py and scroll the bottom where the checker object is being initialized. Change the input to however many questions are in your homework.
 
 You're all set! Run main.py to run the program.
+
+## TODO
+
+* Fix Blackboard csv file feature to easily upload grades
+* Add ability to save custom comments
+* Parse student name text file from Blackboard instead of parsing the full grade center
+* View anonymous animal names instead of student names when grading to avoid bias
+* Add ability to go back a submission when grading
+* Add ability to edit any students grade from the main menu
+* Create a "Mistake analysis" feature in the main menu that would show how many students made a specific mistake and their names
+* Add an autograder option in the menu that checks all the submissions and adds comments automatically without any manual grading involved (feasability needs to be evaluated)
+* Import all files to main.py so the user only has to run `python main.py`
+* Write more detailed documentation about how the program works and how to use the program with images
