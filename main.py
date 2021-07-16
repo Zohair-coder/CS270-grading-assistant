@@ -331,7 +331,16 @@ class checker:
         while True:
             choice = pyip.inputMenu(comments_list, numbered=True)
             if choice == "Custom comment":
-                comment = pyip.inputStr("Enter custom comment: ")
+                while True:
+                    comment = "#{}: -".format(self.current_question)
+                    comment += pyip.inputStr("Enter custom comment: {}".format(comment))
+                    
+                    search_string = "#{}: -\d+".format(self.current_question)
+                    match = re.search(search_string, comment)
+                    if match:
+                        break
+                    print(Fore.RED + "Comment must be in the format:")
+                    print(Fore.YELLOW + "\t#1: -1 this is a sample comment")
                 with open("{}/{}/{}.txt".format(self.key_dir, self.key_comments_dir, self.current_question), "a") as f:
                     f.write("\n" + comment)
             elif choice == "No comment":
