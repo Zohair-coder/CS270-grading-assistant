@@ -117,12 +117,15 @@ class checker:
 
             with open(self.report_file, "w") as f:
                 f.write(json.dumps(self.data, indent=4))
+            
+            self.names_graded = False
         else:
             with open(self.save_file, "r") as f:
                 self.ungraded_questions = json.load(f)
             
             with open(self.report_file, "r") as f:
                 self.data = json.load(f)
+            self.names_graded = True
 
     def welcome_screen(self):
         print(Fore.CYAN + "Welcome to the CS270 grading assistant")
@@ -184,6 +187,10 @@ class checker:
             print(Fore.RED + "Oops - error :o")
     
     def grading(self):
+        if not self.names_graded:
+            # self.auto_grade_names()
+            self.names_graded = True
+
         while len(self.ungraded_questions) != 0:
             int_ungraded_questions = [int(i) for i in self.ungraded_questions]
             self.current_question = min(int_ungraded_questions)
@@ -284,6 +291,20 @@ class checker:
 
             self.ungraded_questions.pop(self.current_question)
     
+    # def auto_grade_names(self):
+    #     print(Fore.YELLOW + "Automatically grading student names...")
+    #     for student in self.submitted_student_names:
+    #         with open("{}/{}.rkt".format(self.submissions_directory, student), "r") as f:
+    #             submission = f.read()
+    #         search_string = "; ?[\w -]+$"
+    #         match = re.search(search_string, submission)
+    #         if not match:
+    #             print(Fore.RED + "{} did not enter name".format(student))
+    #             comment = "#0: -5 no name"
+    #             self.save_comment(comment, student)
+    #         self.save_files()
+    #     print(Fore.GREEN + "Done!")
+
     def auto_grader(self, student):
         with open("{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file), "r") as f:
             output = f.read()
