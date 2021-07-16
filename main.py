@@ -388,12 +388,6 @@ class checker:
         return True
     
     def remove_student(self, id):
-        # for question, students in self.ungraded_questions.items():
-        #     if question == self.current_question:
-        #         students.remove(id)
-        #         return
-        # raise Exception("Trying to remove student that isn't in self.ungraded_questions")
-        
         try:
             self.ungraded_questions[self.current_question].remove(id)
         except KeyError as e:
