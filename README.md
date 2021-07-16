@@ -25,8 +25,6 @@ Open a terminal in a directory and type in the following command:
 ```
 git clone https://github.com/Zohair-coder/CS270-grading-assistant.git
 ```
-Go into the hw, key/answers and key/comments folders and delete the sample files inside those folders.
-
 Download the list of entire students from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Make sure to select comma as the delimiter and click submit and download the file. A csv file will be generated. Place the csv file in the project root directory. Open main.py with a text editor and change the STUDENT_NAMES_CSV variable to the name of the csv file.
 
 Download the grading file template from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Select "Selected Column" in the "Select Data to Download" field and select the homework you want to grade from the drop-down menu. Include comments for the column. Select the delimiter type as comma, and hit submit. Place the downloaded csv file into the root directory of the project and open main.py with a text editor. Change the value of GRADES_CSV to the name of the file that you just copied to the root of you project.
