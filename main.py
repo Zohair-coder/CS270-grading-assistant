@@ -104,7 +104,7 @@ class checker:
         if not os.path.isfile(self.save_file):
             self.ungraded_questions = {}
             for question in self.questions:
-                self.ungraded_questions[str(question)] = self.submitted_student_names
+                self.ungraded_questions[str(question)] = self.submitted_student_names.copy()
 
             with open(self.save_file, "w") as f:
                 f.write(json.dumps(self.ungraded_questions, indent=4))
@@ -158,6 +158,7 @@ class checker:
         if choice == "Start Grading":
             self.grading()
             print(Fore.GREEN + "Finished Grading!")
+            self.options()
         
         elif choice == "Print Grade Report":
             save_to_file = pyip.inputYesNo(prompt="Save to file? (yes/no): ")
@@ -387,11 +388,17 @@ class checker:
         return True
     
     def remove_student(self, id):
-        for question, students in self.ungraded_questions.items():
-            if question == self.current_question:
-                students.remove(id)
-                return
-        raise Exception("Trying to remove student that isn't in self.ungraded_questions")
+        # for question, students in self.ungraded_questions.items():
+        #     if question == self.current_question:
+        #         students.remove(id)
+        #         return
+        # raise Exception("Trying to remove student that isn't in self.ungraded_questions")
+        
+        try:
+            self.ungraded_questions[self.current_question].remove(id)
+        except KeyError as e:
+            print(e)
+            raise
     
 
 
@@ -492,6 +499,6 @@ class checker:
 
 if __name__ == "__main__":
     colorama.init(autoreset=True)
-    csv_file_name = "gc_41672.202045_column_2021-07-15-20-01-18.csv"
+    csv_file_name = "gc_41672.202045_column_2021-07-16-07-55-59.csv"
     checker(csv_file_name=csv_file_name)
     colorama.deinit()
