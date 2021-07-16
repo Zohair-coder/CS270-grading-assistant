@@ -2,6 +2,8 @@
 
 This program helps me grade student submissions for CS270. It's meant to help grade rkt files
 
+![screenshot](https://i.ibb.co/HY6cXLt/image.png)
+
 ## Usage
 
 Download the list of entire students from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Make sure to select comma as the delimiter and click submit and download the file.
