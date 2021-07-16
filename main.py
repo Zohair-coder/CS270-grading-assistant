@@ -341,9 +341,12 @@ class checker:
 
 
     def add_comment(self):
-        with open("{}/{}/{}.txt".format(self.key_dir, self.key_comments_dir, self.current_question)) as f:
-            comments = f.read()
-        comments_list = comments.split("\n")
+        comments_list = []
+        file = "{}/{}/{}.txt".format(self.key_dir, self.key_comments_dir, self.current_question)
+        if os.path.isfile(file):
+            with open(file, "r") as f:
+                comments = f.read()
+            comments_list.append(comments.split("\n"))
         comments_list.append("Custom comment")
         comments_list.append("No comment")
 
