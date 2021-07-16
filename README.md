@@ -1,6 +1,8 @@
 # CS270 Grading Assistant
 
-This program helps me grade student submissions for CS270. It's meant to help grade rkt files
+This program helps me grade student submissions for CS270. It's meant to help grade rkt files.
+
+![screenshot](https://i.ibb.co/HY6cXLt/image.png)
 
 ## Setup
 
@@ -27,7 +29,9 @@ Go into the hw, key/answers and key/comments folders and delete the sample files
 
 Download the list of entire students from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Make sure to select comma as the delimiter and click submit and download the file. A csv file will be generated. Place the csv file in the project root directory. Open main.py with a text editor and change the STUDENT_NAMES_CSV variable to the name of the csv file.
 
-Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download, select all and click submit to download the zip file. Extract the zip file into a folder named "hw" in the projects root directory.
+Download the grading file template from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Select "Selected Column" in the "Select Data to Download" field and select the homework you want to grade from the drop-down menu. Include comments for the column. Select the delimiter type as comma, and hit submit. Place the downloaded csv file into the root directory of the project and open main.py with a text editor. Change the value of GRADES_CSV to the name of the file that you just copied to the root of you project.
+
+Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download. Scroll to the bottom and click show all and then select all and click submit to download the zip file. Extract the zip file into a folder named "hw" in the projects root directory.
 
 Inside the key directory, populate the answers and comments directory with as many text files as there are questions in the form {question_number}.txt. Open the grading key racket file and copy and paste the answers of individuals questions into the individual text files. Then, inside the comments directory, populate the text files with possible comments for each question.
 If you have 5 questions to grade, your key directory should look like this:
@@ -57,8 +61,6 @@ Go back to the root directory and open a terminal and run the following command:
 ```
 python main.py
 ```
-
-You're all set! Run main.py to run the program.
 
 ## TODO
 
