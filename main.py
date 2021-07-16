@@ -88,7 +88,7 @@ class checker:
         with open(file, "r") as f:
             rkt = f.read()
 
-        search_string = r"; ?Question {}.*?(\(define.*?)(^;end$)".format(
+        search_string = r"; ?Question [\d, ]*{}.*?(\(define.*?)(^;end$)".format(
             question)
         match = re.search(search_string, rkt, re.DOTALL | re.MULTILINE)
         if match:
