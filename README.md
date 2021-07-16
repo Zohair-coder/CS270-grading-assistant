@@ -60,8 +60,6 @@ Go back to the root directory and open a terminal and run the following command:
 python main.py
 ```
 
-You're all set! Run main.py to run the program.
-
 ## TODO
 
 * ~~Fix Blackboard csv file feature to easily upload grades~~
