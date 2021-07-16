@@ -8,10 +8,7 @@ import csv
 import json
 from os import write
 
-def main():
-    read_filename = "gc_41672.202045_fullgc_2021-07-13-16-53-27.csv"
-    write_filename = "students.json"
-    
+def main(read_filename, write_filename="students.json"):
     rows = []
     
     with open(read_filename, 'r') as csvfile:

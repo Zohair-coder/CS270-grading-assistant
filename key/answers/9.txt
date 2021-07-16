@@ -1,0 +1,3 @@
+(define (all_q L)
+  (if (null? L) #t (andi (equal? (first L) 'q) (all_q (rest L))))
+)

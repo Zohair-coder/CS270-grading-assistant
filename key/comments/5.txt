@@ -1,0 +1,11 @@
+#5: no credit for illegal functions
+#5: -1 (if e #t #f) is just e -- it's wasteful to use an if!
+#5: -1 more IFs than needed
+#5: -1 redundant condition checks (if e #t #t) is just #t!
+#5: -2 only one output allowed
+#5: -1 logic functions with constants are unneeded: (andi #t e), (ori #f e) are just e!
+#5: -1 (equal? #t e) is just e!
+#5: -0 unneeded helper
+#5: -2 because of the helper, your function is no longer recursive
+#5: -3 unnecessary length call -- no ints needed
+#5: no credit for incorrect implementation

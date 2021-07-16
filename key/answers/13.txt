@@ -1,0 +1,4 @@
+(define (exactly_one_q L)
+  (if (null? L) #f (ori (andi (equal? (first L) 'q) (noti (at_least_one_q (rest L))))
+                        (andi (noti (equal? (first L) 'q)) (exactly_one_q (rest L)))))
+)

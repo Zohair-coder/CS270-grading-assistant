@@ -1,0 +1,3 @@
+(define (odd_amt_q_v2 L)
+  (foldr xori #f (map (λ (x) (equal? x 'q)) L))
+)

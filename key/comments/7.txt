@@ -1,0 +1,13 @@
+#7: -1 (if e #t #f) is just e -- it's wasteful to use an if!
+#7: -2 and function illegal. Use andi instead
+#7: -1 more IFs than needed
+#7: -1 redundant condition checks (if e #t #t) is just #t!
+#7: -2 only one output allowed
+#7: -1 logic functions with constants are unneeded: (andi #t e), (ori #f e) are just e!
+#7: -1 (equal? #t e) is just e!
+#7: -1 avoid the "eq?" function. it doesn't do what you think. use "equal?" instead
+#7: -1 your lambda is just andi!
+#7: -1 null? slightly more efficient than (equal? L '())
+#7: -0 unneeded helper
+#7: -2 because of the helper, your function is no longer recursive
+#7: no credit for incorrect implementation

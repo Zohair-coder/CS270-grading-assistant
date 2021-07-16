@@ -1,0 +1,3 @@
+(define (iffi a b)
+  (if a b (if b #f #t))
+)

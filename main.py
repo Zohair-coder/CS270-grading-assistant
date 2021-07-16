@@ -7,6 +7,18 @@ import pyinputplus as pyip
 from colorama import Fore
 import colorama
 import subprocess
+import getStudents
+import rename
+
+STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-16-11-33-22.csv"
+GRADES_CSV = "gc_41672.202045_column_2021-07-16-07-55-59.csv"
+
+def main():
+    getStudents.main(STUDENT_NAMES_CSV)
+    rename.main()
+    colorama.init(autoreset=True)
+    checker(GRADES_CSV)
+    colorama.deinit()
 
 class checker:
     def __init__(self, csv_file_name, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt"):
@@ -529,7 +541,4 @@ class checker:
             f.write(json.dumps(self.data, indent=4))
 
 if __name__ == "__main__":
-    colorama.init(autoreset=True)
-    csv_file_name = "gc_41672.202045_column_2021-07-16-07-55-59.csv"
-    checker(csv_file_name=csv_file_name)
-    colorama.deinit()
+    main()

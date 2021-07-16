@@ -1,0 +1,3 @@
+(define (at_least_one_q_v2 L)
+  (orlist (map (λ (x) (equal? x 'q)) L))
+)

@@ -1,0 +1,3 @@
+(define (noti b)
+  (if b #f #t)
+ )

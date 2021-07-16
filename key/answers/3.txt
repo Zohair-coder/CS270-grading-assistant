@@ -1,0 +1,3 @@
+(define (ori a b)
+  (if a #t b)
+)

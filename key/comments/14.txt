@@ -1,0 +1,15 @@
+#14: -2 and function illegal. Use andi instead
+#14: -1 more IFs than needed
+#14: -1 redundant condition checks (if e #t #t) is just #t!
+#14: -2 only one output allowed
+#14: -1 logic functions with constants are unneeded: (andi #t e), (ori #f e) are just e!
+#14: -1 (equal? #t e) is just e!
+#14: -1 avoid the "eq?" function. it doesn't do what you think. use "equal?" instead
+#14: -1 null? slightly more efficient than (equal? L '())
+#14: no credit for non-recursive functions
+#14: half credit for recursive helper functions
+#14: -0 no need to rewrite noti
+#14: -0 unneeded helper
+#14: -2 because of the helper, your function is no longer recursive
+#14: -3 unnecessary length call -- no ints needed
+#14: no credit for incorrect implementation

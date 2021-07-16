@@ -8,9 +8,7 @@
 import os
 import re
 
-def main():
-    directory = "hw"
-
+def main(directory="hw"):
     os.chdir(directory)
 
     remove_txt()

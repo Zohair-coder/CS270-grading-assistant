@@ -1,20 +1,64 @@
 # CS270 Grading Assistant
 
-This program helps me grade student submissions for CS270. It's meant to help grade rkt files
+This program helps me grade student submissions for CS270. It's meant to help grade rkt files.
 
 ![screenshot](https://i.ibb.co/HY6cXLt/image.png)
 
+## Setup
+
+If this is the first time you're using this program on your computer, follow these instructions:
+
+### Windows
+Locate where your Racket is installed. By default it should be in `C:\Program Files\Racket`.
+Go inside the directory and copy the path.
+Press start and search for "Edit the system environment variables".
+Click "Environment variables" at the bottom right.
+Click "Path" in the user variables and then click "Edit".
+Click "New" on the top right and paste the path that you copied.
+Click "OK" until all the windows have been closed.
+Launch a terminal and type "Racket".
+If the terminal displays `Welcome to Racket`, you have successfully installed Racket on the command line. You can now move on to the usage step.
+
 ## Usage
 
-Download the list of entire students from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Make sure to select comma as the delimiter and click submit and download the file.
+Open a terminal in a directory and type in the following command:
+```
+git clone https://github.com/Zohair-coder/CS270-grading-assistant.git
+```
+Go into the hw, key/answers and key/comments folders and delete the sample files inside those folders.
 
-A csv file will be generated. Place the csv file in the project root directory. Open getStudents.py with a text editor and change the read_filename variable to the name of the csv file. Run the program to generate a students.json file.
+Download the list of entire students from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Make sure to select comma as the delimiter and click submit and download the file. A csv file will be generated. Place the csv file in the project root directory. Open main.py with a text editor and change the STUDENT_NAMES_CSV variable to the name of the csv file.
 
-Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download, select all and click submit to download the zip file. Extract the zip file into a folder named "hw" in the projects root directory. Run rename.py.
+Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download, select all and click submit to download the zip file. Extract the zip file into a folder named "hw" in the projects root directory.
 
-Now create a "key" directory and then create an "answers" and "comments" directory inside of it. Populate the answers and comments directory with as many text files as there are questions in the form {question_number}.txt. Open the grading key racket file and copy and paste the answers of individuals questions into the individual text files. Then, inside the comments directory, populate the text files with possible comments for each question.
+Inside the key directory, populate the answers and comments directory with as many text files as there are questions in the form {question_number}.txt. Open the grading key racket file and copy and paste the answers of individuals questions into the individual text files. Then, inside the comments directory, populate the text files with possible comments for each question.
+If you have 5 questions to grade, your key directory should look like this:
+```
+/key
+    |- answers
+        |- 1.txt
+        |- 2.txt
+        |- 3.txt
+        |- 4.txt
+        |- 5.txt
+    |- comments
+        |- 1.txt
+        |- 2.txt
+        |- 3.txt
+        |- 4.txt
+        |- 5.txt
+```
 
-Open up main.py and scroll the bottom where the checker object is being initialized. Change the input to however many questions are in your homework.
+Make sure the comments follow the following format:
+```
+#1: -1 this is incorrect
+```
+You can also optionally leave the comments directory empty and input the comments inside the program.
+
+Go back to the root directory and open a terminal and run the following command:
+```
+python main.py
+```
 
 You're all set! Run main.py to run the program.
 
