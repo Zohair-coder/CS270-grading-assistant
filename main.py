@@ -11,7 +11,7 @@ import getStudents
 import rename
 
 STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-16-11-33-22.csv"
-GRADES_CSV = "gc_41672.202045_column_2021-07-16-07-55-59.csv"
+GRADES_CSV = "gc_41672.202045_column_2021-07-16-12-25-39.csv"
 
 def main():
     getStudents.main(STUDENT_NAMES_CSV)
