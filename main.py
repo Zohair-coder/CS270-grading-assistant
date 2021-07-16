@@ -443,38 +443,36 @@ class checker:
         file = self.csv_file_name
 
         csv_data = []
-        with open(file, "r") as f:
+        with open(file, "r", encoding="utf-8-sig") as f:
             csvFile = csv.reader(f)
             header = next(csvFile)
             for lines in csvFile:
                 csv_data.append(lines)
         
-        for data in csv_data:
-            empty_strings = ['' for i in data]
-            if data == empty_strings or data == []:
-                csv_data.remove(data)
-
         for record in csv_data:
             student_grade = self.search_json("id", record[2])
             if not student_grade:
                 print(Fore.RED + "Grade for {} not found. Skipping..".format(record[2]))
                 continue
-            record[4] = student_grade["total_score"]
+            if "total_score" not in student_grade:
+                record[4] = pyip.inputInt( prompt= Fore.YELLOW + "Total score for {} not found. Please enter score manually: ".format(record[2]))
+            else:
+                record[4] = student_grade["total_score"]
 
             comments = ""
-            if student_grade["comments"]:
+            if "comments" in student_grade:
                 for comment in student_grade["comments"]:
-                    comments += "<p>" + comment + "\p\n"
+                    comments += "<p>" + comment + "<\p>\n"
             record[7] = comments
         
-        with open(file, "w") as f:
+        with open("output.csv", "w", newline='') as f:
             csvwriter = csv.writer(f)
             csvwriter.writerow(header)
             csvwriter.writerows(csv_data)
         
     def search_json(self, field, search):
         for student in self.data:
-            if student[field] == field:
+            if student[field] == search:
                 return student
         return None
 
@@ -493,6 +491,6 @@ class checker:
 
 if __name__ == "__main__":
     colorama.init(autoreset=True)
-    csv_file_name = "gc_41672.202045_column_2021-07-14-09-22-08.csv"
+    csv_file_name = "gc_41672.202045_column_2021-07-15-20-01-18.csv"
     checker(csv_file_name=csv_file_name)
     colorama.deinit()
