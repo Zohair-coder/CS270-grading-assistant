@@ -425,7 +425,9 @@ class checker:
 
     def print_grading_status(self):
         int_ungraded_questions = [int(i) for i in self.ungraded_questions]
-        self.current_question = min(int_ungraded_questions)
+        self.current_question = 0
+        if len(int_ungraded_questions) != 0:
+            self.current_question = min(int_ungraded_questions)
         total_questions = self.total_questions * len(self.all_student_names)
         remaining_questions = 0
         

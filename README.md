@@ -24,7 +24,7 @@ You're all set! Run main.py to run the program.
 * Parse student name text file from Blackboard instead of parsing the full grade center
 * Write a script for copying grading key to key/answers
 * Import all files to main.py so the user only has to run `python main.py`
-* Fix "view grading status" bug when all files have been graded
+* ~~Fix "view grading status" bug when all files have been graded~~
 * View anonymous animal names instead of student names when grading to avoid bias
 * Add ability to go back a submission when grading
 * Add ability to edit any students grade from the main menu
