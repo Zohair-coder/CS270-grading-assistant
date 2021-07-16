@@ -14,8 +14,15 @@ STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-16-11-33-22.csv"
 GRADES_CSV = "gc_41672.202045_column_2021-07-16-12-25-39.csv"
 
 def main():
-    getStudents.main(STUDENT_NAMES_CSV)
-    rename.main()
+    if not os.path.isfile("students.json"):
+        getStudents.main(STUDENT_NAMES_CSV)
+    
+    files = os.listdir("hw")
+    for file in files:
+        if ".txt" in file:
+            rename.main()
+            break
+
     colorama.init(autoreset=True)
     checker(GRADES_CSV)
     colorama.deinit()

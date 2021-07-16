@@ -11,3 +11,4 @@ output.csv
 *.rkt
 /hw
 /key
+__pycache__
