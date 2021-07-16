@@ -1,3 +1,0 @@
-(define (all_q_v2 L)
-  (andlist (map (λ (x) (equal? x 'q)) L))
-)

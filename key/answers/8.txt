@@ -1,3 +1,0 @@
-(define (orlist L)
-  (foldr ori #f L)
-)

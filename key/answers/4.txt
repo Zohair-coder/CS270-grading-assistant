@@ -1,3 +1,0 @@
-(define (xori a b)
-  (if a (if b #f #t) b)
-)

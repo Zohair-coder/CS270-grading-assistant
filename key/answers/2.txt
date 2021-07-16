@@ -1,3 +1,0 @@
-(define (andi a b)
-  (if a b #f)
-)

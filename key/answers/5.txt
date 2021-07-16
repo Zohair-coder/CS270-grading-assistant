@@ -1,3 +1,0 @@
-(define (impliesi a b)
-  (if a b #t)
-)

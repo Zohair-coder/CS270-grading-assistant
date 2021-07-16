@@ -1,3 +1,0 @@
-(define (odd_amt_q L)
-  (if (null? L) #f (xori (equal? (first L) 'q) (odd_amt_q (rest L))))
-)
