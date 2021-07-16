@@ -26,7 +26,7 @@ class checker:
         self.submitted_student_names = self.get_submitted_students()
         self.unsubmitted_student_names = self.get_unsubmitted_students()
         self.create_student_dirs()
-        self.questions = [i for i in range(1, self.total_questions+1)]
+        self.questions = [i for i in range(self.total_questions+1)]
         self.copy_student_answers()
         self.run_all_rkt_files()
         self.initialize_files()
@@ -66,7 +66,7 @@ class checker:
     
     def copy_student_answers(self):
         for student in self.submitted_student_names:
-            for question in self.questions:
+            for question in self.questions[1:]:
                 submission_file = "{}/{}.rkt".format(self.submissions_directory, student)
                 answer = self.get_answer(question, submission_file)
                 with open("{}/{}/{}.txt".format(self.main_dir_name, student, question), "w") as f:
@@ -103,7 +103,7 @@ class checker:
     def initialize_files(self):
         if not os.path.isfile(self.save_file):
             self.ungraded_questions = {}
-            for question in self.questions:
+            for question in self.questions[1:]:
                 self.ungraded_questions[str(question)] = self.submitted_student_names.copy()
 
             with open(self.save_file, "w") as f:
@@ -188,7 +188,7 @@ class checker:
     
     def grading(self):
         if not self.names_graded:
-            # self.auto_grade_names()
+            self.auto_grade_names()
             self.names_graded = True
 
         while len(self.ungraded_questions) != 0:
@@ -291,19 +291,24 @@ class checker:
 
             self.ungraded_questions.pop(self.current_question)
     
-    # def auto_grade_names(self):
-    #     print(Fore.YELLOW + "Automatically grading student names...")
-    #     for student in self.submitted_student_names:
-    #         with open("{}/{}.rkt".format(self.submissions_directory, student), "r") as f:
-    #             submission = f.read()
-    #         search_string = "; ?[\w -]+$"
-    #         match = re.search(search_string, submission)
-    #         if not match:
-    #             print(Fore.RED + "{} did not enter name".format(student))
-    #             comment = "#0: -5 no name"
-    #             self.save_comment(comment, student)
-    #         self.save_files()
-    #     print(Fore.GREEN + "Done!")
+    def auto_grade_names(self):
+        print(Fore.YELLOW + "Automatically grading student names...")
+        for student in self.submitted_student_names:
+            with open("{}/{}.rkt".format(self.submissions_directory, student), "r") as f:
+                submission = f.read()
+            search_string = ";type your name after the colon: ?[\w -]+$"
+            match = re.search(search_string, submission, re.MULTILINE)
+            if not match:
+                print(Fore.RED + "{} did not enter name".format(student))
+                comment = "#0: -5 no name"
+                # self.save_comment(comment, student)
+                # grade = self.search_json("id", student)
+                # grade.append()
+                self.data.append({"id": student, "questions": {"0": -5}, "total_score": -5, "comments": [comment]})
+                self.save_files()
+            else:
+                print(Fore.GREEN + "{} entered name".format(student))
+        print(Fore.GREEN + "Done!")
 
     def auto_grader(self, student):
         with open("{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file), "r") as f:
