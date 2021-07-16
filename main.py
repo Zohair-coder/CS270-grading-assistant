@@ -305,6 +305,8 @@ class checker:
             choice = pyip.inputMenu(comments_list, numbered=True)
             if choice == "Custom comment":
                 comment = pyip.inputStr("Enter custom comment: ")
+                with open("{}/{}/{}.txt".format(self.key_dir, self.key_comments_dir, self.current_question), "a") as f:
+                    f.write("\n" + comment)
             elif choice == "No comment":
                 return None
             else:
@@ -315,7 +317,6 @@ class checker:
                 continue
             else:
                 break
-
         
         return comment
 
@@ -330,7 +331,7 @@ class checker:
         else:
             print(Fore.RED + "Unable to extract score from comments")
             print(Fore.YELLOW + "Make sure comment follows the syntax:\n\t#1: -1 use (zero? a) instead of (equal? a 0)")
-            s = pyip.inputInt(prompt="Please input score manually: ")
+            sys.exit()
         return s
 
     def save_comment(self, comment, id):
