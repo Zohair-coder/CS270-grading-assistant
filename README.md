@@ -20,6 +20,7 @@ You're all set! Run main.py to run the program.
 
 * ~~Fix Blackboard csv file feature to easily upload grades~~
 * ~~Add ability to save custom comments~~
+* Add student name checker
 * Parse student name text file from Blackboard instead of parsing the full grade center
 * Write a script for copying grading key to key/answers
 * Import all files to main.py so the user only has to run `python main.py`
