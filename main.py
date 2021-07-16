@@ -342,7 +342,8 @@ class checker:
 
     def add_comment(self):
         comments_list = []
-        file = "{}/{}/{}.txt".format(self.key_dir, self.key_comments_dir, self.current_question)
+        file = "{}/{}/{}.txt".format(self.key_dir,
+                                     self.key_comments_dir, self.current_question)
         if os.path.isfile(file):
             with open(file, "r") as f:
                 comments = f.read()
