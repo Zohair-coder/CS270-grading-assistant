@@ -25,6 +25,10 @@ def main():
             rename.main()
             break
     
+    if not os.path.isdir("key"):
+        os.makedirs("key/answers")
+        os.mkdir("key/comments")
+
     getKey.main(KEY_FILE)
 
     colorama.init(autoreset=True)
