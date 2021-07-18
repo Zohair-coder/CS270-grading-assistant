@@ -395,7 +395,7 @@ class checker:
         match = re.search(search_string, comment)
         if match:
             s = int(match.group(1))
-            if s >= 0:
+            if s > 0:
                 print(Fore.RED + "Positive values not accepted. Please change comment to negative value")
                 return None
         else:

@@ -12,3 +12,4 @@ output.csv
 /hw
 /key
 __pycache__
+*.bak
