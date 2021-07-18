@@ -277,7 +277,7 @@ class checker:
                         comment = self.add_comment()
                         if comment:
                             num = self.extract_score(comment)
-                            if not num:
+                            if num is None:
                                 continue
                             self.score += num
                             self.comments.append(comment)
