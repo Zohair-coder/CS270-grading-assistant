@@ -235,6 +235,8 @@ class checker:
 
                 if self.auto_feedback:
                     self.score = int(self.auto_feedback.group(2))
+                else:
+                    self.score = 0
 
                 self.comments = []
                 while True:
