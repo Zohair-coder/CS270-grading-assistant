@@ -354,8 +354,11 @@ class checker:
                                      self.key_comments_dir, self.current_question)
         if os.path.isfile(file):
             with open(file, "r") as f:
-                comments = f.read()
-            comments_list.append(comments.split("\n"))
+                for comment in f:
+                    comment = comment.strip()
+                    if comment:
+                        comments_list.append(comment)
+
         comments_list.append("Custom comment")
         comments_list.append("No comment")
 
