@@ -9,9 +9,11 @@ import colorama
 import subprocess
 import getStudents
 import rename
+import getKey
 
 STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-16-11-33-22.csv"
 GRADES_CSV = "gc_41672.202045_column_2021-07-16-12-25-39.csv"
+KEY_FILE = "hw3k (2).rkt"
 
 def main():
     if not os.path.isfile("students.json"):
@@ -22,6 +24,8 @@ def main():
         if ".txt" in file:
             rename.main()
             break
+    
+    getKey.main(KEY_FILE)
 
     colorama.init(autoreset=True)
     checker(GRADES_CSV)
