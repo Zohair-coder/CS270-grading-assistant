@@ -31,34 +31,18 @@ Download the grading file template from Blackboard by going to the full grade ce
 
 Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download. Scroll to the bottom and click show all and then select all and click submit to download the zip file. Extract the zip file into a new folder named "hw" in the projects root directory.
 
-In the root directory, create a new "key" directory with 2 sub-directories: "answers" and "comments". Inside the key directory, populate the answers and comments directory with as many text files as there are questions in the form {question_number}.txt. Open the grading key racket file and copy and paste the answers of individuals questions into the individual text files. Then, inside the comments directory, populate the text files with possible comments for each question.
-If you have 5 questions to grade, your key directory should look like this:
-```
-/key
-    |- answers
-        |- 1.txt
-        |- 2.txt
-        |- 3.txt
-        |- 4.txt
-        |- 5.txt
-    |- comments
-        |- 1.txt
-        |- 2.txt
-        |- 3.txt
-        |- 4.txt
-        |- 5.txt
-```
+Copy the grading key rkt file into the root directory of the project.
 
-Make sure the comments follow the following format:
-```
-#1: -1 this is incorrect
-```
-You can also optionally leave the comments directory empty and input the comments inside the program.
-
-Go back to the root directory and open a terminal and run the following command:
+Run the following command:
 ```
 python main.py
 ```
+
+You can add custom comments inside the program. Make sure the comments follow the following format:
+```
+#1: -1 this is incorrect
+```
+You can also optionally go inside key > comments to write your own comments. To do so, create files in the format {question-number}.txt and enter in the comments separated by a newline.
 
 ## TODO
 
