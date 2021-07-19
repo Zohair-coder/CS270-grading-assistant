@@ -13,4 +13,5 @@ output.csv
 /key
 __pycache__
 *.bak
-!key.rkt
+!templates/key.rkt
+!templates/questions.rkt
