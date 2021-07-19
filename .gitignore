@@ -13,3 +13,4 @@ output.csv
 /key
 __pycache__
 *.bak
+!key.rkt
