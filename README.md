@@ -52,8 +52,9 @@ You can also optionally go inside key > comments to write your own comments. To 
 * Parse student name text file from Blackboard instead of parsing the full grade center
 * Unzip student answers automatically
 * ~~Write a script for copying grading key to key/answers~~
-* Import all files to main.py so the user only has to run `python main.py`
+* ~~Import all files to main.py so the user only has to run `python main.py`~~
 * ~~Fix "view grading status" bug when all files have been graded~~
+* Cut points automatically for late submissions
 * View anonymous animal names instead of student names when grading to avoid bias
 * Add ability to go back a submission when grading
 * Add ability to edit any students grade from the main menu
