@@ -8,22 +8,20 @@ from colorama import Fore
 import colorama
 import subprocess
 import getStudents
-import rename
+import unzip
 import getKey
 
 STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-16-11-33-22.csv"
 GRADES_CSV = "gc_41672.202045_column_2021-07-16-12-25-39.csv"
 KEY_FILE = "hw3k (2).rkt"
+ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW2.Su21_2021-07-21-22-23-44.zip"
 
 def main():
     if not os.path.isfile("students.json"):
         getStudents.main(STUDENT_NAMES_CSV)
     
-    files = os.listdir("hw")
-    for file in files:
-        if ".txt" in file:
-            rename.main()
-            break
+    if not os.path.isdir("hw"):
+        unzip.main(ANSWERS_ZIP_FILE)
     
     if not os.path.isdir("key"):
         os.makedirs("key/answers")

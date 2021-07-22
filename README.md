@@ -29,9 +29,9 @@ Download the list of entire students from Blackboard by going to the full grade 
 
 Download the grading file template from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Select "Selected Column" in the "Select Data to Download" field and select the homework you want to grade from the drop-down menu. Include comments for the column. Select the delimiter type as comma, and hit submit. Place the downloaded csv file into the root directory of the project and open main.py with a text editor. Change the value of GRADES_CSV to the name of the file that you just copied to the root of you project.
 
-Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download. Scroll to the bottom and click show all and then select all and click submit to download the zip file. Extract the zip file into a new folder named "hw" in the projects root directory.
+Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download. Scroll to the bottom and click show all and then select all and click submit to download the zip file. Place the zip file in the root directory of the project. Open main.py with a text editor and change the value of ANSWERS_ZIP_FILE to the name of the zip file you just downloaded.
 
-Copy the grading key rkt file into the root directory of the project.
+Copy the grading key rkt file into the root directory of the project. Open main.py with a text editor and change the value of KEY_FILE to the name of the key rkt file.
 
 Run the following command:
 ```
@@ -50,7 +50,7 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~Add ability to save custom comments~~
 * ~~Add student name checker~~
 * Parse student name text file from Blackboard instead of parsing the full grade center
-* Unzip student answers automatically
+* ~~Unzip student answers automatically~~
 * ~~Write a script for copying grading key to key/answers~~
 * ~~Import all files to main.py so the user only has to run `python main.py`~~
 * ~~Fix "view grading status" bug when all files have been graded~~

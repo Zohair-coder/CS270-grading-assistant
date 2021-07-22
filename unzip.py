@@ -7,10 +7,14 @@
 
 import os
 import re
+import zipfile
 
-def main(directory="hw"):
+
+def main(zipfile, directory="hw"):
+    
+    os.mkdir(directory)
+    unzip(zipfile, directory)
     os.chdir(directory)
-
     remove_txt()
     rename_rkt()
 
@@ -30,5 +34,9 @@ def rename_rkt():
             new_name = "{}.rkt".format(match.group(1))
             os.rename(file, new_name)
 
+def unzip(zip, dir):
+    with zipfile.ZipFile(zip, 'r') as zip_ref:
+        zip_ref.extractall(dir)
+
 if __name__ == "__main__":
-    main()
+    main("gradebook_41672.202045_HW2.Su21_2021-07-21-22-23-44.zip")
