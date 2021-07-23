@@ -190,7 +190,7 @@ class checker:
         
         
     def options(self):
-        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Save report as .csv for Blackboard","Save and Exit"]
+        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Save report as .csv for Blackboard","Save and Exit"]
         
         choice = pyip.inputMenu(options, numbered=True)
         print()
@@ -213,6 +213,10 @@ class checker:
             self.print_grading_status()
             self.options()
         
+        elif choice == "Edit grade manually":
+            self.edit_grade()
+            self.options()
+
         elif choice == "Save report as .csv for Blackboard":
             self.save_as_csv()
             print(Fore.GREEN + "Done!")
@@ -591,6 +595,62 @@ class checker:
             if student[field] == search:
                 return student
         return None
+
+    def edit_grade(self):
+        id = pyip.inputStr(prompt=Fore.YELLOW + "Enter student ID: ")
+        grade = self.search_json("id", id)
+        if grade is None:
+            print(Fore.RED + "Student not found!")
+            return
+        
+        print(Fore.YELLOW + json.dumps(grade, indent=4))
+        choices = ["id", "questions", "total_score", "comments", "go back"]
+        choice = pyip.inputMenu(choices, numbered=True)
+        if choice == "id":
+            self.edit_id(grade)
+        elif choice == "questions":
+            self.edit_questions(grade)
+        elif choice == "total_score":
+            self.edit_total_score(grade)
+        elif choice == "comments":
+            self.edit_comments(grade)
+        else:
+            return
+
+    def edit_id(self, grade):
+        grade["id"] = pyip.inputStr(prompt=Fore.YELLOW + "Enter new ID: ")
+        self.save_files()
+
+    def edit_questions(self, grade):
+        if "questions" not in grade:
+            grade["questions"] = dict()
+        question = pyip.inputMenu(grade["questions"].keys(), prompt=Fore.YELLOW + "What question would you like to edit? ")
+        grade["questions"][question] = pyip.inputInt(prompt=Fore.YELLOW + "Enter marks for this question: ")
+        self.save_score()
+        self.save_files()
+
+
+    def edit_total_score(self, grade):
+        grade["total_score"] = pyip.inputInt(prompt=Fore.YELLOW + "Enter new total_score: ")
+        self.save_files()
+
+    def edit_comments(self, grade):
+        if "comments" not in grade:
+            grade["comments"] = []
+        choices = ["Add new comment", "Remove existing comment"]
+        choice = pyip.inputMenu(choices, numbered=True)
+        if choice == "Add new comment":
+            comment = pyip.inputStr(Fore.YELLOW + "Enter new comment: ")
+            grade["comments"].append(comment)
+            print(Fore.GREEN + "Comment added!")
+            self.save_files()
+        elif choice == "Remove existing comment":
+            comment = pyip.inputMenu(grade["comments"], prompt=Fore.YELLOW + "What comment would you like to remove?\n", numbered=True)
+            grade["comments"].remove(comment)
+            print(Fore.GREEN + "Comment removed!")
+            self.save_files()
+        
+
 
     def end_program(self):
         self.save_files()
