@@ -39,3 +39,11 @@ The key has the exact same format as the questions file, but also needs to have 
 
 Make sure to actually put in the date and time after the colon too.
 
+## Comments
+
+Comments should be in the format:
+```
+#1: -1 this is a sample comment
+```
+Where #1 is the question number, -1 are the marks to deduct and `this is a sample comment` is the description of the comment. Positive values cannot be deducted and hence would crash the program.
+
