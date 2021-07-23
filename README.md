@@ -25,13 +25,43 @@ Open a terminal in a directory and type in the following command:
 ```
 git clone https://github.com/Zohair-coder/CS270-grading-assistant.git
 ```
-Download the list of entire students from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Make sure to select comma as the delimiter and click submit and download the file. A csv file will be generated. Place the csv file in the project root directory. Open main.py with a text editor and change the STUDENT_NAMES_CSV variable to the name of the csv file.
 
-Download the grading file template from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Select "Selected Column" in the "Select Data to Download" field and select the homework you want to grade from the drop-down menu. Include comments for the column. Select the delimiter type as comma, and hit submit. Place the downloaded csv file into the root directory of the project and open main.py with a text editor. Change the value of GRADES_CSV to the name of the file that you just copied to the root of you project.
+![terminal with command](https://i.ibb.co/LzDnGyB/image.png)
 
-Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download. Scroll to the bottom and click show all and then select all and click submit to download the zip file. Place the zip file in the root directory of the project. Open main.py with a text editor and change the value of ANSWERS_ZIP_FILE to the name of the zip file you just downloaded.
+A new folder with the reporsitory name will be created. This is the project root folder.
 
-Copy the grading key rkt file into the root directory of the project. Open main.py with a text editor and change the value of KEY_FILE to the name of the key rkt file.
+Download the list of entire students from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Make sure to select comma as the delimiter and click submit and download the file.
+
+![grade center](https://i.ibb.co/T17yqXg/image.png)
+![download page](https://i.ibb.co/M9FcCdM/image.png)
+
+A csv file will be generated. Place the csv file in the project root directory. Open main.py with a text editor and change the STUDENT_NAMES_CSV variable to the name of the csv file.
+![file explorer](https://i.ibb.co/BncMVtb/image.png)
+![text editor](https://i.ibb.co/0cZh2D4/image.png)
+
+Download the grading file template from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Select "Selected Column" in the "Select Data to Download" field and select the homework you want to grade from the drop-down menu. Include comments for the column. Select the delimiter type as comma, and hit submit.
+
+![download page](https://i.ibb.co/ZVVbgfg/image.png)
+
+Place the downloaded csv file into the root directory of the project and open main.py with a text editor. Change the value of GRADES_CSV to the name of the file that you just copied to the root of you project.
+
+Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download.
+
+![grade center](https://i.ibb.co/NV44tqb/image.png)
+
+
+Scroll to the bottom and click show all and then select all and click submit to download the zip file.
+
+![download page](https://i.ibb.co/842g8B3/image.png)
+![download page](https://i.ibb.co/s1zK1fW/image.png)
+
+Place the zip file in the root directory of the project. Open main.py with a text editor and change the value of ANSWERS_ZIP_FILE to the name of the zip file you just downloaded.
+
+Copy the grading key rkt file into the root directory of the project.
+
+![file explorer](https://i.ibb.co/XJkBmvp/image.png)
+
+ Open main.py with a text editor and change the value of KEY_FILE to the name of the key rkt file.
 
 Run the following command:
 ```
@@ -63,4 +93,4 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~Create a document explaining what the requirements for making a question.rkt file should be to run this program successfully~~
 * Create a "Mistake analysis" feature in the main menu that would show how many students made a specific mistake and their names
 * Add an autograder option in the menu that checks all the submissions and adds comments automatically without any manual grading involved (feasability needs to be evaluated)
-* Write more detailed documentation about how the program works and how to use the program with images
+* ~~Write more detailed documentation about how the program works and how to use the program with images~~
