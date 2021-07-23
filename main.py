@@ -235,6 +235,7 @@ class checker:
 
             while len(self.ungraded_questions[self.current_question]) != 0:
                 student = self.ungraded_questions[self.current_question][0]
+                self.clear_comments(student)
                 with open("{}/{}/{}.txt".format(self.key_dir, self.key_answers_dir, self.current_question)) as f:
                     correct_answer = f.read()
                 
@@ -350,6 +351,16 @@ class checker:
 
             self.ungraded_questions.pop(self.current_question)
     
+    def clear_comments(self, id):
+        for grade in self.data:
+            if grade["id"] == id:
+                if not "comments" in grade:
+                    return 
+                for comment in grade["comments"]:
+                    if "#{}".format(self.current_question) in comment:
+                        grade["comments"].remove(comment)
+
+
     def auto_grade_names(self):
         print(Fore.YELLOW + "Automatically grading student names...")
         for student in self.submitted_student_names:
