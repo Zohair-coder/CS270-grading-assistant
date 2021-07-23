@@ -17,6 +17,7 @@ def main(zipfile, directory="hw"):
     os.chdir(directory)
     remove_txt()
     rename_rkt()
+    os.chdir("..")
 
 def remove_txt():
     files_in_directory = os.listdir()

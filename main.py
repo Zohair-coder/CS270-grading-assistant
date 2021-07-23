@@ -11,10 +11,10 @@ import getStudents
 import unzip
 import getKey
 
-STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-16-11-33-22.csv"
-GRADES_CSV = "gc_41672.202045_column_2021-07-16-12-25-39.csv"
-KEY_FILE = "hw3k (2).rkt"
-ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW2.Su21_2021-07-21-22-23-44.zip"
+STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv"
+GRADES_CSV = "gc_41672.202045_column_2021-07-22-17-13-19.csv"
+KEY_FILE = "hw5k (1).rkt"
+ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW5.Su21_2021-07-22-17-06-35.zip"
 
 def main():
     if not os.path.isfile("students.json"):
@@ -26,7 +26,6 @@ def main():
     if not os.path.isdir("key"):
         os.makedirs("key/answers")
         os.mkdir("key/comments")
-
     getKey.main(KEY_FILE)
 
     colorama.init(autoreset=True)
@@ -151,6 +150,19 @@ class checker:
             with open(self.report_file, "r") as f:
                 self.data = json.load(f)
             self.names_graded = True
+        
+        self.graded_questions = {}
+        for question in self.questions[1:]:
+            # if the whole question isn't in ungraded_questions
+            if str(question) not in self.ungraded_questions.keys():
+                self.graded_questions[str(question)] = self.submitted_student_names.copy()
+                continue
+
+            for student in self.submitted_student_names:
+                if student not in self.ungraded_questions[str(question)]:
+                    if str(question) not in self.graded_questions:
+                        self.graded_questions[str(question)] = []
+                    self.graded_questions[question].append(student)
 
     def welcome_screen(self):
         print(Fore.CYAN + "Welcome to the CS270 grading assistant")
@@ -269,7 +281,7 @@ class checker:
                     print()
 
 
-                    options = ["Add comment", "Remove comment", "Confirm score", "Skip student", "Exit to main menu"]
+                    options = ["Add comment", "Remove comment", "Confirm score", "Skip student", "Previous submission", "Exit to main menu"]
                     choice = pyip.inputMenu(options, numbered=True)
                     print()
 
@@ -308,6 +320,9 @@ class checker:
                         self.remove_student(student)
                         self.ungraded_questions[self.current_question].append(first)
                         break
+
+                    elif choice == "Previous submission":
+                        pass
 
                     elif choice == "Exit to main menu":
                         print(Fore.CYAN + "Main Menu")
