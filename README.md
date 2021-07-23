@@ -49,6 +49,7 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~Fix Blackboard csv file feature to easily upload grades~~
 * ~~Add ability to save custom comments~~
 * ~~Add student name checker~~
+* ~~Parse student name text file from Blackboard instead of parsing the full grade center~~
 * ~~Unzip student answers automatically~~
 * ~~Write a script for copying grading key to key/answers~~
 * ~~Import all files to main.py so the user only has to run `python main.py`~~
