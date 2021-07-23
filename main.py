@@ -162,7 +162,7 @@ class checker:
                 if student not in self.ungraded_questions[str(question)]:
                     if str(question) not in self.graded_questions:
                         self.graded_questions[str(question)] = []
-                    self.graded_questions[question].append(student)
+                    self.graded_questions[str(question)].append(student)
 
     def welcome_screen(self):
         print(Fore.CYAN + "Welcome to the CS270 grading assistant")
@@ -308,6 +308,9 @@ class checker:
                         res = self.save_score(student)
                         if not res:
                             continue
+                        if self.current_question not in self.graded_questions.keys():
+                            self.graded_questions[self.current_question] = []
+                        self.graded_questions[self.current_question].append(student)
                         self.remove_student(student)
                         print(Fore.YELLOW + "Autosaving..")
                         self.save_files()
@@ -322,7 +325,21 @@ class checker:
                         break
 
                     elif choice == "Previous submission":
-                        pass
+                        if self.current_question in self.graded_questions.keys():
+                            if len(self.graded_questions[self.current_question]) == 0:
+                                self.graded_questions.pop(self.current_question)
+
+                        if not self.graded_questions:
+                            print(Fore.RED + "Can not go further back!")
+                            continue
+
+                        int_graded_questions = [int(i) for i in self.graded_questions.keys()]
+                        self.current_question = str(max(int_graded_questions))
+                        last_student = self.graded_questions[self.current_question].pop()
+                        if self.current_question not in self.ungraded_questions.keys():
+                            self.ungraded_questions[self.current_question] = []
+                        self.ungraded_questions[self.current_question].insert(0, last_student)
+                        break
 
                     elif choice == "Exit to main menu":
                         print(Fore.CYAN + "Main Menu")
