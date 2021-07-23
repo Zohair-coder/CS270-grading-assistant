@@ -478,11 +478,11 @@ class checker:
                     grade['questions'] = dict()
 
                 grade['questions'][self.current_question] = self.score 
-                
-                if 'total_score' in grade:
-                    grade['total_score'] += self.score
-                else:
-                    grade['total_score'] = self.score
+                total = 0
+                for score in grade['questions'].values():
+                    total += score
+
+                grade['total_score'] = total
 
         if not found:
             self.data.append({"id": id, "questions": {self.current_question: self.score}, "total_score": self.score})
