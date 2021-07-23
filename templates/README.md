@@ -19,6 +19,8 @@ If you want to display the same answer for multiple questions, start your questi
 ; Question 1,2,3,4, 5:
 ```
 
+* There is a `(define)` statement in between the question comment and end comment
+
 * The question ends with:
 ```
 ;end
