@@ -19,6 +19,8 @@ Click "OK" until all the windows have been closed.
 Launch a terminal and type "Racket".
 If the terminal displays `Welcome to Racket`, you have successfully installed Racket on the command line. You can now move on to the usage step.
 
+Also make sure you have git and Python installed.
+
 ## Usage
 
 Open a terminal in a directory and type in the following command:
