@@ -480,6 +480,8 @@ class checker:
         if not self.auto_feedback:
             self.score = pyip.inputInt(prompt="Score: ")
         else:
+            if self.score < 0:
+                self.score = 0
             print(Fore.GREEN + "Score: {}/{}".format(self.score, self.auto_feedback.group(2)))
             if input("Input blank to confirm: ") != "":
                 return False
