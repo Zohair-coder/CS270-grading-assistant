@@ -623,7 +623,8 @@ class checker:
     def edit_questions(self, grade):
         if "questions" not in grade:
             grade["questions"] = dict()
-        question = pyip.inputMenu(grade["questions"].keys(), prompt=Fore.YELLOW + "What question would you like to edit? ")
+        questions = [key for key in grade["questions"].keys()]
+        question = pyip.inputMenu(questions, prompt=Fore.YELLOW + "What question would you like to edit?\n")
         grade["questions"][question] = pyip.inputInt(prompt=Fore.YELLOW + "Enter marks for this question: ")
         self.save_score()
         self.save_files()
