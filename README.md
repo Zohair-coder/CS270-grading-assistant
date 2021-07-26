@@ -96,3 +96,4 @@ You can also optionally go inside key > comments to write your own comments. To 
 * Create a "Mistake analysis" feature in the main menu that would show how many students made a specific mistake and their names
 * Add an autograder option in the menu that checks all the submissions and adds comments automatically without any manual grading involved (feasability needs to be evaluated)
 * ~~Write more detailed documentation about how the program works and how to use the program with images~~
+* ~~Adjust scores < 0 to 0~~

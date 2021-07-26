@@ -375,9 +375,6 @@ class checker:
             if not match:
                 print(Fore.RED + "{} did not enter name".format(student))
                 comment = "#0: -5 no name"
-                # self.save_comment(comment, student)
-                # grade = self.search_json("id", student)
-                # grade.append()
                 self.data.append({"id": student, "questions": {"0": -5}, "total_score": -5, "comments": [comment]})
                 self.save_files()
             else:
