@@ -663,10 +663,10 @@ class checker:
                     if first_student != second_student:
                         with open("{}/{}/{}.txt".format(self.main_dir_name, first_student, question), "r") as f:
                             answer1 = f.read()
-                        answer1 = answer1.strip()
+                        answer1 = self.remove_whitespace(answer1)
                         with open("{}/{}/{}.txt".format(self.main_dir_name, second_student, question), "r") as f:
                             answer2 = f.read()
-                        answer2 = answer2.strip()
+                        answer2 = self.remove_whitespace(answer2)
                         if answer1 == answer2:
                             if answer1 in matches:
                                 if question in matches[answer1]:
@@ -692,6 +692,11 @@ class checker:
         print(Fore.GREEN + "Progress saved. Exiting program.")
         sys.exit()
 
+    def remove_whitespace(self, s):
+        s = s.replace(" ", "")
+        s = s.replace("\n", "")
+        s = s.replace("\t", "")
+        return s
 
     def save_files(self):
         with open(self.save_file, "w") as f:
