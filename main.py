@@ -667,7 +667,7 @@ class checker:
                             answer2 = f.read()
                         answer2 = self.remove_whitespace(answer2)
                         if answer1 == answer2:
-                            null_answer = "[0|null|'()];ImplementMe"
+                            null_answer = r"(0|null|'\(\))\)?;ImplementMe"
                             match = re.search(null_answer, answer1)
                             if match:
                                 continue

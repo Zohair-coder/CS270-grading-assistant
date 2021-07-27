@@ -21,6 +21,13 @@ If you want to display the same answer for multiple questions, start your questi
 
 * There is a `(define)` statement in between the question comment and end comment
 
+* The default for an unattempted question should be
+```
+(define (myfunc a b)
+  0);Implement Me
+```
+Make sure there is a `0);Implement Me` line.
+
 * The question ends with:
 ```
 ;end
