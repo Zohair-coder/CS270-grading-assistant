@@ -13,7 +13,7 @@ import getKey
 
 STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv"
 GRADES_CSV = "gc_41672.202045_column_2021-07-22-17-13-19.csv"
-KEY_FILE = "hw5k (1).rkt"
+KEY_FILE = "hw4k(1).rkt"
 ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW5.Su21_2021-07-22-17-06-35.zip"
 
 def main():
@@ -116,7 +116,7 @@ class checker:
             if os.path.isfile(rkt_report_path):
                 continue
             print(Fore.YELLOW + "Running {}.rkt... ".format(student), end='')
-            process = subprocess.run(["Racket.exe", "{}/{}.rkt".format(self.submissions_directory, student)], capture_output=True)
+            process = subprocess.run(["racket", "{}/{}.rkt".format(self.submissions_directory, student)], capture_output=True)
             output = process.stdout.decode("utf-8")
             print(Fore.GREEN + "Done")
 
