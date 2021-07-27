@@ -630,7 +630,6 @@ class checker:
         questions = [key for key in grade["questions"].keys()]
         question = pyip.inputMenu(questions, prompt=Fore.YELLOW + "What question would you like to edit?\n")
         grade["questions"][question] = pyip.inputInt(prompt=Fore.YELLOW + "Enter marks for this question: ")
-        self.save_score(grade["id"])
         self.save_files()
 
 
