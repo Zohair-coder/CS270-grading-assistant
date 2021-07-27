@@ -13,7 +13,7 @@ import getKey
 
 STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv"
 GRADES_CSV = "gc_41672.202045_column_2021-07-22-17-13-19.csv"
-KEY_FILE = "hw4k(1).rkt"
+KEY_FILE = "hw5k (1).rkt"
 ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW5.Su21_2021-07-22-17-06-35.zip"
 
 def main():
@@ -190,7 +190,7 @@ class checker:
         
         
     def options(self):
-        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Save report as .csv for Blackboard","Save and Exit"]
+        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Save report as .csv for Blackboard", "Plagarism Analysis", "Save and Exit"]
         
         choice = pyip.inputMenu(options, numbered=True)
         print()
@@ -220,6 +220,10 @@ class checker:
         elif choice == "Save report as .csv for Blackboard":
             self.save_as_csv()
             print(Fore.GREEN + "Done!")
+            self.options()
+        
+        elif choice == "Plagarism Analysis":
+            self.plagarism_analysis()
             self.options()
 
         elif choice == "Save and Exit":
@@ -650,7 +654,38 @@ class checker:
             print(Fore.GREEN + "Comment removed!")
             self.save_files()
         
+    def plagarism_analysis(self):
+        matches = dict()
+        for question in self.questions[1:]:
+            print(Fore.YELLOW + "Checking Q{}".format(question))
+            for first_student in self.submitted_student_names:
+                for second_student in self.submitted_student_names:
+                    if first_student != second_student:
+                        with open("{}/{}/{}.txt".format(self.main_dir_name, first_student, question), "r") as f:
+                            answer1 = f.read()
+                        answer1 = answer1.strip()
+                        with open("{}/{}/{}.txt".format(self.main_dir_name, second_student, question), "r") as f:
+                            answer2 = f.read()
+                        answer2 = answer2.strip()
+                        if answer1 == answer2:
+                            if answer1 in matches:
+                                if question in matches[answer1]:
+                                    matches[answer1][question].add(first_student)
+                                    matches[answer1][question].add(second_student)
+                                    continue
+                        
+                            matches[answer1] = {question: {
+                                first_student, second_student}}
 
+        if len(matches) == 0:
+            print(Fore.GREEN + "No matches found.")
+            self.options()
+        else:
+            with open("plagarism.txt", "w") as f:
+                for data in matches.values():
+                    for question, students in data.items():
+                        f.write("Q{}: {}\n".format(question, students))
+            print(Fore.GREEN + "Written plagarism report in plagarism.txt")
 
     def end_program(self):
         self.save_files()

@@ -16,3 +16,4 @@ __pycache__
 !templates/key.rkt
 !templates/questions.rkt
 *.zip
+plagarism.txt
