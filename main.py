@@ -3,6 +3,7 @@ import sys
 import json
 import re
 import csv
+import random
 import pyinputplus as pyip
 from colorama import Fore
 import colorama
@@ -33,7 +34,7 @@ def main():
     colorama.deinit()
 
 class checker:
-    def __init__(self, csv_file_name, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt"):
+    def __init__(self, csv_file_name, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt", animals_txt_file="animals.txt", id_to_animals_file="id_to_animals.json"):
         self.csv_file_name = csv_file_name
         self.submissions_directory = submissions_directory
         self.student_data_file = student_data_file
@@ -44,11 +45,15 @@ class checker:
         self.key_answers_dir = key_answers_dir
         self.key_comments_dir = key_comments_dir
         self.rkt_report_file = rkt_report_file
+        self.animals_txt_file = animals_txt_file
+        self.id_to_animals_file = id_to_animals_file
 
         self.total_questions = self.get_total_questions()
         self.all_student_names = self.get_all_students()
         self.submitted_student_names = self.get_submitted_students()
         self.unsubmitted_student_names = self.get_unsubmitted_students()
+        self.all_animal_names = self.get_all_animal_names()
+        self.id_to_animals = self.create_id_to_animals_file()
         self.create_student_dirs()
         self.questions = [i for i in range(self.total_questions+1)]
         self.copy_student_answers()
@@ -79,6 +84,21 @@ class checker:
     def get_unsubmitted_students(self):
         return [student for student in self.all_student_names if student not in self.submitted_student_names]
     
+    def get_all_animal_names(self):
+        with open(self.animals_txt_file, "r") as f:
+            animals_s = f.read()
+        animals_list = animals_s.split("\n")
+        return animals_list
+
+    def create_id_to_animals_file(self):
+        id_to_animals = dict()
+        for student in self.all_student_names:
+            random_num = random.randint(0, len(self.all_animal_names))
+            id_to_animals[student] = "Anonymous " + self.all_animal_names[random_num]
+        with open(self.id_to_animals_file, "w") as f:
+            f.write(json.dumps(id_to_animals, indent=4))
+        return id_to_animals
+
     def create_student_dirs(self):
         if not os.path.isdir(self.main_dir_name):
             os.mkdir(self.main_dir_name)
@@ -262,7 +282,7 @@ class checker:
                     print(Fore.CYAN + "======================================================")
                     print()
                     print(Fore.CYAN +
-                            "Grading {}".format(self.all_student_names[student]))
+                            "Grading {}".format(self.id_to_animals[student]))
                     print(
                         Fore.CYAN + "Currently grading Question {}".format(self.current_question))
                     print()
