@@ -310,7 +310,7 @@ class checker:
                     print()
 
 
-                    options = ["Add comment", "Remove comment", "Confirm score", "Skip student", "Previous submission", "Exit to main menu"]
+                    options = ["Add comment", "Remove comment", "Confirm score", "Skip student", "Previous submission", "Reveal real name", "Exit to main menu"]
                     choice = pyip.inputMenu(options, numbered=True)
                     print()
 
@@ -369,6 +369,9 @@ class checker:
                             self.ungraded_questions[self.current_question] = []
                         self.ungraded_questions[self.current_question].insert(0, last_student)
                         break
+                    
+                    elif choice == "Reveal real name":
+                        print(Fore.YELLOW + self.all_student_names[student])
 
                     elif choice == "Exit to main menu":
                         print(Fore.CYAN + "Main Menu")
