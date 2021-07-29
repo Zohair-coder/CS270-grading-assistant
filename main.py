@@ -34,7 +34,7 @@ def main():
     colorama.deinit()
 
 class checker:
-    def __init__(self, csv_file_name, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt", animals_txt_file="animals.txt", id_to_animals_file="id_to_animals.json"):
+    def __init__(self, csv_file_name, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt", animals_txt_file="animals.txt", id_to_animals_file="id_to_animals.json", useAnonymousNames=True):
         self.csv_file_name = csv_file_name
         self.submissions_directory = submissions_directory
         self.student_data_file = student_data_file
@@ -47,13 +47,17 @@ class checker:
         self.rkt_report_file = rkt_report_file
         self.animals_txt_file = animals_txt_file
         self.id_to_animals_file = id_to_animals_file
+        self.useAnonymousNames = useAnonymousNames
 
         self.total_questions = self.get_total_questions()
         self.all_student_names = self.get_all_students()
         self.submitted_student_names = self.get_submitted_students()
         self.unsubmitted_student_names = self.get_unsubmitted_students()
-        self.all_animal_names = self.get_all_animal_names()
-        self.id_to_animals = self.create_id_to_animals_file()
+        
+        if self.useAnonymousNames:
+            self.all_animal_names = self.get_all_animal_names()
+            self.id_to_animals = self.create_id_to_animals_file()
+
         self.create_student_dirs()
         self.questions = [i for i in range(self.total_questions+1)]
         self.copy_student_answers()
@@ -210,7 +214,7 @@ class checker:
         
         
     def options(self):
-        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Save report as .csv for Blackboard", "Plagarism Analysis", "Save and Exit"]
+        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Toggle anonymous names", "Save report as .csv for Blackboard", "Plagarism Analysis", "Save and Exit"]
         
         choice = pyip.inputMenu(options, numbered=True)
         print()
@@ -235,6 +239,14 @@ class checker:
         
         elif choice == "Edit grade manually":
             self.edit_grade()
+            self.options()
+        
+        elif choice == "Toggle anonymous names":
+            self.useAnonymousNames = not self.useAnonymousNames
+            if self.useAnonymousNames:
+                print(Fore.GREEN + "Anonymous Names ON")
+            else:
+                print(Fore.RED + "Anonymous Names OFF")
             self.options()
 
         elif choice == "Save report as .csv for Blackboard":
@@ -281,8 +293,10 @@ class checker:
                 while True:
                     print(Fore.CYAN + "======================================================")
                     print()
-                    print(Fore.CYAN +
-                            "Grading {}".format(self.id_to_animals[student]))
+                    if self.useAnonymousNames:
+                        print(Fore.CYAN + "Grading {}".format(self.id_to_animals[student]))
+                    else:
+                        print(Fore.CYAN + "Grading {}".format(self.all_student_names[student]))
                     print(
                         Fore.CYAN + "Currently grading Question {}".format(self.current_question))
                     print()
@@ -310,7 +324,11 @@ class checker:
                     print()
 
 
-                    options = ["Add comment", "Remove comment", "Confirm score", "Skip student", "Previous submission", "Reveal real name", "Exit to main menu"]
+                    options = ["Add comment", "Remove comment", "Confirm score", "Skip student", "Previous submission"]
+                    if self.useAnonymousNames:
+                        options.append("Reveal real name")
+                    options.append("Exit to main menu")
+                    
                     choice = pyip.inputMenu(options, numbered=True)
                     print()
 

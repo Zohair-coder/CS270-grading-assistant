@@ -10,7 +10,7 @@ Horse
 Pig
 Rabbit
 Fancy rat varieties
-laboratory rat strains
+Laboratory rat strains
 Sheep breeds
 Water buffalo breeds
 Chicken breeds
@@ -29,7 +29,6 @@ Alpaca
 American buffalo (bison)
 American robin
 Amphibian
-list
 Anaconda
 Angelfish
 Anglerfish
@@ -57,13 +56,11 @@ Bass
 Bat
 Beaked whale
 Bear
-list
 Beaver
 Bedbug
 Bee
 Beetle
 Bird
-list
 Bison
 Blackbird
 Black panther
@@ -92,19 +89,16 @@ Cardinal
 Caribou
 Carp
 Cat
-list
 Catshark
 Caterpillar
 Catfish
 Cattle
-list
 Centipede
 Cephalopod
 Chameleon
 Cheetah
 Chickadee
 Chicken
-list
 Chimpanzee
 Chinchilla
 Chipmunk
@@ -133,18 +127,14 @@ Damselfly
 Deer
 Dingo
 Dinosaur
-list
 Dog
-list
 Dolphin
 Donkey
-list
 Dormouse
 Dove
 Dragonfly
 Dragon
 Duck
-list
 Dung beetle
 Eagle
 Earthworm
@@ -172,9 +162,7 @@ Fox
 Frog
 Fruit bat
 Gamefowl
-list
 Galliform
-list
 Gazelle
 Gecko
 Gerbil
@@ -184,10 +172,8 @@ Gibbon
 Gila monster
 Giraffe
 Goat
-list
 Goldfish
 Goose
-list
 Gopher
 Gorilla
 Grasshopper
@@ -198,12 +184,9 @@ Ground shark
 Ground sloth
 Grouse
 Guan
-list
 Guanaco
 Guineafowl
-list
 Guinea pig
-list
 Gull
 Guppy
 Haddock
@@ -221,7 +204,6 @@ Hippopotamus
 Hookworm
 Hornet
 Horse
-list
 Hoverfly
 Hummingbird
 Humpback whale
@@ -325,7 +307,6 @@ Peregrine falcon
 Pheasant
 Pig
 Pigeon
-list
 Pike
 Pilot whale
 Pinniped
@@ -350,7 +331,6 @@ Quail
 Quelea
 Quokka
 Rabbit
-list
 Raccoon
 Rainbow trout
 Rat
@@ -381,9 +361,7 @@ Sea lion
 Sea slug
 Sea snail
 Shark
-list
 Sheep
-list
 Shrew
 Shrimp
 Silkworm
@@ -395,7 +373,6 @@ Slug
 Smelt
 Snail
 Snake
-list
 Snipe
 Snow leopard
 Sockeye salmon
@@ -441,7 +418,6 @@ Tree frog
 Trout
 Tuna
 Turkey
-list
 Turtle
 Tyrannosaurus
 Urial
