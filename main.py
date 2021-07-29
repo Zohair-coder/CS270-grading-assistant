@@ -13,7 +13,7 @@ import unzip
 import getKey
 
 STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv"
-GRADES_CSV = "gc_41672.202045_column_2021-07-22-17-13-19.csv"
+GRADES_CSV = "gc_41672.202045_column_2021-07-29-11-56-58.csv"
 KEY_FILE = "hw5k (1).rkt"
 ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW5.Su21_2021-07-22-17-06-35.zip"
 
@@ -93,7 +93,7 @@ class checker:
     def create_id_to_animals_file(self):
         id_to_animals = dict()
         for student in self.all_student_names:
-            random_num = random.randint(0, len(self.all_animal_names))
+            random_num = random.randint(0, len(self.all_animal_names)-1)
             id_to_animals[student] = "Anonymous " + self.all_animal_names[random_num]
         with open(self.id_to_animals_file, "w") as f:
             f.write(json.dumps(id_to_animals, indent=4))
@@ -608,7 +608,7 @@ class checker:
             comments = ""
             if "comments" in student_grade:
                 for comment in student_grade["comments"]:
-                    comments += "<p>" + comment + "<\p>\n"
+                    comments += "<p>" + comment + "</p>"
             record[7] = comments
         
         with open("output.csv", "w", newline='') as f:
