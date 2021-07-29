@@ -1,23 +1,3 @@
-Canidae
-Felidae
-Cat
-Cattle
-Dog
-Donkey
-Goat
-Guinea pig
-Horse
-Pig
-Rabbit
-Fancy rat varieties
-Laboratory rat strains
-Sheep breeds
-Water buffalo breeds
-Chicken breeds
-Duck breeds
-Goose breeds
-Pigeon breeds
-Turkey breeds
 Aardvark
 Aardwolf
 African buffalo
@@ -62,9 +42,9 @@ Bee
 Beetle
 Bird
 Bison
-Blackbird
 Black panther
 Black widow spider
+Blackbird
 Blue bird
 Blue jay
 Blue whale
@@ -74,8 +54,8 @@ Bobcat
 Bobolink
 Bonobo
 Booby
-Box jellyfish
 Bovid
+Box jellyfish
 Buffalo, African
 Buffalo, American (bison)
 Bug
@@ -83,15 +63,18 @@ Butterfly
 Buzzard
 Camel
 Canid
+Canidae
 Cape buffalo
 Capybara
 Cardinal
 Caribou
 Carp
 Cat
-Catshark
+Cat
 Caterpillar
 Catfish
+Catshark
+Cattle
 Cattle
 Centipede
 Cephalopod
@@ -99,9 +82,11 @@ Chameleon
 Cheetah
 Chickadee
 Chicken
+Chicken breeds
 Chimpanzee
 Chinchilla
 Chipmunk
+Cicada
 Clam
 Clownfish
 Cobra
@@ -122,19 +107,21 @@ Cricket
 Crocodile
 Crow
 Cuckoo
-Cicada
 Damselfly
 Deer
 Dingo
 Dinosaur
 Dog
+Dog
 Dolphin
+Donkey
 Donkey
 Dormouse
 Dove
-Dragonfly
 Dragon
+Dragonfly
 Duck
+Duck breeds
 Dung beetle
 Eagle
 Earthworm
@@ -149,6 +136,8 @@ Emu
 English pointer
 Ermine
 Falcon
+Fancy rat varieties
+Felidae
 Ferret
 Finch
 Firefly
@@ -161,8 +150,8 @@ Fowl
 Fox
 Frog
 Fruit bat
-Gamefowl
 Galliform
+Gamefowl
 Gazelle
 Gecko
 Gerbil
@@ -172,8 +161,10 @@ Gibbon
 Gila monster
 Giraffe
 Goat
+Goat
 Goldfish
 Goose
+Goose breeds
 Gopher
 Gorilla
 Grasshopper
@@ -185,8 +176,9 @@ Ground sloth
 Grouse
 Guan
 Guanaco
-Guineafowl
 Guinea pig
+Guinea pig
+Guineafowl
 Gull
 Guppy
 Haddock
@@ -203,6 +195,7 @@ Herring
 Hippopotamus
 Hookworm
 Hornet
+Horse
 Horse
 Hoverfly
 Hummingbird
@@ -226,10 +219,11 @@ Koala
 Koi
 Komodo dragon
 Krill
+Laboratory rat strains
 Ladybug
 Lamprey
-Landfowl
 Land snail
+Landfowl
 Lark
 Leech
 Lemming
@@ -278,8 +272,8 @@ Mouse
 Mule
 Muskox
 Narwhal
-Newt
 New World quail
+Newt
 Nightingale
 Ocelot
 Octopus
@@ -306,7 +300,9 @@ Perch
 Peregrine falcon
 Pheasant
 Pig
+Pig
 Pigeon
+Pigeon breeds
 Pike
 Pilot whale
 Pinniped
@@ -330,6 +326,7 @@ Python
 Quail
 Quelea
 Quokka
+Rabbit
 Rabbit
 Raccoon
 Rainbow trout
@@ -356,12 +353,13 @@ Sawfish
 Scale insect
 Scallop
 Scorpion
-Seahorse
 Sea lion
 Sea slug
 Sea snail
+Seahorse
 Shark
 Sheep
+Sheep breeds
 Shrew
 Shrimp
 Silkworm
@@ -384,8 +382,8 @@ Spider monkey
 Spoonbill
 Squid
 Squirrel
-Starfish
 Star-nosed mole
+Starfish
 Steelhead trout
 Stingray
 Stoat
@@ -418,6 +416,7 @@ Tree frog
 Trout
 Tuna
 Turkey
+Turkey breeds
 Turtle
 Tyrannosaurus
 Urial
@@ -429,10 +428,11 @@ Vole
 Vulture
 Wallaby
 Walrus
-Wasp
 Warbler
+Wasp
 Water Boa
 Water buffalo
+Water buffalo breeds
 Weasel
 Whale
 Whippet
@@ -447,8 +447,8 @@ Wombat
 Woodpecker
 Worm
 Wren
-Xerinae
 X-ray fish
+Xerinae
 Yak
 Yellow perch
 Zebra
