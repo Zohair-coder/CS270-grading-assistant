@@ -14,6 +14,7 @@ Go inside the directory and copy the path.
 Press start and search for "Edit the system environment variables".
 ![start-menu](https://i.ibb.co/xG8T8vv/image.png)
 Click "Environment variables" at the bottom right.
+![menu](https://i.ibb.co/6ZcQR7v/image.png)
 Click "Path" in the user variables and then click "Edit".
 Click "New" on the top right and paste the path that you copied.
 Click "OK" until all the windows have been closed.
