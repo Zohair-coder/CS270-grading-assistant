@@ -20,6 +20,9 @@ Click "Environment variables" at the bottom right.
 ![menu](https://i.ibb.co/6ZcQR7v/image.png)
 
 Click "Path" in the user variables and then click "Edit".
+
+![menu](https://i.ibb.co/PTgg2HL/image.png)
+
 Click "New" on the top right and paste the path that you copied.
 Click "OK" until all the windows have been closed.
 Launch a terminal and type "Racket".
