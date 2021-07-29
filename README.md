@@ -129,7 +129,7 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~View anonymous animal names instead of student names when grading to avoid bias~~
 * ~~Add ability to go back a submission when grading~~
 * ~~Add ability to edit any students grade from the main menu~~
-* Add more comments to code
+* Refactor and add more comments to code
 * Add automated tests
 * ~~Create a document explaining what the requirements for making a question.rkt file should be to run this program successfully~~
 * Create a "Mistake analysis" feature in the main menu that would show how many students made a specific mistake and their names
