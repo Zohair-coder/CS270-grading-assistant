@@ -29,7 +29,7 @@ Open up a terminal and run
 pip install -r requirements.txt
 ```
 ### Docker
-If you want to avoid the complicated set up, you can alternatively use (Docker)[https://docs.docker.com/get-docker/]. Install docker and make sure it's running. Then complete all the "Usage" steps given below. At the end, instead of running `python main.py`, just run
+If you want to avoid the complicated set up, you can alternatively use [Docker](https://docs.docker.com/get-docker/). Install docker and make sure it's running. Then complete all the "Usage" steps given below. At the end, instead of running `python main.py`, just run
 ```
 docker build -t cs270_grader .
 ```
