@@ -9,18 +9,18 @@ This program helps me grade student submissions for CS270. It's meant to help gr
 If this is the first time you're using this program on your computer, follow these instructions:
 
 ### Windows
-    Locate where your Racket is installed. By default it should be in `C:\Program Files\Racket`.
-    Go inside the directory and copy the path.
-    Press start and search for "Edit the system environment variables".
-    Click "Environment variables" at the bottom right.
-    Click "Path" in the user variables and then click "Edit".
-    Click "New" on the top right and paste the path that you copied.
-    Click "OK" until all the windows have been closed.
-    Launch a terminal and type "Racket".
-    If the terminal displays `Welcome to Racket`, you have successfully installed Racket on the command line. You can now move on to the usage step.
+Locate where your Racket is installed. By default it should be in `C:\Program Files\Racket`.
+Go inside the directory and copy the path.
+Press start and search for "Edit the system environment variables".
+Click "Environment variables" at the bottom right.
+Click "Path" in the user variables and then click "Edit".
+Click "New" on the top right and paste the path that you copied.
+Click "OK" until all the windows have been closed.
+Launch a terminal and type "Racket".
+If the terminal displays `Welcome to Racket`, you have successfully installed Racket on the command line. You can now move on to the usage step.
 
 ### Mac
-    Add racket to path if it isn't already by following the instructions [here](https://beautifulracket.com/setting-the-mac-os-path.html).
+Add racket to path if it isn't already by following the instructions [here](https://beautifulracket.com/setting-the-mac-os-path.html).
 
 Also make sure you have git and Python installed.
 
@@ -29,16 +29,16 @@ Open up a terminal and run
 pip install -r requirements.txt
 ```
 ### Docker
-    If you want to avoid the complicated set up, you can alternatively use (Docker)[https://docs.docker.com/get-docker/]. Install docker and make sure it's running. Then complete all the "Usage" steps given below. At the end, instead of running `python main.py`, just run
-    ```
-    docker build -t cs270_grader .
-    ```
-    Once that's done, run:
-    ```
-    docker run -ti --rm -v /absolute/path/to/your/local/directory:/app cs270_grader
-    ```
+If you want to avoid the complicated set up, you can alternatively use (Docker)[https://docs.docker.com/get-docker/]. Install docker and make sure it's running. Then complete all the "Usage" steps given below. At the end, instead of running `python main.py`, just run
+```
+docker build -t cs270_grader .
+```
+Once that's done, run:
+```
+docker run -ti --rm -v /absolute/path/to/your/local/directory:/app cs270_grader
+```
 
-    You do not need to install or set up Racket, Python or any of the Python modules using pip if you choose to use Docker. 
+You do not need to install or set up Racket, Python or any of the Python modules using pip if you choose to use Docker. 
 
 ## Usage
 
