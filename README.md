@@ -8,6 +8,14 @@ This program helps me grade student submissions for CS270. It's meant to help gr
 
 If this is the first time you're using this program on your computer, follow these instructions:
 
+Make sure you have Racket, Python and Git installed.
+
+If you're using Windows or Mac, you'll also have to run this command after cloning the repository:
+
+```
+pip install -r requirements.txt
+```
+
 ### Windows
 Locate where your Racket is installed. By default it should be in `C:\Program Files\Racket`.
 Go inside the directory and copy the path.
@@ -36,12 +44,6 @@ If the terminal displays `Welcome to Racket`, you have successfully installed Ra
 ### Mac
 Add racket to path if it isn't already by following the instructions [here](https://beautifulracket.com/setting-the-mac-os-path.html).
 
-Also make sure you have git and Python installed.
-
-Open up a terminal and run
-```
-pip install -r requirements.txt
-```
 ### Docker
 If you want to avoid the complicated set up, you can alternatively use [Docker](https://docs.docker.com/get-docker/). Install docker and make sure it's running. Then complete all the "Usage" steps given below. At the end, instead of running `python main.py`, just run
 ```
