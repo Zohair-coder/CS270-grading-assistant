@@ -138,3 +138,4 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~Adjust scores < 0 to 0~~
 * ~~Add plagarism analyzing feature~~
 * ~~Add Docker support~~
+* ~~Added annonymous names toggle~~
