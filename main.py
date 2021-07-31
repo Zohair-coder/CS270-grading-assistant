@@ -318,7 +318,7 @@ class checker:
                     else:
                         print(Fore.RED + "Auto grader unable to check rkt file automatically")
                     
-                    search_results = self.get_search_results(search_terms, student)
+                    search_results = self.get_search_results(search_terms, student_answer)
                     for index, (search_term, found) in enumerate(search_results):
                         if found:
                             print(Fore.GREEN + "Search #{}: {} FOUND".format(index, search_term))
@@ -445,6 +445,8 @@ class checker:
         else:
             return None
 
+    def get_search_results(self, terms, answer):
+        return dict()
 
     def add_comment(self):
         comments_list = []
