@@ -283,6 +283,7 @@ class checker:
                     student_answer = f.read()
 
                 self.auto_feedback = self.auto_grader(student)
+                search_terms = []
 
                 if self.auto_feedback:
                     self.score = int(self.auto_feedback.group(2))
@@ -316,6 +317,14 @@ class checker:
                             print(Fore.RED + self.auto_feedback.group())
                     else:
                         print(Fore.RED + "Auto grader unable to check rkt file automatically")
+                    
+                    search_results = self.get_search_results(search_terms, student)
+                    for index, (search_term, found) in enumerate(search_results):
+                        if found:
+                            print(Fore.GREEN + "Search #{}: {} FOUND".format(index, search_term))
+                        else:
+                            print(Fore.RED + "Searh #{}: {} NOT FOUND".format(index, search_term))
+
 
                     if len(self.comments) > 0:
                         print(Fore.CYAN + "Comments Added:")
@@ -324,7 +333,7 @@ class checker:
                     print()
 
 
-                    options = ["Add comment", "Remove comment", "Confirm score", "Skip student", "Previous submission"]
+                    options = ["Add comment", "Remove comment", "Confirm score", "Skip student", "Previous submission", "Search Menu"]
                     if self.useAnonymousNames:
                         options.append("Reveal real name")
                     options.append("Exit to main menu")
