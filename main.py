@@ -591,7 +591,7 @@ class checker:
         choice = pyip.inputMenu(choices, numbered=True)
         if choice == "Add search term":
             term = pyip.inputRegexStr(prompt="Enter regex search term: ")
-            new_choice = pyip.inputYesNo(prompt=Fore.YELLOW + "Display found in green? (yes/no): ")
+            new_choice = pyip.inputYesNo(prompt=Fore.YELLOW + "If found, display result in green? (yes/no): ")
             if new_choice == "yes":
                 self.search_terms[term] = True
             elif new_choice == "no":
