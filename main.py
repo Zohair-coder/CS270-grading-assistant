@@ -272,7 +272,7 @@ class checker:
             int_ungraded_questions = [int(i) for i in self.ungraded_questions]
             self.current_question = min(int_ungraded_questions)
             self.current_question = str(self.current_question)
-            self.search_terms = []
+            self.search_terms = dict()
 
             while len(self.ungraded_questions[self.current_question]) != 0:
                 student = self.ungraded_questions[self.current_question][0]
@@ -320,10 +320,18 @@ class checker:
                     
                     search_results = self.get_search_results(student_answer)
                     for index, (search_term, found) in enumerate(search_results.items()):
-                        if found:
-                            print(Fore.GREEN + "Search #{}: {} FOUND".format(index, search_term))
+                        if found[0]:
+                            if found[1]:
+                                print(Fore.GREEN + "Search #{}: {} FOUND".format(index, search_term))
+                            else:
+                                print(Fore.RED + "Search #{}: {} FOUND".format(index, search_term))
                         else:
-                            print(Fore.RED + "Searh #{}: {} NOT FOUND".format(index, search_term))
+                            if found[1]:
+                                print(Fore.RED + "Searh #{}: {} NOT FOUND".format(index, search_term))
+                            else:
+                                print(Fore.GREEN + "Searh #{}: {} NOT FOUND".format(index, search_term))
+
+                                
 
 
                     if len(self.comments) > 0:
@@ -452,12 +460,12 @@ class checker:
 
     def get_search_results(self, answer):
         results = dict()
-        for term in self.search_terms:
+        for term, isGreen in self.search_terms.items():
             match = term.search(answer)
             if match:
-                results[term] = True
+                results[term] = [True, isGreen]
             else:
-                results[term] = False
+                results[term] = [False, isGreen]
         return results
 
 
@@ -583,7 +591,11 @@ class checker:
         choice = pyip.inputMenu(choices, numbered=True)
         if choice == "Add search term":
             term = pyip.inputRegexStr(prompt="Enter regex search term: ")
-            self.search_terms.append(term)
+            new_choice = pyip.inputYesNo(prompt=Fore.YELLOW + "Display found in green? (yes/no): ")
+            if new_choice == "yes":
+                self.search_terms[term] = True
+            elif new_choice == "no":
+                self.search_terms[term] = False
         elif choice == "Remove search term":
             choices = self.search_terms
             choice = pyip.inputMenu(choices, numbered=True)
