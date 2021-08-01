@@ -283,7 +283,7 @@ class checker:
                     student_answer = f.read()
 
                 self.auto_feedback = self.auto_grader(student)
-                search_terms = []
+                self.search_terms = []
 
                 if self.auto_feedback:
                     self.score = int(self.auto_feedback.group(2))
@@ -318,8 +318,8 @@ class checker:
                     else:
                         print(Fore.RED + "Auto grader unable to check rkt file automatically")
                     
-                    search_results = self.get_search_results(search_terms, student_answer)
-                    for index, (search_term, found) in enumerate(search_results):
+                    search_results = self.get_search_results(student_answer)
+                    for index, (search_term, found) in enumerate(search_results.items()):
                         if found:
                             print(Fore.GREEN + "Search #{}: {} FOUND".format(index, search_term))
                         else:
@@ -397,12 +397,17 @@ class checker:
                         self.ungraded_questions[self.current_question].insert(0, last_student)
                         break
                     
+                    elif choice == "Search Menu":
+                        self.search_menu()
+
                     elif choice == "Reveal real name":
                         print(Fore.YELLOW + self.all_student_names[student])
+
 
                     elif choice == "Exit to main menu":
                         print(Fore.CYAN + "Main Menu")
                         self.options()
+
 
                     else:
                         print(Fore.RED + "Oops - error :o")
@@ -445,7 +450,18 @@ class checker:
         else:
             return None
 
-    def get_search_results(self, terms, answer):
+    def get_search_results(self, answer):
+        results = dict()
+        for term in self.search_terms:
+            match = re.search(term, answer)
+            if match:
+                results[term] = True
+            else:
+                results[term] = False
+        return results
+
+
+
         return dict()
 
     def add_comment(self):
@@ -565,6 +581,17 @@ class checker:
             print(e)
             raise
     
+    def search_menu(self):
+        choices = ["Add search term", "Remove search term"]
+        choice = pyip.inputMenu(choices, numbered=True)
+        if choice == "Add search term":
+            term = pyip.inputStr(prompt="Enter search term: ")
+            self.search_terms.append(term)
+        elif choice == "Remove search term":
+            choices = self.search_terms
+            choice = pyip.inputMenu(choices, numbered=True)
+            self.search_terms.remove(choice)
+
 
 
     def print_report(self, save):
