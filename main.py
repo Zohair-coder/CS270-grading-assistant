@@ -272,6 +272,7 @@ class checker:
             int_ungraded_questions = [int(i) for i in self.ungraded_questions]
             self.current_question = min(int_ungraded_questions)
             self.current_question = str(self.current_question)
+            self.search_terms = []
 
             while len(self.ungraded_questions[self.current_question]) != 0:
                 student = self.ungraded_questions[self.current_question][0]
@@ -283,7 +284,6 @@ class checker:
                     student_answer = f.read()
 
                 self.auto_feedback = self.auto_grader(student)
-                self.search_terms = []
 
                 if self.auto_feedback:
                     self.score = int(self.auto_feedback.group(2))
@@ -585,7 +585,7 @@ class checker:
         choices = ["Add search term", "Remove search term"]
         choice = pyip.inputMenu(choices, numbered=True)
         if choice == "Add search term":
-            term = pyip.inputStr(prompt="Enter search term: ")
+            term = pyip.inputStr(prompt="Enter regex search term: ")
             self.search_terms.append(term)
         elif choice == "Remove search term":
             choices = self.search_terms
