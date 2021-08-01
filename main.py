@@ -597,9 +597,12 @@ class checker:
             elif new_choice == "no":
                 self.search_terms[term] = False
         elif choice == "Remove search term":
-            choices = self.search_terms
-            choice = pyip.inputMenu(choices, numbered=True)
-            self.search_terms.remove(choice)
+            choices = self.search_terms.keys()
+            choices = [choice.pattern for choice in choices]
+            choice = pyip.inputMenu(choices, numbered=True, blank=True)
+            if choice == "":
+                choice = choices[0]
+            self.search_terms.pop(re.compile(choice))
 
 
 
