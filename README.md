@@ -140,3 +140,4 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~Add Docker support~~
 * ~~Added annonymous names toggle~~
 * Fix remove comment when no comments exist bug
+* ~~Add search term feature to make it easier to grade~~
