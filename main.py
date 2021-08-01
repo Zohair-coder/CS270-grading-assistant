@@ -322,14 +322,14 @@ class checker:
                     for index, (search_term, found) in enumerate(search_results.items()):
                         if found[0]:
                             if found[1]:
-                                print(Fore.GREEN + "Search #{}: {} FOUND".format(index, search_term))
+                                print(Fore.GREEN + "Search #{}: {} FOUND".format(index, search_term.pattern))
                             else:
-                                print(Fore.RED + "Search #{}: {} FOUND".format(index, search_term))
+                                print(Fore.RED + "Search #{}: {} FOUND".format(index, search_term.pattern))
                         else:
                             if found[1]:
-                                print(Fore.RED + "Searh #{}: {} NOT FOUND".format(index, search_term))
+                                print(Fore.RED + "Searh #{}: {} NOT FOUND".format(index, search_term.pattern))
                             else:
-                                print(Fore.GREEN + "Searh #{}: {} NOT FOUND".format(index, search_term))
+                                print(Fore.GREEN + "Searh #{}: {} NOT FOUND".format(index, search_term.pattern))
 
                                 
 
@@ -461,7 +461,7 @@ class checker:
     def get_search_results(self, answer):
         results = dict()
         for term, isGreen in self.search_terms.items():
-            match = term.search(answer)
+            match = term.search(answer, re.DOTALL | re.MULTILINE)
             if match:
                 results[term] = [True, isGreen]
             else:
