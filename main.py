@@ -453,16 +453,13 @@ class checker:
     def get_search_results(self, answer):
         results = dict()
         for term in self.search_terms:
-            match = re.search(term, answer)
+            match = term.search(answer)
             if match:
                 results[term] = True
             else:
                 results[term] = False
         return results
 
-
-
-        return dict()
 
     def add_comment(self):
         comments_list = []
@@ -585,7 +582,7 @@ class checker:
         choices = ["Add search term", "Remove search term"]
         choice = pyip.inputMenu(choices, numbered=True)
         if choice == "Add search term":
-            term = pyip.inputStr(prompt="Enter regex search term: ")
+            term = pyip.inputRegexStr(prompt="Enter regex search term: ")
             self.search_terms.append(term)
         elif choice == "Remove search term":
             choices = self.search_terms
