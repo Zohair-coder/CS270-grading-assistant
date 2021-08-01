@@ -437,9 +437,9 @@ class checker:
         for student in self.submitted_student_names:
             with open("{}/{}.rkt".format(self.submissions_directory, student), "r") as f:
                 submission = f.read()
-            search_string = ";type your name after the colon: ?[\w -]+$"
-            match = re.search(search_string, submission, re.MULTILINE)
-            if not match:
+            search_string = ";type your name after the colon:\s*$"
+            empty = re.search(search_string, submission, re.MULTILINE)
+            if  empty:
                 print(Fore.RED + "{} did not enter name".format(student))
                 comment = "#0: -5 no name"
                 self.data.append({"id": student, "questions": {"0": -5}, "total_score": -5, "comments": [comment]})
