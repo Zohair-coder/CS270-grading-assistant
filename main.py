@@ -360,7 +360,7 @@ class checker:
                             self.save_comment(comment, student)
 
                     elif choice == "Remove comment":
-                        if not comment:
+                        if len(self.comments) == 0:
                             print(Fore.RED + "No comments to remove")
                             continue
                         num = self.extract_score(comment)
