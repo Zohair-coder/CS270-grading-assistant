@@ -139,3 +139,4 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~Add plagarism analyzing feature~~
 * ~~Add Docker support~~
 * ~~Added annonymous names toggle~~
+* Fix remove comment when no comments exist bug
