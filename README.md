@@ -139,3 +139,4 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~Add plagarism analyzing feature~~
 * ~~Add Docker support~~
 * ~~Added annonymous names toggle~~
+* ~~Add search term feature to make it easier to grade~~
