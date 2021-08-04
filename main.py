@@ -130,7 +130,7 @@ class checker:
         if match:
             return match.group(1)
         else:
-            print("match not found for {}, question {}".format(file, question))
+            print(Fore.RED + "match not found for {}, question {}".format(file, question))
             return "Check manually; not found via regex"
 
 
