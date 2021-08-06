@@ -4,6 +4,7 @@ import json
 import re
 import csv
 import random
+import math
 import pyinputplus as pyip
 from colorama import Fore
 import colorama
@@ -470,6 +471,7 @@ class checker:
         print(Fore.GREEN + "Done!")
 
     def check_late(self):
+        late_students = dict() # dictionary of late students 
         with open(self.key_file, "r") as f:
             key = f.read()
         search_string = r"; put the due date here in MM\/DD\/YYYY HH:MM \(24hrs\) format after the colon:\s*(.*)$"
@@ -494,9 +496,59 @@ class checker:
                 print(Fore.RED + "Date submitted not found for {}: ".format(student, self.all_student_names[student]))
                 continue
             
-            delta = due_date - date
-            if delta.total_seconds() < 0:
-                print(Fore.RED + "{}:{} LATE".format(student, self.all_student_names[student]))
+            delta = (due_date - date).total_seconds()
+            if delta < 0:
+                late_students[student] = {"delta": delta * -1, "pass": False}
+        
+        if len(late_students) == 0:
+            return
+        late_students = self.apply_late_pass(late_students)
+        for student, info in late_students.items():
+            penalty = info["penalty"] * -1
+            if info["pass"]:
+                comment = "#00: -{} late submission but late pass used".format(penalty)
+            else:
+                comment = "#00: -{} late submission".format(penalty)
+            found = False
+            for data in self.data:
+                if "id" == student:
+                    found = True
+                    if "questions" not in data:
+                        data["questions"] = dict()
+                    data["questions"]["00"] = penalty * -1
+                    if "total_score" not in data:
+                        data["total_score"] = 0
+                    data["total_score"] -= penalty
+                    if "comments" not in data:
+                        data["comments"] = []
+                    data["comments"].append(comment)
+            if not found:
+                self.data.append({"id": student, "questions": {
+                                 "00": penalty * -1}, "total_score": penalty * -1, "comments": [comment]})
+
+            self.save_files()
+        
+
+    def apply_late_pass(self, late_students):
+        for student, info in late_students.items():
+            days = math.ceil(info["delta"] / 60 / 60 / 24)
+            print(Fore.RED + "{} {} Days LATE!".format(self.all_student_names[student], days))
+            if days == 1:
+                penalty = -20
+            elif days == 2:
+                penalty = -40
+            elif days > 2:
+                penalty = -60
+            choice = pyip.inputYesNo(prompt=Fore.YELLOW + "Apply late pass? (yes/no): ")
+            if choice == "yes":
+                penalty += 20
+                late_students[student]["pass"] = True
+            late_students[student]["penalty"] = penalty
+        return late_students
+
+
+
+                
 
 
     def auto_grader(self, student):
