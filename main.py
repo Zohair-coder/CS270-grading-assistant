@@ -8,6 +8,7 @@ import pyinputplus as pyip
 from colorama import Fore
 import colorama
 import subprocess
+import datetime
 import getStudents
 import unzip
 import getKey
@@ -30,12 +31,13 @@ def main():
     getKey.main(KEY_FILE)
 
     colorama.init(autoreset=True)
-    checker(GRADES_CSV)
+    checker(GRADES_CSV, KEY_FILE)
     colorama.deinit()
 
 class checker:
-    def __init__(self, csv_file_name, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt", animals_txt_file="animals.txt", id_to_animals_file="id_to_animals.json", useAnonymousNames=True):
+    def __init__(self, csv_file_name, key_file, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt", animals_txt_file="animals.txt", id_to_animals_file="id_to_animals.json", useAnonymousNames=True):
         self.csv_file_name = csv_file_name
+        self.key_file = key_file
         self.submissions_directory = submissions_directory
         self.student_data_file = student_data_file
         self.main_dir_name = main_dir_name
@@ -81,7 +83,9 @@ class checker:
     
     def get_submitted_students(self):
         s = []
-        for file in os.listdir(self.submissions_directory):
+        files_in_directory = os.listdir(self.submissions_directory)
+        filtered_files = [file for file in files_in_directory if file.endswith(".rkt")]
+        for file in filtered_files:
             s.append(file.split(".")[0])
         return s
 
@@ -465,8 +469,35 @@ class checker:
                 print(Fore.GREEN + "{} entered name".format(student))
         print(Fore.GREEN + "Done!")
 
-    def check_late():
-        pass
+    def check_late(self):
+        with open(self.key_file, "r") as f:
+            key = f.read()
+        search_string = r"; put the due date here in MM\/DD\/YYYY HH:MM \(24hrs\) format after the colon:\s*(.*)$"
+        match = re.search(search_string, key, re.MULTILINE)
+        if match:
+            due_date_s = match.group(1)
+            due_date = datetime.datetime.strptime(due_date_s, "%m/%d/%Y %H:%M")
+        else:
+            print(Fore.RED + "Due date not found in key")
+            sys.exit()
+
+        for student in self.submitted_student_names:
+            with open("{}/{}/{}.txt".format(self.main_dir_name, student, student), "r") as f:
+                report = f.read()
+            search_string = "Date Submitted: (.+) EDT"
+            match = re.search(search_string, report, re.MULTILINE)
+            if match:
+                date_s = match.group(1)
+                date = datetime.datetime.strptime(
+                    date_s, "%A, %B %d, %Y %I:%M:%S %p")
+            else:
+                print(Fore.RED + "Date submitted not found for {}: ".format(student, self.all_student_names[student]))
+                continue
+            
+            delta = due_date - date
+            if delta.total_seconds() < 0:
+                print(Fore.RED + "{}:{} LATE".format(student, self.all_student_names[student]))
+
 
     def auto_grader(self, student):
         with open("{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file), "r") as f:
