@@ -15,7 +15,7 @@ import getKey
 STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv"
 GRADES_CSV = "gc_41672.202045_column_2021-07-29-11-56-58.csv"
 KEY_FILE = "hw5k (1).rkt"
-ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW5.Su21_2021-07-22-17-06-35.zip"
+ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW5.Su21_2021-08-06-15-08-15.zip"
 
 def main():
     if not os.path.isfile("students.json"):
@@ -61,6 +61,7 @@ class checker:
         self.create_student_dirs()
         self.questions = [i for i in range(self.total_questions+1)]
         self.copy_student_answers()
+        self.move_txt_files()
         self.run_all_rkt_files()
         self.initialize_files()
         
@@ -133,6 +134,16 @@ class checker:
             print(Fore.RED + "match not found for {}, question {}".format(file, question))
             return "Check manually; not found via regex"
 
+    def move_txt_files(self):
+        files = os.listdir(self.submissions_directory)
+        filtered_files = [
+            file for file in files if file.endswith(".txt")]
+        for file in filtered_files:
+            student_name = file.split(".")[0]
+            source = "{}/{}".format(self.submissions_directory, file)
+            destination = "{}/{}/{}".format(
+                self.main_dir_name, student_name, file)
+            os.replace(source, destination)
 
     def run_all_rkt_files(self):
         for student in self.submitted_student_names:
@@ -167,6 +178,7 @@ class checker:
                 f.write(json.dumps(self.data, indent=4))
             
             self.names_graded = False
+            self.late_checked = False
         else:
             with open(self.save_file, "r") as f:
                 self.ungraded_questions = json.load(f)
@@ -174,6 +186,7 @@ class checker:
             with open(self.report_file, "r") as f:
                 self.data = json.load(f)
             self.names_graded = True
+            self.late_checked = True
         
         self.graded_questions = {}
         for question in self.questions[1:]:
@@ -267,6 +280,10 @@ class checker:
         if not self.names_graded:
             self.auto_grade_names()
             self.names_graded = True
+        
+        if not self.late_checked:
+            self.check_late()
+            self.late_checked = True
 
         while len(self.ungraded_questions) != 0:
             int_ungraded_questions = [int(i) for i in self.ungraded_questions]
@@ -447,6 +464,9 @@ class checker:
             else:
                 print(Fore.GREEN + "{} entered name".format(student))
         print(Fore.GREEN + "Done!")
+
+    def check_late():
+        pass
 
     def auto_grader(self, student):
         with open("{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file), "r") as f:

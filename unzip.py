@@ -15,24 +15,24 @@ def main(zipfile, directory="hw"):
     os.mkdir(directory)
     unzip(zipfile, directory)
     os.chdir(directory)
-    remove_txt()
-    rename_rkt()
+    rename()
     os.chdir("..")
 
-def remove_txt():
+def move_txt():
     files_in_directory = os.listdir()
     filtered_files = [
         file for file in files_in_directory if file.endswith(".txt")]
 
     for file in filtered_files:
-        os.remove(file)
+        os.replace(file, "../")
 
-def rename_rkt():
+def rename():
     for file in os.listdir():
-        search_string = "HW\d+.Su21_(\w*?)_"
-        match = re.search(search_string, file)
+        name, ext = os.path.splitext(file)
+        search_string = "HW\d+\.Su21_(\w*?)_"
+        match = re.search(search_string, name)
         if match:
-            new_name = "{}.rkt".format(match.group(1))
+            new_name = "{}{}".format(match.group(1), ext)
             os.rename(file, new_name)
 
 def unzip(zip, dir):
@@ -40,4 +40,4 @@ def unzip(zip, dir):
         zip_ref.extractall(dir)
 
 if __name__ == "__main__":
-    main("gradebook_41672.202045_HW2.Su21_2021-07-21-22-23-44.zip")
+    main("gradebook_41672.202045_HW5.Su21_2021-08-06-15-08-15.zip")
