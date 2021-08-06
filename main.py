@@ -239,7 +239,10 @@ class checker:
         
         if choice == "Start Grading":
             self.grading()
+            self.remove_negatives()
+            print()
             print(Fore.GREEN + "Finished Grading!")
+            print()
             self.options()
         
         elif choice == "Print Grade Report":
@@ -511,7 +514,7 @@ class checker:
                 comment = "#00: -{} late submission".format(penalty)
             found = False
             for data in self.data:
-                if "id" == student:
+                if data["id"] == student:
                     found = True
                     if "questions" not in data:
                         data["questions"] = dict()
@@ -707,7 +710,11 @@ class checker:
                 choice = choices[0]
             self.search_terms.pop(re.compile(choice))
 
-
+    def remove_negatives(self):
+        for data in self.data:
+            if data["total_score"] < 0:
+                data["total_score"] = 0
+        self.save_files()
 
     def print_report(self, save):
         report = ""
