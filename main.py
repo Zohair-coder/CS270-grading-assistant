@@ -328,8 +328,10 @@ class checker:
                         print(Fore.CYAN + "Grading {}".format(self.id_to_animals[student]))
                     else:
                         print(Fore.CYAN + "Grading {}".format(self.all_student_names[student]))
-                    print(
-                        Fore.CYAN + "Currently grading Question {}".format(self.current_question))
+                    total_submissions = len(self.submitted_student_names)
+                    submissions_left = len(self.ungraded_questions[self.current_question]) - 1
+                    submission_num = total_submissions - submissions_left
+                    print(Fore.CYAN + "Graded submission {}/{} for Question {}".format(submission_num, total_submissions, self.current_question))
                     print()
                     print(Fore.CYAN + "Correct Answer:")
                     print()
