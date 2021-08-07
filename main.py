@@ -879,15 +879,19 @@ class checker:
         print(tabulate(sorted_comment_freq, headers=["Comment", "Frequency"], showindex=True))
         print()
         while True:
-            print("Enter -1 to go back")
+            print(Fore.YELLOW + "Enter -2 to show comments analysis again")
+            print(Fore.YELLOW + "Enter -1 to go back to main menu")
             choice = pyip.inputInt(Fore.YELLOW + "Select a comment to find out which students made the same mistake:\n")
-            if choice == -1:
+            if choice == -2:
+                print(tabulate(sorted_comment_freq, headers=["Comment", "Frequency"], showindex=True))
+                print()
+            elif choice == -1:
                 return
             elif choice >=0 and choice < len(sorted_comment_freq):
                 comment = sorted_comment_freq[choice][0]
 
                 for student in comment_to_students[comment]:
-                    print(student)
+                    print(Fore.CYAN + student)
                 print()
             else:
                 print(Fore.RED + "Invalid choice. Try again!")

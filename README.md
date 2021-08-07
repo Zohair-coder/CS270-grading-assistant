@@ -132,7 +132,7 @@ You can also optionally go inside key > comments to write your own comments. To 
 * Refactor and add more comments to code
 * Add automated tests
 * ~~Create a document explaining what the requirements for making a question.rkt file should be to run this program successfully~~
-* Create a "Mistake analysis" feature in the main menu that would show how many students made a specific mistake and their names
+* ~~Create a "Mistake analysis" feature in the main menu that would show how many students made a specific mistake and their names~~
 * ~~Write more detailed documentation about how the program works and how to use the program with images~~
 * ~~Adjust scores < 0 to 0~~
 * ~~Add plagarism analyzing feature~~
