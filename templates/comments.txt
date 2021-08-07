@@ -3,3 +3,4 @@
 #1: -2 the program doesn't accept positive values
 #1: -1 if you want to take away all credit, don't type in 0 and expect the program to work
 #1: -0 -0, however, works fine
+#1: -0.5 floating point values are accepted
