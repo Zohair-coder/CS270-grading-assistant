@@ -806,25 +806,33 @@ class checker:
         return None
 
     def edit_grade(self):
+        for id, student in self.all_student_names.items():
+            print(Fore.CYAN + "{}: {}".format(student, id))
+        print()
+        print(Fore.YELLOW + "Enter -1 to go back to main menu")
         id = pyip.inputStr(prompt=Fore.YELLOW + "Enter student ID: ")
+        if id == "-1":
+            return
         grade = self.search_json("id", id)
         if grade is None:
             print(Fore.RED + "Student not found!")
-            return
+            self.edit_grade()
         
-        print(Fore.YELLOW + json.dumps(grade, indent=4))
-        choices = ["id", "questions", "total_score", "comments", "go back"]
-        choice = pyip.inputMenu(choices, numbered=True)
-        if choice == "id":
-            self.edit_id(grade)
-        elif choice == "questions":
-            self.edit_questions(grade)
-        elif choice == "total_score":
-            self.edit_total_score(grade)
-        elif choice == "comments":
-            self.edit_comments(grade)
-        else:
-            return
+        while True:
+            print(Fore.YELLOW + json.dumps(grade, indent=4))
+            choices = ["id", "questions", "total_score", "comments", "go back"]
+            choice = pyip.inputMenu(choices, numbered=True)
+            if choice == "id":
+                self.edit_id(grade)
+            elif choice == "questions":
+                self.edit_questions(grade)
+            elif choice == "total_score":
+                self.edit_total_score(grade)
+            elif choice == "comments":
+                self.edit_comments(grade)
+            elif choice == "go back":
+                break
+        self.edit_grade()
 
     def edit_id(self, grade):
         grade["id"] = pyip.inputStr(prompt=Fore.YELLOW + "Enter new ID: ")
