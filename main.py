@@ -8,6 +8,7 @@ import math
 import pyinputplus as pyip
 from colorama import Fore
 import colorama
+from tabulate import tabulate
 import subprocess
 import datetime
 import getStudents
@@ -232,7 +233,7 @@ class checker:
         
         
     def options(self):
-        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Toggle anonymous names", "Save report as .csv for Blackboard", "Plagarism Analysis", "Save and Exit"]
+        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Toggle anonymous names", "Save report as .csv for Blackboard", "Comment Analysis", "Plagarism Analysis", "Save and Exit"]
         
         choice = pyip.inputMenu(options, numbered=True)
         print()
@@ -275,6 +276,10 @@ class checker:
             print(Fore.GREEN + "Done!")
             self.options()
         
+        elif choice == "Comment Analysis":
+            self.comment_analysis()
+            self.options()
+
         elif choice == "Plagarism Analysis":
             self.plagarism_analysis()
             self.options()
@@ -853,7 +858,45 @@ class checker:
             grade["comments"].remove(comment)
             print(Fore.GREEN + "Comment removed!")
             self.save_files()
+    
+    def comment_analysis(self):
+        comment_freq = dict()
+        comment_to_students = dict()
+        for data in self.data:
+            if "comments" in data:
+                for comment in data["comments"]:
+                    if comment not in comment_freq:
+                        comment_freq[comment] = 0
+                    comment_freq[comment] += 1
+
+                    if comment not in comment_to_students:
+                        comment_to_students[comment] = set()
+                    if data["id"] not in comment_to_students[comment]:
+                        comment_to_students[comment].add(self.all_student_names[data["id"]])
+
+        sorted_comment_freq = sorted(comment_freq.items(), key=lambda kv: kv[1])
+        sorted_comment_freq.reverse()
+        print(tabulate(sorted_comment_freq, headers=["Comment", "Frequency"], showindex=True))
+        print()
+        while True:
+            print("Enter -1 to go back")
+            choice = pyip.inputInt(Fore.YELLOW + "Select a comment to find out which students made the same mistake:\n")
+            if choice == -1:
+                return
+            elif choice >=0 and choice < len(sorted_comment_freq):
+                comment = sorted_comment_freq[choice][0]
+
+                for student in comment_to_students[comment]:
+                    print(student)
+                print()
+            else:
+                print(Fore.RED + "Invalid choice. Try again!")
+
+
+
+
         
+
     def plagarism_analysis(self):
         matches = dict()
         for question in self.questions[1:]:
