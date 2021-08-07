@@ -39,6 +39,8 @@ Q1 passed 4/5
 ```
 Make sure to replace the number to the left of the / with the marks obtained and the numbers to the right of the / with total marks. Write down "passed" even if the answer gets a 0. The "passed" indicates the program didn't crash.
 
+* The total points for any assignment SHOULD be 100. This is important for calculating the late penalties accurately.
+
 ## Key
 
 The key has the exact same format as the questions file, but also needs to have this comment somewhere in the rkt file:
