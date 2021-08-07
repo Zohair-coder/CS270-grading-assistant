@@ -316,9 +316,9 @@ class checker:
                 self.auto_feedback = self.auto_grader(student)
 
                 if self.auto_feedback:
-                    self.score = int(self.auto_feedback.group(2))
+                    self.score = float(self.auto_feedback.group(2))
                 else:
-                    self.score = 0
+                    self.score = 0.0
 
                 self.comments = []
                 while True:
@@ -331,7 +331,7 @@ class checker:
                     total_submissions = len(self.submitted_student_names)
                     submissions_left = len(self.ungraded_questions[self.current_question]) - 1
                     submission_num = total_submissions - submissions_left
-                    print(Fore.CYAN + "Graded submission {}/{} for Question {}".format(submission_num, total_submissions, self.current_question))
+                    print(Fore.CYAN + "Grading submission {}/{} for Question {}".format(submission_num, total_submissions, self.current_question))
                     print()
                     print(Fore.CYAN + "Correct Answer:")
                     print()
@@ -625,10 +625,10 @@ class checker:
         return comment
 
     def extract_score(self, comment):
-        search_string = "#{}: (-?\d+)".format(self.current_question)
+        search_string = "#{}: (-?[\d.]+)".format(self.current_question)
         match = re.search(search_string, comment)
         if match:
-            s = int(match.group(1))
+            s = float(match.group(1))
             if s > 0:
                 print(Fore.RED + "Positive values not accepted. Please change comment to negative value")
                 return None
@@ -669,7 +669,7 @@ class checker:
         else:
             if self.score < 0:
                 self.score = 0
-            print(Fore.GREEN + "Score: {}/{}".format(self.score, self.auto_feedback.group(2)))
+            print(Fore.GREEN + "Score: {}/{}".format(self.score, float(self.auto_feedback.group(2))))
             if input("Input blank to confirm: ") != "":
                 return False
 
