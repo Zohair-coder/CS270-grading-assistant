@@ -11,7 +11,7 @@ For the questions, make sure:
 ```
 ; Question 1:
 ```
-Make sure to replace the 1 with the question number, and make sure the questions are in ascending order and there are no subparts to a question e.g. 4a, 4b, 4c. Simply make 3 different questions: 4, 5, 6 instead.
+Make sure to replace the 1 with the question number, and make sure the questions start from 1 and progress without gaps (so 1, 2, 3, 4 not 1, 3, 6, 7) and there are no subparts to a question e.g. 4a, 4b, 4c. Simply make 3 different questions: 4, 5, 6 instead.
 
 If you want to display the same answer for multiple questions, start your question like so:
 
