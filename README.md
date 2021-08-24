@@ -8,7 +8,7 @@ This program helps me grade student submissions for CS270. It's meant to help gr
 
 If this is the first time you're using this program on your computer, follow these instructions:
 
-Make sure you have Racket, Python and Git installed.
+Make sure you have [Racket](https://download.racket-lang.org/), [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) installed.
 
 If you're using Windows or Mac, you'll also have to run this command after cloning the repository:
 
