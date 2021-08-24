@@ -15,10 +15,10 @@ import getStudents
 import unzip
 import getKey
 
-STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv"
-GRADES_CSV = "gc_41672.202045_column_2021-07-29-11-56-58.csv"
-KEY_FILE = "hw5k (1).rkt"
-ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW5.Su21_2021-08-06-15-08-15.zip"
+STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-08-24-19-04-56.csv"
+GRADES_CSV = "gc_41672.202045_column_2021-08-24-19-06-36.csv"
+KEY_FILE = "hw5k(1).rkt"
+ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW5.Su21_2021-08-24-19-07-53.zip"
 
 def main():
     if not os.path.isfile("students.json"):
@@ -359,9 +359,9 @@ class checker:
                                 print(Fore.RED + "Search #{}: {} FOUND".format(index, search_term.pattern))
                         else:
                             if found[1]:
-                                print(Fore.RED + "Searh #{}: {} NOT FOUND".format(index, search_term.pattern))
+                                print(Fore.RED + "Search #{}: {} NOT FOUND".format(index, search_term.pattern))
                             else:
-                                print(Fore.GREEN + "Searh #{}: {} NOT FOUND".format(index, search_term.pattern))
+                                print(Fore.GREEN + "Search #{}: {} NOT FOUND".format(index, search_term.pattern))
 
                                 
 
