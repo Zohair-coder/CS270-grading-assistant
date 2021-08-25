@@ -1,4 +1,5 @@
 import os
+import shutil
 import sys
 import json
 import re
@@ -15,10 +16,10 @@ import getStudents
 import unzip
 import getKey
 
-STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-08-24-19-04-56.csv"
-GRADES_CSV = "gc_41672.202045_column_2021-08-24-19-06-36.csv"
-KEY_FILE = "hw5k(1).rkt"
-ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW5.Su21_2021-08-24-19-07-53.zip"
+STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-08-25-15-06-36.csv"
+GRADES_CSV = "gc_41672.202045_column_2021-08-25-14-59-35.csv"
+KEY_FILE = "hw8k(1) (2).rkt"
+ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW8.Su21_2021-08-25-14-58-44.zip"
 
 def main():
     if not os.path.isfile("students.json"):
@@ -138,7 +139,8 @@ class checker:
             return match.group(1)
         else:
             print(Fore.RED + "match not found for {}, question {}".format(file, question))
-            return "Check manually; not found via regex"
+            shutil.rmtree("./students")
+            sys.exit()
 
     def move_txt_files(self):
         files = os.listdir(self.submissions_directory)
@@ -491,6 +493,8 @@ class checker:
             due_date = datetime.datetime.strptime(due_date_s, "%m/%d/%Y %H:%M")
         else:
             print(Fore.RED + "Due date not found in key")
+            os.remove(self.report_file)
+            os.remove(self.save_file)
             sys.exit()
 
         for student in self.submitted_student_names:
@@ -564,7 +568,7 @@ class checker:
     def auto_grader(self, student):
         with open("{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file), "r") as f:
             output = f.read()
-        search_string = "Q{} passed (\d+)/(\d+)".format(self.current_question)
+        search_string = "Q{}[A-z]* [Pp]assed (\d+)/(\d+)".format(self.current_question)
         match = re.search(search_string, output)
         if match:
             return match
