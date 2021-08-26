@@ -17,9 +17,9 @@ import unzip
 import getKey
 
 STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-08-25-15-06-36.csv"
-GRADES_CSV = "gc_41672.202045_column_2021-08-25-14-59-35.csv"
+GRADES_CSV = "gc_41672.202045_column_2021-08-26-02-00-02.csv"
 KEY_FILE = "hw8k(1) (2).rkt"
-ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW8.Su21_2021-08-25-14-58-44.zip"
+ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW8.Su21_2021-08-26-01-58-59.zip"
 
 def main():
     if not os.path.isfile("students.json"):
@@ -235,7 +235,7 @@ class checker:
         
         
     def options(self):
-        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Toggle anonymous names", "Save report as .csv for Blackboard", "Comment Analysis", "Plagarism Analysis", "Save and Exit"]
+        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Toggle anonymous names", "Save report as .csv for Blackboard", "Comment Analysis", "Plagarism Analysis", "Delete data", "Save and Exit"]
         
         choice = pyip.inputMenu(options, numbered=True)
         print()
@@ -284,6 +284,10 @@ class checker:
 
         elif choice == "Plagarism Analysis":
             self.plagarism_analysis()
+            self.options()
+        
+        elif choice == "Delete data":
+            self.delete_data()
             self.options()
 
         elif choice == "Save and Exit":
@@ -951,6 +955,41 @@ class checker:
                     for question, students in data.items():
                         f.write("Q{}: {}\n".format(question, students))
             print(Fore.GREEN + "Written plagarism report in plagarism.txt")
+
+    def delete_data(self):
+        first_option = "Delete {} and {}".format(self.save_file, self.report_file)
+        options = [first_option, "Delete ALL created data"]
+        choice = pyip.inputMenu(options, numbered=True)
+        if choice == first_option:
+            choice = pyip.inputYesNo(prompt=Fore.RED + "Are you sure you want to delete {} and {}? (yes/no) ".format(self.save_file, self.report_file))
+            if choice == "yes":
+                to_delete = [self.save_file, self.report_file]
+                for file in to_delete:
+                    if os.path.isfile(file):
+                        os.remove(file)
+                    elif os.path.isdir(file):
+                        shutil.rmtree(file)
+                print(Fore.GREEN + "Done. Exiting...")
+                sys.exit()
+            elif choice == "no":
+                return
+        elif choice == "Delete ALL created data":
+            choice = pyip.inputYesNo(prompt=Fore.RED + "Are you sure you want to delete ALL data? (yes/no) ")
+            if choice == "yes":
+                to_delete = [self.save_file, self.report_file, self.student_data_file, self.id_to_animals_file, self.submissions_directory, self.key_dir, self.main_dir_name]
+                for file in to_delete:
+                    if os.path.isfile(file):
+                        os.remove(file)
+                    elif os.path.isdir(file):
+                        shutil.rmtree(file)
+                print(Fore.GREEN + "Done. Exiting...")
+                sys.exit()
+            elif choice == "no":
+                return
+                
+                
+
+
 
     def end_program(self):
         self.save_files()
