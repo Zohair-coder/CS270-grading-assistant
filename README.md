@@ -138,3 +138,4 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~Added annonymous names toggle~~
 * ~~Fix remove comment when no comments exist bug~~
 * ~~Add search term feature to make it easier to grade~~
+* ~~Add delete files option in main menu~~
