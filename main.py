@@ -572,7 +572,7 @@ class checker:
     def auto_grader(self, student):
         with open("{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file), "r") as f:
             output = f.read()
-        search_string = "Q{}[A-Za-z]* [Pp]assed (\d+)/(\d+)".format(self.current_question)
+        search_string = "Q{}[A-Za-z.]* [Pp]assed (\d+)/(\d+)".format(self.current_question)
         match = re.search(search_string, output)
         if match:
             return match
