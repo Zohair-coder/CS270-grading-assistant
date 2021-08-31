@@ -52,7 +52,7 @@ class checker:
         self.rkt_report_file = rkt_report_file
         self.animals_txt_file = animals_txt_file
         self.id_to_animals_file = id_to_animals_file
-        self.useAnonymousNames = False
+        self.useAnonymousNames = True
 
         self.total_questions = self.get_total_questions()
         self.all_student_names = self.get_all_students()
