@@ -16,10 +16,10 @@ import getStudents
 import unzip
 import getKey
 
-STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-08-25-15-06-36.csv"
-GRADES_CSV = "gc_41672.202045_column_2021-08-26-02-00-02.csv"
-KEY_FILE = "hw8k(1) (2).rkt"
-ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW8.Su21_2021-08-26-01-58-59.zip"
+STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-08-30-20-51-11.csv"
+GRADES_CSV = "gc_41672.202045_column_2021-08-27-11-55-29.csv"
+KEY_FILE = "FinalQ5k.rkt"
+ANSWERS_ZIP_FILE = "gradebook_41672.202045_FinalExamRacketQuestion6_2021-08-30-20-49-43.zip"
 
 def main():
     if not os.path.isfile("students.json"):
@@ -52,7 +52,7 @@ class checker:
         self.rkt_report_file = rkt_report_file
         self.animals_txt_file = animals_txt_file
         self.id_to_animals_file = id_to_animals_file
-        self.useAnonymousNames = useAnonymousNames
+        self.useAnonymousNames = False
 
         self.total_questions = self.get_total_questions()
         self.all_student_names = self.get_all_students()
@@ -132,7 +132,7 @@ class checker:
         with open(file, "r") as f:
             rkt = f.read()
 
-        search_string = r"; ?Question [\d, ]*{}.*?(\(define.*?)(^;end$)".format(
+        search_string = r"; ?Question 6.*?(\(define.*?)(^;end$)".format(
             question)
         match = re.search(search_string, rkt, re.DOTALL | re.MULTILINE)
         if match:
@@ -572,7 +572,7 @@ class checker:
     def auto_grader(self, student):
         with open("{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file), "r") as f:
             output = f.read()
-        search_string = "Q{}[A-Za-z.]* [Pp]assed (\d+)/(\d+)".format(self.current_question)
+        search_string = "Q6[A-Za-z.]* [Pp]assed (\d+)/(\d+)"
         match = re.search(search_string, output)
         if match:
             return match

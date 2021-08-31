@@ -5,14 +5,10 @@ def main(key_file, key_dir="key", key_answers_dir="answers"):
         key_string = f.read()
 
     matches = []
-    search_string = r"; ?Question [\d, ]*{}.*?(\(define.*?)(^;end$)".format(
-        len(matches)+1)
+    search_string = r"; ?Question 6.*?(\(define.*?)(^;end$)"
     match = re.search(search_string, key_string, re.DOTALL | re.MULTILINE)
-    while match:
+    if match:
         matches.append(match)
-        search_string = r"; ?Question [\d, ]*{}.*?(\(define.*?)(^;end$)".format(
-            len(matches)+1)
-        match = re.search(search_string, key_string, re.DOTALL | re.MULTILINE)
 
     for index, match in enumerate(matches):
         with open("{}/{}/{}.txt".format(key_dir, key_answers_dir, index+1), "w") as f:
