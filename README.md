@@ -65,7 +65,7 @@ git clone https://github.com/Zohair-coder/CS270-grading-assistant.git
 
 ![terminal with command](https://i.ibb.co/LzDnGyB/image.png)
 
-A new folder with the reporsitory name will be created. This is the project root folder.
+A new folder with the repository name will be created. This is the project root folder.
 
 Download the list of entire students from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Make sure to select comma as the delimiter and click submit and download the file.
 
