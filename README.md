@@ -83,7 +83,7 @@ Download the grading file template from Blackboard by going to the full grade ce
 
 ![download page](https://i.ibb.co/ZVVbgfg/image.png)
 
-Place the downloaded csv file into the root directory of the project and open main.py with a text editor. Change the value of GRADES_CSV to the name of the file that you just copied to the root of you project.
+Place the downloaded csv file into the root directory of the project and open main.py with a text editor. Change the value of GRADES_CSV to the name of the file that you just copied to the root of you project. Make sure to put the filename in between the quotations.
 
 Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download.
 
