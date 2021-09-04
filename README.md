@@ -71,7 +71,7 @@ Download the list of entire students from Blackboard by going to the full grade 
 
 ![grade center](https://i.ibb.co/T17yqXg/image.png)
 
-![download page](https://i.ibb.co/M9FcCdM/image.png)
+![download page](https://i.ibb.co/XZSnf1S/image.png)
 
 A csv file will be generated. Place the csv file in the project root directory. Open main.py with a text editor and change the STUDENT_NAMES_CSV variable to the name of the csv file.
 
