@@ -81,7 +81,7 @@ A csv file will be generated. Place the csv file in the project root directory. 
 
 Download the grading file template from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Select "Selected Column" in the "Select Data to Download" field and select the homework you want to grade from the drop-down menu. Include comments for the column. Select the delimiter type as comma, and hit submit.
 
-![download page](https://ibb.co/5rFk4bd)
+![download page](https://i.ibb.co/ZBmSXq3/image.png)
 
 Place the downloaded csv file into the root directory of the project and open main.py with a text editor. Change the value of GRADES_CSV to the name of the file that you just copied to the root of you project. Make sure to put the filename in between the quotations.
 
