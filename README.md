@@ -156,7 +156,7 @@ You can also optionally go inside key > comments to write your own comments. To 
 * In the search menu for grading, ask the user whether they want to display the output in red or green instead of asking them whether they want it in green or not.
 * edit_grade function is not working properly. Fix.
 * No "go back" option in delete menu. Add it.
-* Add a feature to easily edit the penalty of existing comments added to the grade report
+* Add a feature to easily edit the penalty of existing comments added to the grade report. Editing a comment's penalty weight must retroactively change all previous graded students that were assigned that comment
 * Add multiple comments at once by typing in multiple indexes.
 * Run through submissions by alphabetical animal name order instead of alphabetical user id order
 * Clearly state the "output.csv" has been saved to a file in the current directory when choosing the "Save repoort as .csv" option
