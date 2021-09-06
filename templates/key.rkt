@@ -1,6 +1,6 @@
 #lang racket
 
-; put the due date here in MM/DD/YYYY HH:MM (24hrs) format after the colon:
+; put the due date here in MM/DD/YYYY HH:MM (24hrs) format after the colon: 08/25/2021 23:59
 
 ;Question 1:  Sample question. Question summary goes here.
 ; Make sure there is a semi-colon right before "Question 1:" even if it is a multi-line comment.

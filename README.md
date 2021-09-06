@@ -8,7 +8,7 @@ This program helps me grade student submissions for CS270. It's meant to help gr
 
 If this is the first time you're using this program on your computer, follow these instructions:
 
-Make sure you have Racket, Python and Git installed.
+Make sure you have [Racket](https://download.racket-lang.org/), [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) installed.
 
 If you're using Windows or Mac, you'll also have to run this command after cloning the repository:
 
@@ -65,13 +65,13 @@ git clone https://github.com/Zohair-coder/CS270-grading-assistant.git
 
 ![terminal with command](https://i.ibb.co/LzDnGyB/image.png)
 
-A new folder with the reporsitory name will be created. This is the project root folder.
+A new folder with the repository name will be created. This is the project root folder.
 
 Download the list of entire students from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Make sure to select comma as the delimiter and click submit and download the file.
 
 ![grade center](https://i.ibb.co/T17yqXg/image.png)
 
-![download page](https://i.ibb.co/M9FcCdM/image.png)
+![download page](https://i.ibb.co/XZSnf1S/image.png)
 
 A csv file will be generated. Place the csv file in the project root directory. Open main.py with a text editor and change the STUDENT_NAMES_CSV variable to the name of the csv file.
 
@@ -81,9 +81,9 @@ A csv file will be generated. Place the csv file in the project root directory. 
 
 Download the grading file template from Blackboard by going to the full grade center, selecting Work Offline on the top right hand corner and clicking Download. Select "Selected Column" in the "Select Data to Download" field and select the homework you want to grade from the drop-down menu. Include comments for the column. Select the delimiter type as comma, and hit submit.
 
-![download page](https://i.ibb.co/ZVVbgfg/image.png)
+![download page](https://i.ibb.co/ZBmSXq3/image.png)
 
-Place the downloaded csv file into the root directory of the project and open main.py with a text editor. Change the value of GRADES_CSV to the name of the file that you just copied to the root of you project.
+Place the downloaded csv file into the root directory of the project and open main.py with a text editor. Change the value of GRADES_CSV to the name of the file that you just copied to the root of you project. Make sure to put the filename in between the quotations.
 
 Next, go back to the grade center in Blackboard and select the homework column you want to grade by clicking the arrow right next to it. Then select Assignment File Download.
 
@@ -138,3 +138,4 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~Added annonymous names toggle~~
 * ~~Fix remove comment when no comments exist bug~~
 * ~~Add search term feature to make it easier to grade~~
+* ~~Add delete files option in main menu~~
