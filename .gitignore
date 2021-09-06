@@ -18,3 +18,4 @@ __pycache__
 *.zip
 plagarism.txt
 id_to_animals.json
+config.json

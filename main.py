@@ -12,30 +12,76 @@ import colorama
 from tabulate import tabulate
 import subprocess
 import datetime
+import argparse
 import getStudents
 import unzip
 import getKey
 
-STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-08-25-15-06-36.csv"
-GRADES_CSV = "gc_41672.202045_column_2021-08-26-02-00-02.csv"
-KEY_FILE = "hw8k(1) (2).rkt"
-ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW8.Su21_2021-08-26-01-58-59.zip"
 
 def main():
+    colorama.init(autoreset=True)
+    roster_file, grades_file, submissions_file, key_file = get_filenames()
+
+    # create students.json (which maps student id's to student names) if it doesn't exist already
     if not os.path.isfile("students.json"):
-        getStudents.main(STUDENT_NAMES_CSV)
+        getStudents.main(roster_file)
     
-    if not os.path.isdir("hw"):
-        unzip.main(ANSWERS_ZIP_FILE)
+    if not os.path.isdir("submissions"):
+        unzip.main(submissions_file)
     
     if not os.path.isdir("key"):
         os.makedirs("key/answers")
         os.mkdir("key/comments")
-    getKey.main(KEY_FILE)
+    getKey.main(key_file)
 
-    colorama.init(autoreset=True)
-    checker(GRADES_CSV, KEY_FILE)
+    checker(grades_file, key_file)
     colorama.deinit()
+
+# parses the arguments provided and returns the filenames in the order:
+# roster_file, grades_file, submissions_file, key_file
+# if no arguments are given, looks through config.json to search for the filenames
+# if still no filenames are found, prints usage message and exits program
+def get_filenames():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-r", "--roster", help="Enter the file name of the student roster csv file.")
+    parser.add_argument(
+        "-g", "--grades", help="Enter the file name of the student grades csv file.")
+    parser.add_argument("-s", "--submissions",
+                        help="Enter the file name of the student submissions zip file.")
+    parser.add_argument(
+        "-k", "--key", help="Enter the file name of the grading key rkt file.")
+    args = parser.parse_args()
+
+    if not args.roster or not args.grades or not args.submissions or not args.key:
+        if os.path.isfile("config.json"):
+            with open("config.json", "r") as f:
+                config = json.load(f)
+                try:
+                    roster_file = config["rosterFile"]
+                    grades_file = config["gradesFile"]
+                    submissions_file = config["submissionsFile"]
+                    key_file = config["keyFile"]
+                except KeyError as e:
+                    raise Exception("Filenames not found in config.json. Enter command line arguments again.")
+        else:
+            parser.print_help(sys.stderr)
+            sys.exit(1)
+    else:
+        with open("config.json", "w") as f:
+            config = dict()
+            config["rosterFile"] = args.roster
+            config["gradesFile"] = args.grades
+            config["submissionsFile"] = args.submissions
+            config["keyFile"] = args.key
+            json.dump(config, f, indent=4)
+        roster_file = args.roster
+        grades_file = args.grades
+        submissions_file = args.submissions
+        key_file = args.key
+    
+    return roster_file, grades_file, submissions_file, key_file
+    
 
 class checker:
     def __init__(self, csv_file_name, key_file, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt", animals_txt_file="animals.txt", id_to_animals_file="id_to_animals.json", useAnonymousNames=True):
