@@ -26,7 +26,7 @@ def main():
     if not os.path.isfile("students.json"):
         getStudents.main(roster_file)
     
-    if not os.path.isdir("submissions"):
+    if not os.path.isdir("hw"):
         unzip.main(submissions_file)
     
     if not os.path.isdir("key"):
