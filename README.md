@@ -139,3 +139,31 @@ You can also optionally go inside key > comments to write your own comments. To 
 * ~~Fix remove comment when no comments exist bug~~
 * ~~Add search term feature to make it easier to grade~~
 * ~~Add delete files option in main menu~~
+
+### Refactor TO-DO
+* Make more classes instead of a singleton
+* Add more comments to code
+* Use "pickle" library to store objects on disk instead of using json files to store data
+* Create methods to save data as a json file if needed
+* Add testing suite
+* ~~Change ANSWERS variable name to SUBMISSIONS~~
+* Line numbers instead of question numbers for the submissions that aren't found
+* Go back option instead of no comment in the add comment menu
+* Modify key template to get total points and specific question points from the key
+* Get total points and specific question points from the key
+* Change "custom comment" button to "add new comment"
+* Use some default characters in every menu e.g. "b" to go back or "e" to exit the program instead of integers
+* In the search menu for grading, ask the user whether they want to display the output in red or green instead of asking them whether they want it in green or not.
+* edit_grade function is not working properly. Fix.
+* No "go back" option in delete menu. Add it.
+* Add a feature to easily edit the penalty of existing comments added to the grade report
+* Add multiple comments at once by typing in multiple indexes.
+* Run through submissions by alphabetical animal name order instead of alphabetical user id order
+* Clearly state the "output.csv" has been saved to a file in the current directory when choosing the "Save repoort as .csv" option
+* ~~Pass in command line arguments instead of renaming variables~~
+* Make a list of known issues and work arounds
+* Explicitly pass students.json in main file to getStudents.py
+* Add comments inside key and read comments from there to preload some comments
+* Write else case in unzip.py rename function
+
+
