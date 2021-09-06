@@ -147,7 +147,7 @@ You can also optionally go inside key > comments to write your own comments. To 
 * Create methods to save data as a json file if needed
 * Add testing suite
 * ~~Change ANSWERS variable name to SUBMISSIONS~~
-* Line numbers instead of question numbers for the submissions that aren't found
+* Print line numbers instead of question numbers for the submissions that aren't found
 * Go back option instead of no comment in the add comment menu
 * Modify key template to get total points and specific question points from the key
 * Get total points and specific question points from the key
