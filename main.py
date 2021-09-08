@@ -42,18 +42,23 @@ def main():
 # if no arguments are given, looks through config.json to search for the filenames
 # if still no filenames are found, prints usage message and exits program
 def get_filenames():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-r", "--roster", help="Enter the file name of the student roster csv file.")
-    parser.add_argument(
-        "-g", "--grades", help="Enter the file name of the student grades csv file.")
-    parser.add_argument("-s", "--submissions",
-                        help="Enter the file name of the student submissions zip file.")
-    parser.add_argument(
-        "-k", "--key", help="Enter the file name of the grading key rkt file.")
-    args = parser.parse_args()
+    is_imported = False
+    if __name__ == "__main__":
+        parser = argparse.ArgumentParser()
+        parser.add_argument(
+            "-r", "--roster", help="Enter the file name of the student roster csv file.")
+        parser.add_argument(
+            "-g", "--grades", help="Enter the file name of the student grades csv file.")
+        parser.add_argument("-s", "--submissions",
+                            help="Enter the file name of the student submissions zip file.")
+        parser.add_argument(
+            "-k", "--key", help="Enter the file name of the grading key rkt file.")
+        args = parser.parse_args()
+    else:
+        is_imported = True
 
-    if not args.roster or not args.grades or not args.submissions or not args.key:
+
+    if is_imported or not args.roster or not args.grades or not args.submissions or not args.key:
         if os.path.isfile("config.json"):
             with open("config.json", "r") as f:
                 config = json.load(f)
@@ -65,6 +70,9 @@ def get_filenames():
                 except KeyError as e:
                     raise Exception("Filenames not found in config.json. Enter command line arguments again.")
         else:
+            if is_imported:
+                print(Fore.RED + "Error: config.json not found")
+                sys.exit(1)
             parser.print_help(sys.stderr)
             sys.exit(1)
     else:
