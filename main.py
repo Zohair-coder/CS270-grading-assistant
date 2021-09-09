@@ -1,3 +1,12 @@
+"""
+CS270 Autograder
+Author: Zohair ul Hasan
+Summer 2021
+
+This program helps me grade racket files. To learn more about how to use the program,
+visit the GitHub repository at https://github.com/Zohair-coder/CS270-grading-assistant/
+"""
+
 import os
 import shutil
 import sys
@@ -7,7 +16,7 @@ import csv
 import random
 import math
 import pyinputplus as pyip
-from colorama import Fore
+from colorama import Fore # used to get colored output. Read the docs here: https://pypi.org/project/colorama/
 import colorama
 from tabulate import tabulate
 import subprocess
@@ -19,12 +28,11 @@ import getKey
 
 
 def main():
-    colorama.init(autoreset=True)
+    colorama.init(autoreset=True) # required for colored output
     roster_file, grades_file, submissions_file, key_file = get_filenames()
 
-    # create students.json (which maps student id's to student names) if it doesn't exist already
-    if not os.path.isfile("students.json"):
-        getStudents.main(roster_file)
+    # get a dictionary with student id's as keys and full names as values
+    all_students = getStudents(roster_file)
     
     if not os.path.isdir("hw"):
         unzip.main(submissions_file)

@@ -2,31 +2,29 @@
 # and selecting work offline => Download
 # Make sure to select comma delimiter and place file in current directory
 # Replace the read_filename variable with the downloaded file name
-# Student names will be written to students.json file
+# A dictionary mapping student id's to student names will be returned 
 
 import csv
-import json
 from os import write
 
-def main(read_filename, write_filename="students.json"):
+def main(read_filename):
     rows = []
     
     with open(read_filename, 'r') as csvfile:
         csvreader = csv.reader(csvfile)
         
-        next(csvreader)
+        next(csvreader) # skip the header row
     
         for row in csvreader:
             rows.append(row)
     
     data_dict = {}
     for row in rows:
-        key = row[2]
-        value = "{} {}".format(row[1], row[0])
+        key = row[2] # student id
+        value = "{} {}".format(row[1], row[0]) # First name followed by last name
         data_dict[key] = value
-
-    with open(write_filename, 'w') as f:
-        f.write(json.dumps(data_dict, indent=4))
-
+    
+    return data_dict
+    
 if __name__ == "__main__":
     main()
