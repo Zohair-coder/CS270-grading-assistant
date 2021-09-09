@@ -1,0 +1,15 @@
+Name: Brandon Crespo (blc83)
+Assignment: HW5.Su21
+Date Submitted: Tuesday, July 27, 2021 11:28:00 PM EDT
+Current Grade: 90.4
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: hw5.rkt
+	Filename: HW5.Su21_blc83_attempt_2021-07-27-23-28-00_hw5.rkt
+

@@ -1,0 +1,15 @@
+Name: Sarthak Awasthi (sa3655)
+Assignment: HW5.Su21
+Date Submitted: Friday, July 30, 2021 10:49:26 PM EDT
+Current Grade: 48.50
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: hw5submit.rkt
+	Filename: HW5.Su21_sa3655_attempt_2021-07-30-22-49-26_hw5submit.rkt
+

@@ -1,0 +1,16 @@
+Name: Jason Le (dql28)
+Assignment: HW5.Su21
+Date Submitted: Wednesday, July 28, 2021 11:58:01 PM EDT
+Current Grade: 63.5
+Override Grade: 63.5
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: hw5s(1).rkt
+	Filename: HW5.Su21_dql28_attempt_2021-07-28-23-58-01_hw5s(1).rkt
+

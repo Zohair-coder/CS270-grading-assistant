@@ -1,0 +1,16 @@
+Name: Steven Huang (sh3425)
+Assignment: HW5.Su21
+Date Submitted: Thursday, July 29, 2021 10:40:38 PM EDT
+Current Grade: 86.50
+Override Grade: 86.50
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: hw5s(1).rkt
+	Filename: HW5.Su21_sh3425_attempt_2021-07-29-22-40-38_hw5s(1).rkt
+

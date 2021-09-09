@@ -1,0 +1,15 @@
+Name: Joe Rajasekaran (jvr38)
+Assignment: HW5.Su21
+Date Submitted: Wednesday, July 28, 2021 11:00:31 PM EDT
+Current Grade: 98.1
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: CS-270-HW5.rkt
+	Filename: HW5.Su21_jvr38_attempt_2021-07-28-23-00-31_CS-270-HW5.rkt
+

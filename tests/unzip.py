@@ -8,8 +8,8 @@ import zipfile
 
 
 def main(zipfile, directory="hw"):
-    if not os.path.isdir(directory):
-        os.mkdir(directory)
+    
+    os.mkdir(directory)
     unzip(zipfile, directory)
     os.chdir(directory)
     rename()

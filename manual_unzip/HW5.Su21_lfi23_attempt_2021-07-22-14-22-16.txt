@@ -1,0 +1,15 @@
+Name: Luke Ingram (lfi23)
+Assignment: HW5.Su21
+Date Submitted: Thursday, July 22, 2021 2:22:16 PM EDT
+Current Grade: 98.1
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+Thank you
+
+Files:
+	Original filename: hw5s.rkt
+	Filename: HW5.Su21_lfi23_attempt_2021-07-22-14-22-16_hw5s.rkt
+

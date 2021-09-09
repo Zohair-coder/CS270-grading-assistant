@@ -1,0 +1,15 @@
+Name: Anthony Lam (al3373)
+Assignment: HW5.Su21
+Date Submitted: Wednesday, July 28, 2021 9:08:40 AM EDT
+Current Grade: 100.00
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: hw5s(1).rkt
+	Filename: HW5.Su21_al3373_attempt_2021-07-28-09-08-40_hw5s(1).rkt
+

@@ -1,0 +1,15 @@
+Name: Nikhil Solanki (ns3335)
+Assignment: HW5.Su21
+Date Submitted: Wednesday, July 28, 2021 7:49:17 PM EDT
+Current Grade: 92.3
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: hw5s(1) (1).rkt
+	Filename: HW5.Su21_ns3335_attempt_2021-07-28-19-49-17_hw5s(1) (1).rkt
+
