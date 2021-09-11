@@ -1,3 +1,0 @@
-colorama
-pyinputplus
-tabulate

@@ -18,21 +18,21 @@ def main(zipfile, directory="hw"):
 def rename():
     files = os.listdir()
     for file in files:
-        name, ext = os.path.splitext(file)
+        name, ext = os.path.splitext(file) # gets file name and extension
         
         if ext == ".txt":
             with open(file, "r") as f:
                 txt_content = f.read()
-            search_string = r"Name:.*\((.*)\)"
+            search_string = r"Name:.*\((.*)\)" # gets the name of the student from the unzipped text file
             match = re.search(search_string, txt_content)
             if match:
                 id = match.group(1)
-                search_string = r"{}.*\.rkt".format(id)
+                search_string = r"{}.*\.rkt".format(id) # check if a rkt file containing the student id is in the directory
                 found = False
                 for f in files:
                     match = re.search(search_string, f)
                     if match:
-                        os.rename(f, id+".rkt")
+                        os.rename(f, id+".rkt") # if found, rename the file to abc123.rkt 
                         found = True
                         break
                 if not found:

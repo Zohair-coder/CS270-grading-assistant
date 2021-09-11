@@ -22,13 +22,17 @@ from tabulate import tabulate
 import subprocess
 import datetime
 import argparse
+import pickle
 import getStudents
 import unzip
 import getKey
+from key import Key
 
 
 def main():
     colorama.init(autoreset=True) # required for colored output
+
+    submissions_dir = "submissions"
 
     # get the filenames for the user data files
     roster_file, grades_file, submissions_file, key_file = get_filenames()
@@ -36,14 +40,20 @@ def main():
     # get a dictionary with student id's as keys and full names as values
     all_students = getStudents(roster_file)
     
-    if not os.path.isdir("hw"):
+    # if files haven't been unzipped, unzip them
+    if not os.path.isdir(submissions_dir):
         unzip.main(submissions_file)
     
-    if not os.path.isdir("key"):
-        os.makedirs("key/answers")
-        os.mkdir("key/comments")
-    getKey.main(key_file)
-
+    # REVISIT: See if key object needs to be pickled or not
+    # if a key object hasn't already been saved, save it
+    if not os.path.isfile("pickles/key.pkl"):
+        key = Key(key_file)
+        with open("pickles/key.pkl", "wb") as f:
+            pickle.dump(key, f)
+    else:
+        with open("pickles/key.pkl", "rb") as f:
+            key = pickle.load(f)
+            
     checker(grades_file, key_file)
     colorama.deinit()
 

@@ -5,11 +5,15 @@ Make sure that config.json is created and the rosterFile, gradesFile, submission
 
 import unittest
 from unittest import IsolatedAsyncioTestCase
+import shutil
+import os
+import sys
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 import main
 import getStudents
 import unzip
-import shutil
-import os
+from key import Key
 
 # delete code generated files before testing
 if os.path.isdir("hw"):
@@ -106,10 +110,13 @@ class TestGetStudents(unittest.TestCase):
 
 
 class TestUnzip(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        unzip.main(test_files["submissions"])
+
     def test_rkt_files_same_as_student_ids(self):
         result = getStudents.main(
             "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv")
-        unzip.main(test_files["submissions"])
         studentNotFound = False
         for file in os.listdir("hw"):
             name, ext = os.path.splitext(file)
@@ -119,7 +126,6 @@ class TestUnzip(unittest.TestCase):
         self.assertFalse(studentNotFound)
     
     def test_hw_dir_files_twice_as_much_as_rkt_files(self):
-        unzip.main(test_files["submissions"])
         isTwice = True
         count = 0
         for file in os.listdir("hw"):
@@ -131,6 +137,27 @@ class TestUnzip(unittest.TestCase):
         
         self.assertTrue(isTwice)
 
+class TestKey(unittest.TestCase):
+    def test_init_key(self):
+        key = Key("hw5k (1).rkt")
+        self.assertIsInstance(key, Key)
+    
+    def test_questions_list(self):
+        key = Key("hw5k (1).rkt")
+        result  = key.get_all_questions()
+        self.assertIsInstance(result, list)
+    
+    def test_questions(self):
+        key = Key("hw5k (1).rkt")
+        result  = key.get_all_questions()
+        self.assertEqual(result, ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13a", "13b"])
+
+    def test_get_answer1(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[0])
+        self.assertIn("lookup", result)
+        self.assertNotIn("bool-eval", result)
 
 if __name__ == '__main__':
     unittest.main()
