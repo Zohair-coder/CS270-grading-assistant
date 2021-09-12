@@ -35,10 +35,10 @@ if os.path.isfile("students.json"):
     os.remove("students.json")
 
 test_files = {
-    "roster": "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv",
-    "grades": "gc_41672.202045_column_2021-07-29-11-56-58.csv",
-    "submissions": "gradebook_41672.202045_HW5.Su21_2021-08-06-15-08-15.zip",
-    "key": "hw5k (1).rkt"
+    "roster": "test_roster.csv",
+    "grades": "test_grades.csv",
+    "submissions": "test_submissions.zip",
+    "key": "test_key.rkt"
 }
 
 class TestFilenames(unittest.TestCase):
@@ -63,51 +63,24 @@ class TestGetStudents(unittest.TestCase):
     def test_main(self):
         result = getStudents.main(
             test_files["roster"])
-        self.assertEqual(result, {
-            "ha594": "Hasan Almemari",
-            "sya33": "Sanam Amin",
+        expected = {
             "aa4246": "Atandrila Anuva",
             "aia43": "Alisha Augustin",
-            "sa3655": "Sarthak Awasthi",
-            "sb4249": "Sara Beinish",
-            "dc3339": "Dawood Chaudhry",
-            "blc83": "Brandon Crespo",
-            "rac364": "Reed Curtis",
             "acd328": "Anthony Dargis",
-            "jd3696": "John Dominguez",
-            "oae24": "Oroghene Emudainohwo",
-            "mjf394": "Mark Fazzolari",
-            "rbg63": "Raj Giddi",
-            "sg3596": "Sahil Gill",
-            "jg3782": "Jaehyun Go",
             "ajh395": "Andrew Hagelthorn",
-            "mh3638": "Max Hajduk",
             "ah3548": "Ariel Halpert",
             "ah3589": "Arjun Hawkins",
-            "mlh396": "Mark Helminiak",
-            "sh3425": "Steven Huang",
-            "lfi23": "Luke Ingram",
-            "acj58": "Drew Jenkins",
-            "tfj33": "Thomas Jordan",
             "al3373": "Anthony Lam",
-            "dql28": "Jason Le",
-            "nl466": "Nick Lindsay-Abaire",
-            "cl3454": "Carlos Luna Sangama",
             "asm437": "Akhil Mohammed",
-            "dhn38": "Duong Nguyen",
-            "rhn26": "Raymond Nguyen",
-            "vp453": "Vistrit Pandey",
-            "jmp586": "Jonathan Parlett",
-            "jvr38": "Joe Rajasekaran",
             "as5429": "Aneesh Sahu",
             "as5268": "Alfred Saintclair",
-            "kts59": "Kayla Savage",
-            "rhs58": "Robert Scales",
-            "ns3335": "Nikhil Solanki",
-            "ngs33": "Nate Stutte",
-            "jfs325": "Jack Svetec",
-            "ayw32": "Alexander Wang"
-        })
+            "ayw32": "Alexander Wang",
+            "acj58": "Andrew Jenkins"
+        }
+        import json
+        print(json.dumps(result, indent = 4))
+        print(json.dumps(expected, indent = 4))
+        self.assertEqual(result, expected)
 
 
 class TestUnzip(unittest.TestCase):
@@ -117,7 +90,7 @@ class TestUnzip(unittest.TestCase):
 
     def test_rkt_files_same_as_student_ids(self):
         result = getStudents.main(
-            "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv")
+            test_files["roster"])
         studentNotFound = False
         for file in os.listdir("hw"):
             name, ext = os.path.splitext(file)
@@ -128,7 +101,7 @@ class TestUnzip(unittest.TestCase):
     
     def test_txt_files_same_as_student_ids(self):
         result = getStudents.main(
-            "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv")
+            test_files["roster"])
         studentNotFound = False
         for file in os.listdir("hw"):
             name, ext = os.path.splitext(file)
@@ -151,27 +124,27 @@ class TestUnzip(unittest.TestCase):
 
 class TestKey(unittest.TestCase):
     def test_init_key(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         self.assertIsInstance(key, Key)
     
     def test_questions_list(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         result  = key.get_all_questions()
         self.assertIsInstance(result, list)
     
     def test_questions(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         result  = key.get_all_questions()
         self.assertEqual(result, ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13a", "13b"])
 
 
     def test_total_points(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         result = key.get_total_points()
         self.assertEqual(result, 100)
     
     def test_individual_points(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         result = key.get_individual_points()
         expected = {
             "1": 7,
@@ -193,14 +166,14 @@ class TestKey(unittest.TestCase):
     
 
     def test_get_answer1(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[0])
         self.assertIn("lookup", result)
         self.assertNotIn("bool-eval", result)
 
     def test_get_answer2(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[1])
         self.assertIn("dummy1", result)
@@ -208,7 +181,7 @@ class TestKey(unittest.TestCase):
         self.assertNotIn("bool-eval", result)
 
     def test_get_answer3(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[2])
         self.assertIn("dummy2", result)
@@ -216,7 +189,7 @@ class TestKey(unittest.TestCase):
         self.assertNotIn("dummy1", result)
 
     def test_get_answer4(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[3])
         self.assertIn("dummy3", result)
@@ -224,7 +197,7 @@ class TestKey(unittest.TestCase):
         self.assertNotIn("dummy2", result)
 
     def test_get_answer5(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[4])
         self.assertIn("dummy4", result)
@@ -232,7 +205,7 @@ class TestKey(unittest.TestCase):
         self.assertNotIn("dummy3", result)
 
     def test_get_answer6(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[5])
         self.assertIn("get-variables", result)
@@ -240,7 +213,7 @@ class TestKey(unittest.TestCase):
         self.assertNotIn("dummy4", result)
 
     def test_get_answer7(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[6])
         self.assertIn("make_bindings", result)
@@ -248,7 +221,7 @@ class TestKey(unittest.TestCase):
         self.assertNotIn("get-variables", result)
 
     def test_get_answer8(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[7])
         self.assertIn("insert_binding", result)
@@ -256,42 +229,42 @@ class TestKey(unittest.TestCase):
         self.assertNotIn("make_bindings", result)
 
     def test_get_answer9(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[8])
         self.assertIn("insert_multiple_bindings", result)
         self.assertNotIn("extend_table", result)
 
     def test_get_answer10(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[9])
         self.assertIn("extend_table", result)
         self.assertNotIn("make-truth-table", result)
 
     def test_get_answer11(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[10])
         self.assertIn("make-truth-table", result)
         self.assertNotIn("run-on-truth-table", result)
 
     def test_get_answer12(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[11])
         self.assertIn("run-on-truth-table", result)
         self.assertNotIn("atleast-one-true", result)
 
     def test_get_answer13(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[12])
         self.assertIn("atleast-one-true", result)
         self.assertNotIn("is-satisfied", result)
 
     def test_get_answer14(self):
-        key = Key("hw5k (1).rkt")
+        key = Key(test_files["key"])
         questions  = key.get_all_questions()
         result = key.get_answer(questions[13])
         self.assertIn("is-satisfied?", result)
