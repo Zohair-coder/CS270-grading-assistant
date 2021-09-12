@@ -65,7 +65,7 @@ def main():
         with open("pickles/key.pkl", "rb") as f:
             key = pickle.load(f)
             
-    submissions = Submissions(submissions_dir, answers_dir)
+    submissions = Submissions(submissions_dir, answers_dir, key.get_all_questions())
 
     # checker(grades_file, key_file)
     colorama.deinit()

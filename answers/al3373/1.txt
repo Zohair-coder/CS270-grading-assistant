@@ -1,4 +1,0 @@
-(define (lookup target environment) ;Check if the binding contains the target, if it does, return the value. Otherwise, go to the next binding through recursion. 
-  (if (equal? (first (first environment)) target) (second (first environment)) (lookup target (rest environment)))
-  );Implement Me
-

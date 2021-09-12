@@ -1,8 +1,0 @@
-(define (insert_multiple_bindings bindings table)
-  (cond
-    [(null? bindings) null]
-    [(null? table) bindings]
-    [(append (insert_binding (first bindings) table) (insert_multiple_bindings (rest bindings) table))] ;appends next value to each row or prev table
-   )
-)
-

@@ -1,3 +1,0 @@
-(define (run-on-truth-table expression tt)
-  (map (lambda (x) (bool-eval expression x)) tt));Map the bool-eval function on a truth table in order to evaluate. This way it's able to apply it on every single binding. 
-

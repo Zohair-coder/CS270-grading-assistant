@@ -1,4 +1,0 @@
-(define (atleast-one-true L)
-  (< 0 (foldr (lambda (bool r) (if bool (+ 1 r) (+ 0 r))) 0 L))
-)
-

@@ -1,4 +1,0 @@
-(define (insert_binding binding table)
-  (map (λ (x) (list binding (first x))) table)
-  )
-

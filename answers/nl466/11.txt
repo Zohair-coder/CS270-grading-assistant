@@ -1,4 +1,0 @@
-(define (make-truth-table var_names)
-  (foldr (lambda (bindings table) (insert_multiple_bindings bindings table)) '() (map (lambda (var) (make_bindings var)) var_names))
-)
-

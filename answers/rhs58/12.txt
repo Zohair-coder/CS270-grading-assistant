@@ -1,5 +1,0 @@
-(define (run-on-truth-table expression tt)
-  (map (lambda (x) (bool-eval expression x))
-       tt)
-  )
-

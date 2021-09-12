@@ -1,3 +1,0 @@
-(define (make-truth-table var_names)
-  (foldr extend_table null var_names));Implement Me
-

@@ -1,5 +1,0 @@
-(define (atleast-one-true L)
- (foldl (lambda (X Y) (or X Y)) #f L)
-)
-; the "or" function seems to not be a procedure? I can't seem to use it in fold so I created a lambda.
-

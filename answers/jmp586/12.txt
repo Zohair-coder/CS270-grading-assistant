@@ -1,5 +1,0 @@
-(define (run-on-truth-table expression tt)
- (cond
-  [(null? tt) null]
-  [else (cons (bool-eval expression (first tt)) (run-on-truth-table expression (rest tt)))]
- ))

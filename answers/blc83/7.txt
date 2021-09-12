@@ -1,4 +1,0 @@
-(define (make_bindings name)
-  (cons (cons (cons name '(#t)) null) (cons (cons (cons name '(#f)) null) null))
-)
-

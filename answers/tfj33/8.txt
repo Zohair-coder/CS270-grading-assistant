@@ -1,2 +1,0 @@
-(define (insert_binding binding table) (if (equal? table '()) '() (cons (cons binding (first table)) (insert_binding binding (rest table)))));Implement Me
-

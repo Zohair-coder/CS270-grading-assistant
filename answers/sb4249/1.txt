@@ -1,5 +1,0 @@
-(define (lookup target environment)
-  (if (equal? (first (first environment)) target) ;if first element in the first binding is the target...
-      (second (first environment)) ;return it's value (the second element in that first binding)
-      (lookup target (rest environment)))) ;otherwise check the rest of the list for the target
-

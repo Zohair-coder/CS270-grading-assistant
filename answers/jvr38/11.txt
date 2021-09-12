@@ -1,3 +1,0 @@
-(define (make-truth-table var_names)
-  (foldr (λ (var_names truthTable) (extend_table var_names truthTable)) null var_names)) ; ANSWER 11
-

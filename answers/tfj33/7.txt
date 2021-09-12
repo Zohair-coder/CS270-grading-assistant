@@ -1,2 +1,0 @@
-(define (make_bindings name) (cons (cons (cons name '(#t)) '()) (cons (cons (cons name '(#f)) '()) '())));Implement Me
-

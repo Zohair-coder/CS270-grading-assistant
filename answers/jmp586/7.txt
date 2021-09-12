@@ -1,4 +1,0 @@
-(define (make_bindings name)
- (list (list (list name #t)) (list (list name #f)))
-)
-

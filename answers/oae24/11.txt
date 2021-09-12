@@ -1,3 +1,0 @@
-(define (make-truth-table var_names)
-  (foldr (λ (x y) (insert_multiple_bindings (make_bindings x) y)) null var_names))
-

@@ -1,6 +1,0 @@
-(define (atleast-one-true L)
-  (cond
-    [(null? L) #f]
-    [(equal? (first L) #t)]
-    [else (atleast-one-true (rest L))]))
-

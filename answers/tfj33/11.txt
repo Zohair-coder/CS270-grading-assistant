@@ -1,3 +1,0 @@
-(define (make-truth-table var_names) 
-  (if (equal? var_names '()) '() (extend_table (first var_names) (make-truth-table (rest var_names))))
-);Implement Me

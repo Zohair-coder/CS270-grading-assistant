@@ -1,4 +1,0 @@
-(define (atleast-one-true L)
-  (foldr (lambda (x y) (or x y)) #f L)
-  );Implement Me
-

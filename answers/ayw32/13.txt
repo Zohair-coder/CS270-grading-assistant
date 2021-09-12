@@ -1,3 +1,0 @@
-(define (atleast-one-true L)
-  (foldr (lambda (x y)(if x #t (if y #t #f))) #f L))
-

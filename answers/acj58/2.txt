@@ -1,0 +1,3 @@
+(define (dummy1)
+    [(is-AND? expression) (eval-AND expression environment)]
+    )

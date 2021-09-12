@@ -1,7 +1,0 @@
-(define (insert_multiple_bindings bindings table)
-  (cond
-    [(null? table) bindings]
-    [(null? bindings) null]
-    [else (foldr (λ (x y) (append (insert_binding (first x) table) y)) '() bindings)])
-  )
-

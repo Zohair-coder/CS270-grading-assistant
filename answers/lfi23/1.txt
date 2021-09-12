@@ -1,7 +1,0 @@
-(define (lookup target environment) ; Binary Search? 
-  (cond
-    [(or (null? environment) (null? target)) null] ; ask if extra conditions are needed
-    [(equal? (first (first environment)) target) (second (first environment))]
-    [else (lookup target (rest environment))])
-  )
-

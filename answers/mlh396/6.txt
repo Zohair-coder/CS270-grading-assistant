@@ -1,4 +1,0 @@
-(define (get-variables expression)
-  (if (list? expression) (if (null? (rest expression)) (if (is-variable? (first expression)) (first expression) null) (if (is-variable? (first expression)) (cons (first expression) (get-variables (rest expression))) (get-variables (rest expression)))) (list expression))
-  );Implement Me
-

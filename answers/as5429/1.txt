@@ -1,9 +1,0 @@
-(define (lookup target environment)
-  ;(if (equal? target (first (first environment))) (second (first environment)) (lookup target (rest environment)) )
-  (cond
-    [(null? environment) null]
-    [(equal? target (first (first environment))) (second (first environment))]
-    [else (lookup target (rest environment))]
-    )
-  );Implement Me
-

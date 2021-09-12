@@ -1,9 +1,0 @@
-(define (get-variables expression)
-  (remove-duplicates (cond
-    [(empty? expression) '()]
-    [(is-variable? expression) (list expression)]
-    [(list? expression)(append(get-variables (first expression))(get-variables (rest expression)))]
-    [else
-     null]
-    )))
-

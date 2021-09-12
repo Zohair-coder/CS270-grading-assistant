@@ -15,14 +15,15 @@ import main
 import getStudents
 import unzip
 from key import Key
+from submissions import Submissions
 
 # delete code generated files before testing
-if os.path.isdir("hw"):
-    shutil.rmtree("hw")
+if os.path.isdir("submissions"):
+    shutil.rmtree("submissions")
 if os.path.isdir("key"):
     shutil.rmtree("key")
-if os.path.isdir("students"):
-    shutil.rmtree("students")
+if os.path.isdir("answers"):
+    shutil.rmtree("answers")
 if os.path.isfile("grade_report.json"):
     os.remove("grade_report.json")
 if os.path.isfile("id_to_animals.json"):
@@ -78,21 +79,21 @@ class TestGetStudents(unittest.TestCase):
             "acj58": "Andrew Jenkins"
         }
         import json
-        print(json.dumps(result, indent = 4))
-        print(json.dumps(expected, indent = 4))
         self.assertEqual(result, expected)
 
 
 class TestUnzip(unittest.TestCase):
     @classmethod
-    def setUpClass(cls) -> None:
-        unzip.main(test_files["submissions"])
+    def setUpClass(cls):
+        if os.path.exists("submissions"):
+            return
+        unzip.main(test_files["submissions"], "submissions")
 
     def test_rkt_files_same_as_student_ids(self):
         result = getStudents.main(
             test_files["roster"])
         studentNotFound = False
-        for file in os.listdir("hw"):
+        for file in os.listdir("submissions"):
             name, ext = os.path.splitext(file)
             if ext == ".rkt" and name not in result:
                 studentNotFound = True
@@ -103,24 +104,12 @@ class TestUnzip(unittest.TestCase):
         result = getStudents.main(
             test_files["roster"])
         studentNotFound = False
-        for file in os.listdir("hw"):
+        for file in os.listdir("submissions"):
             name, ext = os.path.splitext(file)
             if ext == ".txt" and name not in result:
                 studentNotFound = True
             
         self.assertFalse(studentNotFound)
-
-    def test_hw_dir_files_twice_as_much_as_rkt_files(self):
-        isTwice = True
-        count = 0
-        for file in os.listdir("hw"):
-            name, ext = os.path.splitext(file)
-            if ext == ".rkt":
-                count += 1
-        if len(os.listdir("hw")) != 2 * count:
-            isTwice = False
-        
-        self.assertTrue(isTwice)
 
 class TestKey(unittest.TestCase):
     def test_init_key(self):
@@ -268,6 +257,21 @@ class TestKey(unittest.TestCase):
         questions  = key.get_all_questions()
         result = key.get_answer(questions[13])
         self.assertIn("is-satisfied?", result)
+
+class TestSubmissions(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if os.path.exists("submissions"):
+            return
+        unzip.main(test_files["submissions"], "submissions")
+        
+    def test_init(self):
+        key = Key(test_files["key"])
+        submissions = Submissions("submissions", "answers", key.get_all_questions())
+        self.assertIsInstance(submissions, Submissions)
+    
+    def test_extracted_data(self):
+        pass
 
 if __name__ == '__main__':
     unittest.main()

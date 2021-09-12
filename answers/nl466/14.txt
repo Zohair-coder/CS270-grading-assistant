@@ -1,4 +1,0 @@
-(define (is-satisfied? bool-expression)
-  (not (atleast-one-false (run-on-truth-table bool-expression (make-truth-table (get-variables bool-expression)))))
-)
-

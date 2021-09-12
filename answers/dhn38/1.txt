@@ -1,7 +1,0 @@
-(define (lookup target environment)
-  (cond
-    [(null? environment) null]
-    [(null? (first environment)) null]
-    [(equal? (first (first environment)) target) (second (first environment))]
-    [else (lookup target (rest environment))]))
-

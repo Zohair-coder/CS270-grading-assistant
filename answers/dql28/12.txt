@@ -1,3 +1,0 @@
-(define (run-on-truth-table expression tt)
-  0);Implement Me
-

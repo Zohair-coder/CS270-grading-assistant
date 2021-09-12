@@ -139,15 +139,7 @@ The following words cannot be used as variable names
 ; Output = the #t/#f result as if that expression were being substituted by the values in the environment
 ; Example = (bool-eval '(IMPLIES P Q) '( (P #f) (Q #f) )) would be #t, since False --> False is True.
 
-; Question 2,3,4 5: bool-eval
-(define (bool-eval expression environment)
-  (cond
-    [(is-constant? expression) (eval-constant expression environment)] ;Case 1 Constants
-    [(is-variable? expression) (eval-variable expression environment)] ;Case 2 Variables
-    [(is-or? expression) (eval-or expression environment)]             ;Case 3 or statements
-    [(is-not? expression) (eval-not expression environment)]
-    [(is-and? expression) (eval-and expression environment)]
-    [(is-implies? expression) (eval-implies expression environment)]
-    [(is-iff? expression) (eval-iff expression environment)]
-    [else null])) ; note that this else case should never be hit because of the input contract
-
+;Question 2:
+  (define (dummy1)
+    [(is-AND? expression) (eval-AND expression environment)]
+    )

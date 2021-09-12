@@ -1,7 +1,0 @@
-(define (get-variables expression)
-  (cond
-    [(is-variable? expression)(list expression)]
-    [(is-not? expression)(remove-duplicates (get-variables (first (rest expression))))]
-    [(is-iff? expression)(remove-duplicates (get-variables (first (rest expression))))]
-    [else (remove-duplicates (append (get-variables (first (rest expression)))(get-variables (first (rest (rest expression))))))]))
-

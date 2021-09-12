@@ -1,5 +1,0 @@
-(define (run-on-truth-table expression tt)
-  (if (null? tt) null
-     (foldr (λ (x y) (cons (bool-eval expression x) y)) '() tt))
-  )
-

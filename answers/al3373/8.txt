@@ -1,3 +1,0 @@
-(define (insert_binding binding table)
-  (if (empty? table) '() (map (lambda (x) (cons binding x)) table))) ;Check if the table is empty, if so return null because that's what one of the tests have. 
-                                                                     ;Otherwise, map the binding into each of the environment of the list and cons it so that it's in front and within the environment

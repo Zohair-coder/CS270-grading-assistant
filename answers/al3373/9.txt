@@ -1,7 +1,0 @@
-(define (insert_multiple_bindings bindings table)
-  (cond
-    [(empty? table) bindings] ;Check if the table is empty, if so, return the bindings
-    [(empty? bindings) null] ;check if the bindings is null. If so, you return null
-    [else (append (insert_binding (first (first bindings)) table) (insert_binding (first (second bindings)) table))])) 
-    ;Otherwise, take the first binding from the first environment and the second binding, then insert them into the table. This will generate you the new table.
-

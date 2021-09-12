@@ -1,5 +1,0 @@
-(define (insert_binding binding table)
-  (if (or (null? binding) (null? table)) null
-      (map (λ (x) (append (list binding) x)) table))
-  )
-

@@ -1,7 +1,0 @@
-(define (insert_binding binding table)
-  (if (null? table)
-      null
-      (map (lambda (x) (cons binding x)) table)
-      )
-  );Implement Me
-

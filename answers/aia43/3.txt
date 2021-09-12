@@ -1,0 +1,3 @@
+(define (dummy2)
+    [(is-NOT? expression) (eval-NOT expression environment)]
+    )

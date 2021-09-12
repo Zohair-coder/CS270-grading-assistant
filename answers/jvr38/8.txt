@@ -1,3 +1,0 @@
-(define (insert_binding binding table)
-  (map (λ (x) (if (null? (rest binding)) (cons (first binding) x) (cons binding  x))) table)) ; ANSWER 8
-
