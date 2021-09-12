@@ -1,0 +1,10 @@
+(define (make-truth-table var_names)
+   (if (null? var_names) null; base case for null parameter
+; call helper on var_names 
+      (make-truth-table-helper var_names)
+  ))
+; not sure how to make a it non recursive without a helper function to call
+(define (make-truth-table-helper var_names)
+  ; extend_table on first var and call helper on rest of var names
+(extend_table (first var_names) (make-truth-table (rest var_names))))
+

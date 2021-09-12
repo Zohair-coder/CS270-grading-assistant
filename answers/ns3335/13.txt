@@ -1,0 +1,8 @@
+(define (atleast-one-true L)
+  ;(if (null? L) #f
+  (cond
+    [(null? L) #f]
+    [(equal? (first L) #t) #t]
+    [else (atleast-one-true (rest L))]))
+   ;   (atleast-one-true (rest L))))
+

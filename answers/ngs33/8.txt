@@ -1,0 +1,12 @@
+(define (insert_binding binding table)
+
+  (if (null? table) '()
+
+      (cons (append binding (first table)) (insert_binding binding (rest table)))
+
+      )
+  
+  ;(map (lambda (x) (append (list binding) x)) table)
+
+  );Implement Me
+

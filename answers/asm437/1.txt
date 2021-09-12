@@ -1,0 +1,3 @@
+(define (lookup target environment)
+  (if (equal? target (first (first environment))) (second (first environment)) (lookup target (rest environment))));Implement Me
+

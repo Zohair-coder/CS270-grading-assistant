@@ -1,0 +1,8 @@
+(define (insert_binding binding table)
+  (cond
+    [(null? table) null]
+    [(null? (rest binding))(map (λ (x) (cons (first binding) x)) table)]
+    [(map (λ (x) (cons binding x)) table)]
+   )
+)
+

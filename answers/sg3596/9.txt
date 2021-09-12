@@ -1,0 +1,4 @@
+(define (insert_multiple_bindings bindings table)
+  (if (null? table) bindings (if (null? bindings) null (append (insert_binding (first(first bindings)) table) (insert_binding (first(first(rest bindings))) table))))
+  )
+

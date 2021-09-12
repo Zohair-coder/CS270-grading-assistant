@@ -1,0 +1,3 @@
+(define (is-satisfied? bool-expression)
+  0);Implement Me
+

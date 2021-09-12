@@ -1,0 +1,15 @@
+(define (insert_binding binding table)
+      ;(cons (append binding (first table)) (insert_binding binding (rest table)))))
+      ;(list (append (cons binding (first table)) (rest table)))))
+      ;(cons (cons binding (first table)) (rest table))))
+      ;(cons binding table)))
+      ;(map binding table)))
+      ;(append (map (cons binding) first table) (rest table))))
+      ;(append (map (cons binding (first table)) (rest table)) table)))
+
+      ;(map (make_bindings binding) table)))
+      (map (λ(x) (cons binding x)) table))
+      
+
+       
+

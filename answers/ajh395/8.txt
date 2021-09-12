@@ -1,0 +1,3 @@
+(define (insert_binding binding table)
+  (map (lambda x (append (list binding) (first x))) table))
+

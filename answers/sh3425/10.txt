@@ -1,0 +1,5 @@
+(define (extend_table var_name current_table)
+  (if (null? current_table)
+    (make_bindings var_name)
+    (insert_multiple_bindings (make_bindings var_name) current_table)))
+

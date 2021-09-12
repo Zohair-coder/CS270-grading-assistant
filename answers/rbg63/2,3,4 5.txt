@@ -1,0 +1,11 @@
+(define (bool-eval expression environment)
+  (cond
+    [(is-constant? expression) (eval-constant expression environment)] ;Case 1 Constants
+    [(is-variable? expression) (eval-variable expression environment)] ;Case 2 Variables
+    [(is-or? expression) (eval-or expression environment)]             ;Case 3 or statements
+    [(is-not? expression)(eval-not expression environment)];Case 4 implement not statements
+    [(is-and? expression)(eval-and expression environment)];Case 5 implement and statements
+    [(is-implies? expression)(eval-implies expression environment)];Case 6 implement implies statements
+    [(is-iff? expression)(eval-iff expression environment)];Case 7 implement iff statements
+    [else null])) ; note that this else case should never be hit because of the input contract
+

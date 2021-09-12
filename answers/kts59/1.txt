@@ -1,0 +1,9 @@
+(define (lookup target environment)
+  (if null? environment
+      (error 'lookup "variable is not defined in the environment")
+      )
+  (if (equal? (first (first environment)) target)
+      (first (rest (first environment)))
+      (lookup target (rest environment))
+ ));Implement Me
+

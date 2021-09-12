@@ -1,0 +1,3 @@
+(define (make_bindings name)
+  (list (list (append (list name)(list #t)))(list (append (list name)(list #f)))))
+

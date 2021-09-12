@@ -1,0 +1,5 @@
+(define (insert_binding binding table)
+  (if (null? table) null
+      (if (null? (rest table)) (cons binding table)
+      (append (cons (list binding (first table)) null) (list binding (second table))))))
+

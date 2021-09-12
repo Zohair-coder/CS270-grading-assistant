@@ -1,0 +1,4 @@
+(define (make-truth-table var_names)
+  (insert_multiple_bindings (map (λ(x) (make_bindings x)) var_names) null)
+  )
+

@@ -1,0 +1,3 @@
+(define (insert_multiple_bindings bindings table)
+  0);Implement Me
+

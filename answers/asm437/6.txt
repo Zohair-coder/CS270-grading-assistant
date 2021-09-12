@@ -1,0 +1,10 @@
+(define (helper expression E)
+  (cond
+[(null? expression) E]
+[(list? (first expression)) (append (helper (first expression) E) (helper (rest expression) E))]
+[(is-variable? (first expression)) (helper (rest expression) (cons (first expression) E)) ]
+[(not (is-variable? (first expression))) (helper (rest expression) E)]
+    ))
+(define (get-variables expression)
+  0);Implement Me
+

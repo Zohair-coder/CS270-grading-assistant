@@ -1,0 +1,11 @@
+(define (get-variables expression)
+  (cond
+    [(null? expression) '()] ;base case
+    [(is-variable? expression) (cons expression '())] ;check if variable then cons expression
+    [(not (list? expression)) '()] ;check if not
+    
+   
+    ;- adds to the end of a list//remove duplicates takes out same values
+    [(remove-duplicates (append (get-variables (first expression))(get-variables (rest expression))))]  
+  ))
+

@@ -1,0 +1,152 @@
+(define (lookup target environment)
+  (cond
+    [(null? environment) #f]
+    [(equal? target (first (first environment)))(first (rest (first environment)))]
+    [else (lookup target (rest environment))]))
+
+
+;Test Implementation
+(define-test-suite lookup-suite
+  ;Check Lookups
+  (check-equal? (lookup 'a '( (a #t) (b #f))) #t)
+  (check-equal? (lookup 'b '( (a #t) (b #f))) #f))
+(run-tests lookup-suite 'verbose)
+
+#|
+ Part 2 bool-eval
+
+ Next we need to evaluate a boolean expression given a list of variables
+ We will build up an evaluator that can evaluate boolean expressions containing
+ Variables, Constants (#t,#f), not, or, and, implies, iff
+
+ We will start with just variables, constants and "or".
+ The new expression you should add is "and".
+ Test your evaluator after each new case is added.
+
+ Input: A boolean expression and an environment
+ Output: The result of evaluating the expression with the variable values 
+          from the environment
+
+General Helper Function
+The following words cannot be used as variable names
+ (or and not implies iff #t #f)
+ We need a test so that the system doesn't treat these as variables
+|#
+(define (is-reserved-word? word)
+  (cond
+   [ (equal? word '#t) #t]
+   [ (equal? word '#f) #t]
+   [ (equal? word 'OR) #t]
+   [ (equal? word 'AND) #t]
+   [ (equal? word 'NOT) #t]
+   [ (equal? word 'IMPLIES) #t]
+   [ (equal? word 'IFF) #t]
+   [ else #f]))
+
+;Helper Functions for Constants
+;is-constant: Returns true if the expression is a constant
+(define (is-constant? expression) (or (equal? expression #t) (equal? expression #f)))
+
+;Tests
+(is-constant? '#t) ;true
+(is-constant? '#f) ;true
+(is-constant? 'OR) ;false
+
+;eval-constant: returns the boolean value of the constant
+;Note: we don't need environment here, but for consistency all 
+; our eval functions will take environment as their second input
+(define (eval-constant expression environment) expression)
+;Tests
+(eval-constant '#t '( (a #t) (b #f))) ;returns #t
+(eval-constant '#f '( (a #t) (b #f))) ;returns #f
+
+;Helper Functions for Variables
+;is-variable?: Returns true when the expression is a symbol
+(define (is-variable? expression) (and (symbol? expression) (not (is-reserved-word? expression))))
+
+;Tests
+(is-variable? 'a)
+(is-variable? 'b)
+(is-variable? '#t)
+(is-variable? '#f)
+(is-variable? 'OR)
+(is-variable? 'AND)
+(is-variable? 'NOT)
+(is-variable? 'IMPLIES)
+(is-variable? 'IFF)
+;eval-variable: returns the value associated with a variable
+;This is why you wrote the lookup function!
+(define (eval-variable variable environment) (lookup variable environment))
+
+;From Here Down, the functions call each other
+
+;Helper Functions for the Or Statement
+;is-or: returns true if the statement is an or
+(define (is-or? expression) (equal? (first expression) 'OR))
+
+;Evaluate the or statement
+;Here is where it gets interesting
+;To evaluate an or statement, we need to evaluate the inputs first
+(define (eval-or expression environment)
+  ;Use the built in or to find the actual value
+  ;so the or looks like (or something1 something2)
+  ; (first expression) the word or
+  ; (first (rest expression)) the expression something1
+  ; (first (rest (rest expression))) the expression something2
+  (or (bool-eval (first (rest expression)) environment)
+      (bool-eval (first (rest (rest expression))) environment)))
+
+;You have to implement the remaining definitions
+;Uncomment this code as you complete parts. You don't have to do it all at once.
+;For example, you can implement and test "and" without "implies" if you just
+;leave all the implies code commented out.
+
+;is-and: returns true if the statement is an and
+(define (is-and? expression)
+  (equal? (first expression) 'AND))
+
+;eval-and: evaluate an and statement
+(define (eval-and expression environment)
+  (and (bool-eval (first (rest expression)) environment)(bool-eval (first (rest (rest expression))) environment)))
+
+;is-not: returns true if the statement is a not
+(define (is-not? expression)
+  (equal? (first expression) 'NOT))
+
+;eval-not: evaluate a not expression
+(define (eval-not expression environment)
+  (not (bool-eval (first (rest expression)) environment)))
+
+;is-implies: returns true if the statement is a implies
+(define (is-implies? expression)
+  (equal? (first expression) 'IMPLIES))
+
+;eval-implies: evaluate an implies expression
+(define (eval-implies expression environment)
+  (implies (bool-eval (first (rest expression)) environment)(bool-eval (first (rest (rest expression))) environment)))
+
+;is-iff: returns true if the statement is an iff
+(define (is-iff? expression)
+  (equal? (first expression) 'IFF))
+
+;eval-iff; evaluate an iff expression
+(define (eval-iff expression environment)
+  (equal? (bool-eval (first (rest expression)) environment)(bool-eval (first (rest (rest expression))) environment)))
+
+; Use the previous function to implement the next one accoring to the following speces
+; Input = the first argument represents an expression and the second is an environment
+; Output = the #t/#f result as if that expression were being substituted by the values in the environment
+; Example = (bool-eval '(IMPLIES P Q) '( (P #f) (Q #f) )) would be #t, since False --> False is True.
+
+; Question 2,3,4 5: bool-eval
+(define (bool-eval expression environment)
+  (cond
+    [(is-constant? expression) (eval-constant expression environment)] ;Case 1 Constants
+    [(is-variable? expression) (eval-variable expression environment)] ;Case 2 Variables
+    [(is-or? expression) (eval-or expression environment)]             ;Case 3 or statements
+    [(is-not? expression) (eval-not expression environment)]           ;Case 4 implement not statements
+    [(is-and? expression) (eval-and expression environment)]           ;Case 5 implement and statements
+    [(is-implies? expression) (eval-implies expression environment)]   ;Case 6 implement implies statements
+    [(is-iff? expression) (eval-iff expression environment)]           ;Case 7 implement iff statements
+    [else null]))                                                      ; note that this else case should never be hit because of the input contract
+

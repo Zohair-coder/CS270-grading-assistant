@@ -1,0 +1,9 @@
+(define (get-variables expression)
+  (cond
+    [(null? expression) null]
+    [(not (list? expression)) (list expression)]
+    [(is-reserved-word? (first expression)) (get-variables (rest expression))]
+    [else (remove-duplicates (append (get-variables (first expression)) (get-variables (rest expression))))]
+    )
+  )
+

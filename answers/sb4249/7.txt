@@ -1,0 +1,18 @@
+(define (make_bindings name)
+  (list (list (list name '#t)) (list (list name '#f))));end
+
+(define-test-suite make-bindings-suite
+(check-equal? (make_bindings 'a) '(((a #t)) ((a #f))) )
+(check-equal? (make_bindings 'b) '(((b #t)) ((b #f))) ))
+(run-tests make-bindings-suite 'verbose)
+
+;Insert Binding
+; Input = Given a binding and a table (i.e. list of environments), 
+; Output = a table with the binding insert into the beginning of each environment of the table
+; Example = (insert_binding X ( (a b c) (m p q) ...)) returns ( (X a b c) (X m p q) ...)
+; note: there is no need to make this function recursive!
+
+; Question 8: Insert Binding
+(define (insert_binding binding table)
+  (map (lambda (part) (cons binding part)) table))
+

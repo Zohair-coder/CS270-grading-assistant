@@ -1,0 +1,6 @@
+(define (extend_table var_name current_table)
+  (if (empty? current_table) (make_bindings var_name) (insert_multiple_bindings (make_bindings var_name) current_table)))
+;Check if the table is empty, if so, make the bindings for the variable. I was just using what the checks were saying.
+;If it's not, then make bindings for the variable name, and then call insert_multiple_bindings on the current table
+;in order to add the variable's bindings to the environments in the tbale
+

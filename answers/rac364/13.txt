@@ -1,0 +1,5 @@
+(define (atleast-one-true L)
+  (if (null? L) #f
+      (if (equal? (first L) #t) #t
+          (atleast-one-true (rest L)))));Implement Me
+

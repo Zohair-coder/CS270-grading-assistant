@@ -1,0 +1,3 @@
+(define (make_bindings name)
+  (list (list (cons name '(#t))) (list (cons name '(#f)))))
+

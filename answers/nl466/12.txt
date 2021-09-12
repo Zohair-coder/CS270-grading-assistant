@@ -1,0 +1,4 @@
+(define (run-on-truth-table expression tt)
+  (map (lambda (row) (bool-eval expression row)) tt)
+)
+

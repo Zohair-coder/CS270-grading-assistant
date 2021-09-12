@@ -1,0 +1,3 @@
+(define (insert_binding binding table)
+  0);Implement Me
+

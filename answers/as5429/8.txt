@@ -1,0 +1,4 @@
+(define (insert_binding binding table)
+ (if (null? table) null (append (list (append (list binding) (first table))) (insert_binding binding ( rest table))  ))
+  );Implement Me
+

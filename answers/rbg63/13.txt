@@ -1,0 +1,9 @@
+(define (atleast-one-true L)
+  (cond
+    [(null? L) null #f]
+    [else (foldr (λ (x y) (or (equal? x #t) y)) #f L)] ;Reference listed above
+  )
+)
+
+
+

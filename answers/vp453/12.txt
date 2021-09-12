@@ -1,0 +1,5 @@
+(define (run-on-truth-table expression tt)
+  (cond
+    [(null? tt) '()]
+    [else (append (cons (bool-eval expression (first tt)) `())(append (run-on-truth-table expression (rest tt)) `() ))]));Implement Me
+

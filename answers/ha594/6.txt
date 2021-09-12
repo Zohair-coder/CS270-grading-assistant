@@ -1,0 +1,15 @@
+(define (remove_duplicate a)
+(if (null? a) '()
+(if (equal? (member (first a) (rest a)) #f) (cons (first a) (remove_duplicate (rest a)))  (remove_duplicate (rest a)))))
+
+
+(define (get-variables-helper expression)
+(cond
+((is-constant? expression) (list ))
+((is-variable? expression) (list expression))
+((is-not? expression) (get-variables-helper (first (rest expression)))) 
+(else (append (get-variables-helper (first (rest expression))) (get-variables-helper (first (rest (rest expression))))))))
+
+(define (get-variables expression)
+(remove_duplicate (get-variables-helper expression)))
+

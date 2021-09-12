@@ -1,0 +1,5 @@
+(define (make-truth-table var_names)
+  (if (null? var_names) null
+      (foldr (λ (x y) (extend_table x y)) '() var_names)) 
+  )
+

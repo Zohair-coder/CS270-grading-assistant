@@ -1,0 +1,3 @@
+(define (insert_binding binding table)
+  (map (λ (x) (cons binding x)) table))
+

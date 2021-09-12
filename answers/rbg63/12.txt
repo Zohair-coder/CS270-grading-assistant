@@ -1,0 +1,7 @@
+(define (run-on-truth-table expression tt)
+  (cond
+    [(null? tt) null]
+    [(append (list (bool-eval expression (first tt))) (append (run-on-truth-table expression (rest tt))))]
+   )
+)
+

@@ -1,0 +1,5 @@
+(define (make-truth-table var_names)
+  (cond
+    [(null? var_names) '()]
+    [else(extend_table (first var_names) (make-truth-table (rest var_names)))]));Implement Me
+

@@ -1,0 +1,2 @@
+(define (atleast-one-true L) (foldl (λ (x y) (if y #t x)) #f L))
+

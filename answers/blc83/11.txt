@@ -1,0 +1,4 @@
+(define (make-truth-table var_names)
+  (foldr extend_table '() var_names)
+)
+

@@ -27,12 +27,23 @@ import getStudents
 import unzip
 import getKey
 from key import Key
+from submissions import Submissions
 
 
 def main():
     colorama.init(autoreset=True) # required for colored output
 
     submissions_dir = "submissions"
+    answers_dir = "answers"
+    grade_report_file = "grade_report.json"
+    key_dir = "key"
+    key_answers_dir = "answers"
+    key_comments_dir = "comments"
+    rkt_output_file = "rkt_output.txt"
+    animals_txt_file = "animals.txt"
+    id_to_animals_file = "id_to_animals.json"
+    useAnonymousNames = True
+
 
     # get the filenames for the user data files
     roster_file, grades_file, submissions_file, key_file = get_filenames()
@@ -42,7 +53,7 @@ def main():
     
     # if files haven't been unzipped, unzip them
     if not os.path.isdir(submissions_dir):
-        unzip.main(submissions_file)
+        unzip.main(submissions_file, submissions_dir)
     
     # REVISIT: See if key object needs to be pickled or not
     # if a key object hasn't already been saved, save it
@@ -54,61 +65,11 @@ def main():
         with open("pickles/key.pkl", "rb") as f:
             key = pickle.load(f)
             
-    checker(grades_file, key_file)
+    submissions = Submissions(submissions_dir, answers_dir)
+
+    # checker(grades_file, key_file)
     colorama.deinit()
 
-# parses the arguments provided and returns the filenames in the order:
-# roster_file, grades_file, submissions_file, key_file
-# if no arguments are given, looks through config.json to search for the filenames
-# if still no filenames are found, prints usage message and exits program
-def get_filenames():
-    is_imported = False
-    if __name__ == "__main__":
-        parser = argparse.ArgumentParser()
-        parser.add_argument(
-            "-r", "--roster", help="Enter the file name of the student roster csv file.")
-        parser.add_argument(
-            "-g", "--grades", help="Enter the file name of the student grades csv file.")
-        parser.add_argument("-s", "--submissions",
-                            help="Enter the file name of the student submissions zip file.")
-        parser.add_argument(
-            "-k", "--key", help="Enter the file name of the grading key rkt file.")
-        args = parser.parse_args()
-    else:
-        is_imported = True
-
-
-    if is_imported or not args.roster or not args.grades or not args.submissions or not args.key:
-        if os.path.isfile("config.json"):
-            with open("config.json", "r") as f:
-                config = json.load(f)
-                try:
-                    roster_file = config["rosterFile"]
-                    grades_file = config["gradesFile"]
-                    submissions_file = config["submissionsFile"]
-                    key_file = config["keyFile"]
-                except KeyError as e:
-                    raise Exception("Filenames not found in config.json. Enter command line arguments again.")
-        else:
-            if is_imported:
-                print(Fore.RED + "Error: config.json not found")
-                sys.exit(1)
-            parser.print_help(sys.stderr)
-            sys.exit(1)
-    else:
-        with open("config.json", "w") as f:
-            config = dict()
-            config["rosterFile"] = args.roster
-            config["gradesFile"] = args.grades
-            config["submissionsFile"] = args.submissions
-            config["keyFile"] = args.key
-            json.dump(config, f, indent=4)
-        roster_file = args.roster
-        grades_file = args.grades
-        submissions_file = args.submissions
-        key_file = args.key
-    
-    return roster_file, grades_file, submissions_file, key_file
     
 
 class checker:
@@ -1083,5 +1044,57 @@ class checker:
         with open(self.report_file, "w") as f:
             f.write(json.dumps(self.data, indent=4))
 
+# parses the arguments provided and returns the filenames in the order:
+# roster_file, grades_file, submissions_file, key_file
+# if no arguments are given, looks through config.json to search for the filenames
+# if still no filenames are found, prints usage message and exits program
+def get_filenames():
+    is_imported = False
+    if __name__ == "__main__":
+        parser = argparse.ArgumentParser()
+        parser.add_argument(
+            "-r", "--roster", help="Enter the file name of the student roster csv file.")
+        parser.add_argument(
+            "-g", "--grades", help="Enter the file name of the student grades csv file.")
+        parser.add_argument("-s", "--submissions",
+                            help="Enter the file name of the student submissions zip file.")
+        parser.add_argument(
+            "-k", "--key", help="Enter the file name of the grading key rkt file.")
+        args = parser.parse_args()
+    else:
+        is_imported = True
+
+
+    if is_imported or not args.roster or not args.grades or not args.submissions or not args.key:
+        if os.path.isfile("config.json"):
+            with open("config.json", "r") as f:
+                config = json.load(f)
+                try:
+                    roster_file = config["rosterFile"]
+                    grades_file = config["gradesFile"]
+                    submissions_file = config["submissionsFile"]
+                    key_file = config["keyFile"]
+                except KeyError as e:
+                    raise Exception("Filenames not found in config.json. Enter command line arguments again.")
+        else:
+            if is_imported:
+                print(Fore.RED + "Error: config.json not found")
+                sys.exit(1)
+            parser.print_help(sys.stderr)
+            sys.exit(1)
+    else:
+        with open("config.json", "w") as f:
+            config = dict()
+            config["rosterFile"] = args.roster
+            config["gradesFile"] = args.grades
+            config["submissionsFile"] = args.submissions
+            config["keyFile"] = args.key
+            json.dump(config, f, indent=4)
+        roster_file = args.roster
+        grades_file = args.grades
+        submissions_file = args.submissions
+        key_file = args.key
+    
+    return roster_file, grades_file, submissions_file, key_file
 if __name__ == "__main__":
     main()

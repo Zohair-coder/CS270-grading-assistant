@@ -1,0 +1,3 @@
+(define (insert_binding binding table)
+  (map (λ (array) (append (cons binding null) array)) table))
+

@@ -1,0 +1,11 @@
+(define (get-variables expression)
+  0)
+#|
+     (if (is-variable? expression) (list expression) (if (null? expression) null 
+      (if (is-not? expression) (if (is-variable? (second expression)) (second expression) (get-variables (second expression))) 
+                                  (cons (if (is-variable? (second expression)) (second expression) (get-variables (second expression)))
+                                      (if (is-variable? (third expression)) (third expression) (get-variables (third expression))))
+                                  ))
+      )
+  )
+|#

@@ -1,0 +1,4 @@
+(define (atleast-one-true L)
+  (foldl (lambda (x y) (if y #t x)) #f L)
+  )
+

@@ -1,0 +1,3 @@
+(define (insert_binding binding table)
+  (map (lambda (X) (cons binding X)) table)
+)

@@ -1,0 +1,9 @@
+(define (lookup target environment)
+  (cond
+    ; We don't really have any contracts so I'm just being careful here
+    [(null? environment) null]
+    [(equal? (first (first environment)) target) (second (first environment))]
+    [else (lookup target (rest environment))]
+    )
+  )
+

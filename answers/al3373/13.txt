@@ -1,0 +1,5 @@
+(define (atleast-one-true L)
+  (foldr (lambda (x y) (or x y)) #f L));Utilized one of the functions in earlier homework where we checked for at least one true.
+                                       ;Use fold with or in order to check if there's at least one true.
+                                       ;This is because with the initial value #f, or can only be true if there's a #t in the list
+

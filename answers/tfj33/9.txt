@@ -1,0 +1,15 @@
+(define (insert_multiple_bindings bindings table)
+  (cond
+    [(null? table) bindings]
+    [(null? bindings) '()]
+    [else
+      (insert_multiple_bindings
+        (rest bindings)
+        (insert_binding
+          (first (first bindings))
+          table
+        )
+      )
+    ]
+  )
+)

@@ -1,0 +1,4 @@
+(define (lookup target environment)
+(if (equal? target (first(first environment))) (first (rest (first environment))) (lookup target (rest environment))))
+
+

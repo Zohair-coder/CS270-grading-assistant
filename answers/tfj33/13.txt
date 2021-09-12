@@ -1,0 +1,3 @@
+(define (atleast-one-true L)
+  (if (equal? L '()) #f (or (first L) (atleast-one-true (rest L))))
+)

@@ -1,0 +1,6 @@
+(define (get-variables expression)
+  (cond
+    [(is-variable? expression) (cons expression null)]
+    [(or (is-not? expression) (is-iff? expression)) (remove-duplicates (get-variables (second expression)))]
+    [else (remove-duplicates (append (get-variables (second expression)) (get-variables (third expression))))])) ; ANSWER 6
+

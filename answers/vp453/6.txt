@@ -1,0 +1,8 @@
+(define (get-variables expression)
+  (cond
+    [(is-constant? expression) '()]
+    [(is-variable? expression) (remove-duplicates(append (list expression)))]
+    [(and (is-not? expression) (remove-duplicates(append(get-variables (second expression)))))]
+    [else (remove-duplicates(append (append (get-variables (second expression))) (get-variables (third expression))))]
+   ));Implement Me
+

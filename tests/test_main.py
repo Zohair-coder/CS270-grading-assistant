@@ -1,6 +1,7 @@
 """
 Unit tests for CS270 Autograder main.py
-Make sure that config.json is created and the rosterFile, gradesFile, submissionsFile and keyFile fields are set
+Make sure that config.json is created and the rosterFile, gradesFile, submissionsFile and keyFile fields are set.
+Copy all the files in the tests directory to the parent directory before running the tests.
 """
 
 import unittest
@@ -125,6 +126,17 @@ class TestUnzip(unittest.TestCase):
             
         self.assertFalse(studentNotFound)
     
+    def test_txt_files_same_as_student_ids(self):
+        result = getStudents.main(
+            "gc_41672.202045_fullgc_2021-07-22-17-11-55.csv")
+        studentNotFound = False
+        for file in os.listdir("hw"):
+            name, ext = os.path.splitext(file)
+            if ext == ".txt" and name not in result:
+                studentNotFound = True
+            
+        self.assertFalse(studentNotFound)
+
     def test_hw_dir_files_twice_as_much_as_rkt_files(self):
         isTwice = True
         count = 0
@@ -152,12 +164,137 @@ class TestKey(unittest.TestCase):
         result  = key.get_all_questions()
         self.assertEqual(result, ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13a", "13b"])
 
+
+    def test_total_points(self):
+        key = Key("hw5k (1).rkt")
+        result = key.get_total_points()
+        self.assertEqual(result, 100)
+    
+    def test_individual_points(self):
+        key = Key("hw5k (1).rkt")
+        result = key.get_individual_points()
+        expected = {
+            "1": 7,
+            "2": 7,
+            "3": 7,
+            "4": 7,
+            "5": 7,
+            "6": 7,
+            "7": 7,
+            "8": 7,
+            "9": 7,
+            "10": 7,
+            "11": 7,
+            "12": 7,
+            "13a": 10,
+            "13b": 6,
+        }
+        self.assertEqual(result, expected)
+    
+
     def test_get_answer1(self):
         key = Key("hw5k (1).rkt")
         questions  = key.get_all_questions()
         result = key.get_answer(questions[0])
         self.assertIn("lookup", result)
         self.assertNotIn("bool-eval", result)
+
+    def test_get_answer2(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[1])
+        self.assertIn("dummy1", result)
+        self.assertNotIn("dummy2", result)
+        self.assertNotIn("bool-eval", result)
+
+    def test_get_answer3(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[2])
+        self.assertIn("dummy2", result)
+        self.assertNotIn("dummy3", result)
+        self.assertNotIn("dummy1", result)
+
+    def test_get_answer4(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[3])
+        self.assertIn("dummy3", result)
+        self.assertNotIn("dummy4", result)
+        self.assertNotIn("dummy2", result)
+
+    def test_get_answer5(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[4])
+        self.assertIn("dummy4", result)
+        self.assertNotIn("get-variables", result)
+        self.assertNotIn("dummy3", result)
+
+    def test_get_answer6(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[5])
+        self.assertIn("get-variables", result)
+        self.assertNotIn("make_bindings", result)
+        self.assertNotIn("dummy4", result)
+
+    def test_get_answer7(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[6])
+        self.assertIn("make_bindings", result)
+        self.assertNotIn("insert_bindings", result)
+        self.assertNotIn("get-variables", result)
+
+    def test_get_answer8(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[7])
+        self.assertIn("insert_binding", result)
+        self.assertNotIn("insert_multiple_bindings", result)
+        self.assertNotIn("make_bindings", result)
+
+    def test_get_answer9(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[8])
+        self.assertIn("insert_multiple_bindings", result)
+        self.assertNotIn("extend_table", result)
+
+    def test_get_answer10(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[9])
+        self.assertIn("extend_table", result)
+        self.assertNotIn("make-truth-table", result)
+
+    def test_get_answer11(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[10])
+        self.assertIn("make-truth-table", result)
+        self.assertNotIn("run-on-truth-table", result)
+
+    def test_get_answer12(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[11])
+        self.assertIn("run-on-truth-table", result)
+        self.assertNotIn("atleast-one-true", result)
+
+    def test_get_answer13(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[12])
+        self.assertIn("atleast-one-true", result)
+        self.assertNotIn("is-satisfied", result)
+
+    def test_get_answer14(self):
+        key = Key("hw5k (1).rkt")
+        questions  = key.get_all_questions()
+        result = key.get_answer(questions[13])
+        self.assertIn("is-satisfied?", result)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,10 @@
+(define (get-variables expression)
+  (cond
+    [(null? expression) null]
+    [(symbol? expression) (list expression)]
+    [(list? (first expression)) (append (get-variables (rest (first expression))) (get-variables (rest expression))) ]
+    [(is-variable? (first expression)) (append (list(first expression)) (get-variables (rest expression)) )]
+    [else (remove-duplicates (get-variables (rest expression)))]
+    )
+  );Implement Me
+

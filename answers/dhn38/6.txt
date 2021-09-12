@@ -1,0 +1,6 @@
+(define (get-variables expression)
+  (remove-duplicates (cond
+    [(is-variable? expression) (list expression)]
+    [(and (list? expression) (not (null? expression))) (append (get-variables (first expression)) (get-variables (rest expression)))]
+    [else null])));Implement Me
+

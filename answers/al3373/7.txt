@@ -1,0 +1,4 @@
+(define (make_bindings name)
+  (list (list (list name #t)) (list (list name #f))) ;Create a table of the variable given to us. Needs this many lists even though it seems overkill. 
+  );Implement Me
+

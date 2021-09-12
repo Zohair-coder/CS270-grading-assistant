@@ -1,0 +1,6 @@
+(define (lookup target environment)
+  (cond
+    [(null? environment) '()]
+    [(equal? target (first (first environment))) (first (rest (first environment)))]
+    [else (lookup target (rest environment))]))
+

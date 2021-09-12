@@ -1,0 +1,3 @@
+(define (atleast-one-true L)
+(foldl (lambda (a b) (cond ((equal? a #t) #t) ((equal? b #t) #t) (else #f))) #f L))
+

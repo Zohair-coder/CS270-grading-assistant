@@ -1,0 +1,4 @@
+(define (atleast-one-true L)
+  (foldl (λ (x y) (or x y)) #f L));Implement Me
+;This question reminded me of one from homework two, so I originally tried to use my old or statement from homework 2, until I
+;remembered that or was an actual built in function. whoops.

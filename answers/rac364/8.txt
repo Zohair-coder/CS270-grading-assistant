@@ -1,0 +1,3 @@
+(define (insert_binding binding table)
+  (map (lambda (table) (cons binding table)) table));Implement Me
+

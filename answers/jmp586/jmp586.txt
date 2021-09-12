@@ -1,0 +1,15 @@
+Name: Jonathan Parlett (jmp586)
+Assignment: HW5.Su21
+Date Submitted: Saturday, July 24, 2021 8:09:31 PM EDT
+Current Grade: 98.1
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: jonathan_parlettHW5.rkt
+	Filename: HW5.Su21_jmp586_attempt_2021-07-24-20-09-31_jonathan_parlettHW5.rkt
+
