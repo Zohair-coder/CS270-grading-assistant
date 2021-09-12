@@ -1,6 +1,0 @@
-(define (insert_multiple_bindings bindings table) ;I think this works but i wasnt able to get insert binding right in the previous question so it doesnt work out correct
-  (cond
-    [(null? table) bindings]
-    [(null? bindings) null]
-    [else (list (insert_binding (first bindings) table) (insert_multiple_bindings (rest bindings) table))]))
-

@@ -270,8 +270,13 @@ class TestSubmissions(unittest.TestCase):
         submissions = Submissions("submissions", "answers", key.get_all_questions())
         self.assertIsInstance(submissions, Submissions)
     
-    def test_extracted_data(self):
-        pass
+    def test_get_answer(self):
+        key = Key(test_files["key"])
+        submissions = Submissions("submissions", "answers", key.get_all_questions())
+        answer = submissions.get_answer("aa4246", "7")
+        self.assertIn(r"(define (make_bindings name)", answer)
+        self.assertIn(r"(list (list (list name '#t)) (list (list name '#f))));Implement Me", answer)
+
 
 if __name__ == '__main__':
     unittest.main()

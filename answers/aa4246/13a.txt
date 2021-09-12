@@ -1,5 +1,0 @@
-(define (atleast-one-true L)
-  (cond
-    [(null? L) #f]
-    [else (or (first L) (atleast-one-true (rest L)))]));Implement Me
-

@@ -31,5 +31,15 @@ class Submissions:
             else: # if file isn't rkt file, it must be a txt file with student info
                 os.replace("{}/{}".format(self.src_dir, file), "{}/{}/{}".format(self.dest_dir, id, file))
 
+    def get_answer(self, id, question):
+        submitted_students = self.get_submitted_ids()
+        for student in submitted_students:
+            if student == id:
+                with open("{}/{}/{}.txt".format(self.dest_dir, id, question)) as f:
+                    answer = f.read()
+                return answer
+        Exception("Answer not found for {}, question {}".format(id, question))
 
+    def get_submitted_ids(self):
+        return os.listdir(self.dest_dir)
     
