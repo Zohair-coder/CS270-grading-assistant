@@ -1,6 +1,4 @@
 import re
-from answer import Answer
-
 
 class Key:
     def __init__(self, file_name):

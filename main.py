@@ -28,6 +28,7 @@ import unzip
 import getKey
 from key import Key
 from submissions import Submissions
+from roster import Roster
 
 
 def main():
@@ -41,19 +42,22 @@ def main():
     key_comments_dir = "comments"
     rkt_output_file = "rkt_output.txt"
     animals_txt_file = "animals.txt"
-    id_to_animals_file = "id_to_animals.json"
     useAnonymousNames = True
 
 
     # get the filenames for the user data files
     roster_file, grades_file, submissions_file, key_file = get_filenames()
 
-    # get a dictionary with student id's as keys and full names as values
-    all_students = getStudents(roster_file)
+    # Initialize Roster object containing basic information about every student
+    roster = Roster(roster_file, animals_txt_file)
     
-    # if files haven't been unzipped, unzip them
+    # if submission files haven't been unzipped, unzip them
     if not os.path.isdir(submissions_dir):
         unzip.main(submissions_file, submissions_dir)
+    
+    # make sure pickles directory exists
+    if not os.path.isdir("pickles"):
+        os.mkdir("pickles")
     
     # REVISIT: See if key object needs to be pickled or not
     # if a key object hasn't already been saved, save it
@@ -64,8 +68,10 @@ def main():
     else:
         with open("pickles/key.pkl", "rb") as f:
             key = pickle.load(f)
-            
+    
+    # Initialize Submissions object that contains information about every students answer for every question
     submissions = Submissions(submissions_dir, answers_dir, key.get_all_questions())
+
 
     # checker(grades_file, key_file)
     colorama.deinit()

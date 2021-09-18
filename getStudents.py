@@ -1,3 +1,5 @@
+# DEPRECATED: roster.py now has the same functionality so this file needs to be delelted
+
 # Download all student names by going to Blackboard grade center
 # and selecting work offline => Download
 # Make sure to select comma delimiter and place file in current directory
@@ -5,7 +7,6 @@
 # A dictionary mapping student id's to student names will be returned 
 
 import csv
-from os import write
 
 def main(read_filename):
     rows = []
