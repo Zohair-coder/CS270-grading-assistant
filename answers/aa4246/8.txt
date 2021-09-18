@@ -1,0 +1,5 @@
+(define (insert_binding binding table)
+  (cond
+    [(null? table) null]
+    [else (cons (append binding (first table)) (insert_binding binding (rest table)))]));Implement Me
+

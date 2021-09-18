@@ -1,0 +1,9 @@
+(define (get-variables expression)
+  (cond
+    [(null? expression) null]
+    [(is-constant? expression) null]
+    [(is-variable? expression) (cons expression null)]
+    [(not (list? expression)) null]
+    [else (remove-duplicates (append (get-variables (first expression)) (get-variables (rest expression))))]
+    ));Implement Me
+

@@ -1,0 +1,5 @@
+(define (dummy4)
+    [(is-EQUIV? expression) (eval-EQUIV expression environment)]
+    [;Else Case
+     else (error 'bool-eval "Expression given was invalid")])
+

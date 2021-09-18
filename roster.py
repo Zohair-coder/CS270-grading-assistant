@@ -63,7 +63,7 @@ class Roster:
     # returns a dictionary of ids mapped to random animal names
     def get_id_to_animals(self):
         all_animals = self.get_anonymous_animal_names()
-        ids = self.get_all_ids()
+        ids = self.id_to_name.keys()
         id_to_animals = dict()
         for id in ids:
             random_num = random.randint(0, len(all_animals)-1)
