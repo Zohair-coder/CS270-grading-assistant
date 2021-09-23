@@ -16,7 +16,8 @@ import csv
 import random
 import math
 import pyinputplus as pyip
-from colorama import Fore # used to get colored output. Read the docs here: https://pypi.org/project/colorama/
+# used to get colored output. Read the docs here: https://pypi.org/project/colorama/
+from colorama import Fore
 import colorama
 from tabulate import tabulate
 import subprocess
@@ -29,10 +30,11 @@ import getKey
 from key import Key
 from submissions import Submissions
 from roster import Roster
+from gradebook import Gradebook
 
 
 def main():
-    colorama.init(autoreset=True) # required for colored output
+    colorama.init(autoreset=True)  # required for colored output
 
     submissions_dir = "submissions"
     answers_dir = "answers"
@@ -44,21 +46,20 @@ def main():
     animals_txt_file = "animals.txt"
     useAnonymousNames = True
 
-
     # get the filenames for the user data files
     roster_file, grades_file, submissions_file, key_file = get_filenames()
 
     # Initialize Roster object containing basic information about every student
     roster = Roster(roster_file, animals_txt_file)
-    
+
     # if submission files haven't been unzipped, unzip them
     if not os.path.isdir(submissions_dir):
         unzip.main(submissions_file, submissions_dir)
-    
+
     # make sure pickles directory exists
     if not os.path.isdir("pickles"):
         os.mkdir("pickles")
-    
+
     # REVISIT: See if key object needs to be pickled or not
     # if a key object hasn't already been saved, save it
     if not os.path.isfile("pickles/key.pkl"):
@@ -68,15 +69,31 @@ def main():
     else:
         with open("pickles/key.pkl", "rb") as f:
             key = pickle.load(f)
-    
+
     # Initialize Submissions object that contains information about every students answer for every question
-    submissions = Submissions(submissions_dir, answers_dir, key.get_all_questions())
+    submissions = Submissions(
+        submissions_dir, answers_dir, key.get_all_questions())
 
-
+    # if a gradebook object hasn't already been saved, save it
+    if not os.path.isfile("pickles/gradebook.pkl"):
+        gradebook = Gradebook(roster.get_all_ids(), key.get_all_questions())
+        with open("pickles/gradebook.pkl", "wb") as f:
+            pickle.dump(gradebook, f)
+    else:
+        with open("pickles/gradebook.pkl", "rb") as f:
+            gradebook = pickle.load(f)
     # checker(grades_file, key_file)
+
+    all_students = roster.get_all_ids()
+    submitted_students = submissions.get_submitted_ids()
+    unsubmitted_students = roster.get_unsubmitted_students(submitted_students)
+
+    # prints the welcome screen, showing which students submitted and which didn't
+    welcome_screen(roster, submitted_students)
+    options()
+
     colorama.deinit()
 
-    
 
 class checker:
     def __init__(self, csv_file_name, key_file, submissions_directory="hw", student_data_file="students.json", main_dir_name="students", report_file="grade_report.json", save_file="save_file.json", key_dir="key", key_answers_dir="answers", key_comments_dir="comments", rkt_report_file="rkt_output.txt", animals_txt_file="animals.txt", id_to_animals_file="id_to_animals.json", useAnonymousNames=True):
@@ -99,7 +116,7 @@ class checker:
         self.all_student_names = self.get_all_students()
         self.submitted_student_names = self.get_submitted_students()
         self.unsubmitted_student_names = self.get_unsubmitted_students()
-        
+
         if self.useAnonymousNames:
             self.all_animal_names = self.get_all_animal_names()
             self.id_to_animals = self.create_id_to_animals_file()
@@ -110,12 +127,10 @@ class checker:
         self.move_txt_files()
         self.run_all_rkt_files()
         self.initialize_files()
-        
+
         self.welcome_screen()
 
         self.options()
-
-
 
     def get_total_questions(self):
         return len(os.listdir("{}/{}".format(self.key_dir, self.key_answers_dir)))
@@ -124,19 +139,19 @@ class checker:
         with open(self.student_data_file, "r") as jfile:
             students = json.load(jfile)
         return students
-    
+
     def get_submitted_students(self):
         s = []
         files_in_directory = os.listdir(self.submissions_directory)
-        filtered_files = [file for file in files_in_directory if file.endswith(".rkt")]
+        filtered_files = [
+            file for file in files_in_directory if file.endswith(".rkt")]
         for file in filtered_files:
             s.append(file.split(".")[0])
         return s
 
-
     def get_unsubmitted_students(self):
         return [student for student in self.all_student_names if student not in self.submitted_student_names]
-    
+
     def get_all_animal_names(self):
         with open(self.animals_txt_file, "r") as f:
             animals_s = f.read()
@@ -147,7 +162,8 @@ class checker:
         id_to_animals = dict()
         for student in self.all_student_names:
             random_num = random.randint(0, len(self.all_animal_names)-1)
-            id_to_animals[student] = "Anonymous " + self.all_animal_names[random_num]
+            id_to_animals[student] = "Anonymous " + \
+                self.all_animal_names[random_num]
         with open(self.id_to_animals_file, "w") as f:
             f.write(json.dumps(id_to_animals, indent=4))
         return id_to_animals
@@ -160,15 +176,16 @@ class checker:
             dir_name = "{}/{}".format(self.main_dir_name, student)
             if not os.path.isdir(dir_name):
                 os.mkdir(dir_name)
-    
+
     def copy_student_answers(self):
         for student in self.submitted_student_names:
             for question in self.questions[1:]:
-                submission_file = "{}/{}.rkt".format(self.submissions_directory, student)
+                submission_file = "{}/{}.rkt".format(
+                    self.submissions_directory, student)
                 answer = self.get_answer(question, submission_file)
                 with open("{}/{}/{}.txt".format(self.main_dir_name, student, question), "w") as f:
                     f.write(answer)
-    
+
     def get_answer(self, question, file):
         with open(file, "r") as f:
             rkt = f.read()
@@ -196,27 +213,29 @@ class checker:
 
     def run_all_rkt_files(self):
         for student in self.submitted_student_names:
-            rkt_report_path = "{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file)
+            rkt_report_path = "{}/{}/{}".format(
+                self.main_dir_name, student, self.rkt_report_file)
             if os.path.isfile(rkt_report_path):
                 continue
             print(Fore.YELLOW + "Running {}.rkt... ".format(student), end='')
-            process = subprocess.run(["racket", "{}/{}.rkt".format(self.submissions_directory, student)], capture_output=True)
+            process = subprocess.run(
+                ["racket", "{}/{}.rkt".format(self.submissions_directory, student)], capture_output=True)
             output = process.stdout.decode("utf-8")
             print(Fore.GREEN + "Done")
 
             with open(rkt_report_path, "w") as f:
                 f.write(output)
 
-
     def initialize_files(self):
         if not os.path.isfile(self.save_file):
             self.ungraded_questions = {}
             for question in self.questions[1:]:
-                self.ungraded_questions[str(question)] = self.submitted_student_names.copy()
+                self.ungraded_questions[str(
+                    question)] = self.submitted_student_names.copy()
 
             with open(self.save_file, "w") as f:
                 f.write(json.dumps(self.ungraded_questions, indent=4))
-            
+
             questions = {}
             for i in self.questions:
                 questions[i] = 0
@@ -225,23 +244,24 @@ class checker:
 
             with open(self.report_file, "w") as f:
                 f.write(json.dumps(self.data, indent=4))
-            
+
             self.names_graded = False
             self.late_checked = False
         else:
             with open(self.save_file, "r") as f:
                 self.ungraded_questions = json.load(f)
-            
+
             with open(self.report_file, "r") as f:
                 self.data = json.load(f)
             self.names_graded = True
             self.late_checked = True
-        
+
         self.graded_questions = {}
         for question in self.questions[1:]:
             # if the whole question isn't in ungraded_questions
             if str(question) not in self.ungraded_questions.keys():
-                self.graded_questions[str(question)] = self.submitted_student_names.copy()
+                self.graded_questions[str(
+                    question)] = self.submitted_student_names.copy()
                 continue
 
             for student in self.submitted_student_names:
@@ -263,24 +283,22 @@ class checker:
             for student in self.unsubmitted_student_names:
                 print(Fore.CYAN + self.all_student_names[student])
 
-
             print()
-        
+
         int_ungraded_questions = [int(i) for i in self.ungraded_questions]
         if len(int_ungraded_questions) == 0:
             print(Fore.GREEN + "Completed Grading!")
             return
         print(Fore.CYAN + "You are currently working on question {}".format(min(int_ungraded_questions)))
         print()
-        
-        
-        
+
     def options(self):
-        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Toggle anonymous names", "Save report as .csv for Blackboard", "Comment Analysis", "Plagarism Analysis", "Delete data", "Save and Exit"]
-        
+        options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Toggle anonymous names",
+            "Save report as .csv for Blackboard", "Comment Analysis", "Plagarism Analysis", "Delete data", "Save and Exit"]
+
         choice = pyip.inputMenu(options, numbered=True)
         print()
-        
+
         if choice == "Start Grading":
             self.grading()
             self.remove_negatives()
@@ -288,7 +306,7 @@ class checker:
             print(Fore.GREEN + "Finished Grading!")
             print()
             self.options()
-        
+
         elif choice == "Print Grade Report":
             save_to_file = pyip.inputYesNo(prompt="Save to file? (yes/no): ")
             if save_to_file == "yes":
@@ -297,15 +315,15 @@ class checker:
                 save_to_file = False
             self.print_report(save_to_file)
             self.options()
-        
+
         elif choice == "View Grading Status":
             self.print_grading_status()
             self.options()
-        
+
         elif choice == "Edit grade manually":
             self.edit_grade()
             self.options()
-        
+
         elif choice == "Toggle anonymous names":
             self.useAnonymousNames = not self.useAnonymousNames
             if self.useAnonymousNames:
@@ -318,7 +336,7 @@ class checker:
             self.save_as_csv()
             print(Fore.GREEN + "Done!")
             self.options()
-        
+
         elif choice == "Comment Analysis":
             self.comment_analysis()
             self.options()
@@ -326,7 +344,7 @@ class checker:
         elif choice == "Plagarism Analysis":
             self.plagarism_analysis()
             self.options()
-        
+
         elif choice == "Delete data":
             self.delete_data()
             self.options()
@@ -335,12 +353,12 @@ class checker:
             self.end_program()
         else:
             print(Fore.RED + "Oops - error :o")
-    
+
     def grading(self):
         if not self.names_graded:
             self.auto_grade_names()
             self.names_graded = True
-        
+
         if not self.late_checked:
             self.check_late()
             self.late_checked = True
@@ -356,7 +374,7 @@ class checker:
                 self.clear_comments(student)
                 with open("{}/{}/{}.txt".format(self.key_dir, self.key_answers_dir, self.current_question)) as f:
                     correct_answer = f.read()
-                
+
                 with open("{}/{}/{}.txt".format(self.main_dir_name, student, self.current_question)) as f:
                     student_answer = f.read()
 
@@ -369,16 +387,21 @@ class checker:
 
                 self.comments = []
                 while True:
-                    print(Fore.CYAN + "======================================================")
+                    print(
+                        Fore.CYAN + "======================================================")
                     print()
                     if self.useAnonymousNames:
-                        print(Fore.CYAN + "Grading {}".format(self.id_to_animals[student]))
+                        print(Fore.CYAN +
+                              "Grading {}".format(self.id_to_animals[student]))
                     else:
-                        print(Fore.CYAN + "Grading {}".format(self.all_student_names[student]))
+                        print(
+                            Fore.CYAN + "Grading {}".format(self.all_student_names[student]))
                     total_submissions = len(self.submitted_student_names)
-                    submissions_left = len(self.ungraded_questions[self.current_question]) - 1
+                    submissions_left = len(
+                        self.ungraded_questions[self.current_question]) - 1
                     submission_num = total_submissions - submissions_left
-                    print(Fore.CYAN + "Grading submission {}/{} for Question {}".format(submission_num, total_submissions, self.current_question))
+                    print(Fore.CYAN + "Grading submission {}/{} for Question {}".format(
+                        submission_num, total_submissions, self.current_question))
                     print()
                     print(Fore.CYAN + "Correct Answer:")
                     print()
@@ -395,23 +418,25 @@ class checker:
                         else:
                             print(Fore.RED + self.auto_feedback.group())
                     else:
-                        print(Fore.RED + "Auto grader unable to check rkt file automatically")
-                    
+                        print(
+                            Fore.RED + "Auto grader unable to check rkt file automatically")
+
                     search_results = self.get_search_results(student_answer)
                     for index, (search_term, found) in enumerate(search_results.items()):
                         if found[0]:
                             if found[1]:
-                                print(Fore.GREEN + "Search #{}: {} FOUND".format(index, search_term.pattern))
+                                print(
+                                    Fore.GREEN + "Search #{}: {} FOUND".format(index, search_term.pattern))
                             else:
-                                print(Fore.RED + "Search #{}: {} FOUND".format(index, search_term.pattern))
+                                print(
+                                    Fore.RED + "Search #{}: {} FOUND".format(index, search_term.pattern))
                         else:
                             if found[1]:
-                                print(Fore.RED + "Search #{}: {} NOT FOUND".format(index, search_term.pattern))
+                                print(
+                                    Fore.RED + "Search #{}: {} NOT FOUND".format(index, search_term.pattern))
                             else:
-                                print(Fore.GREEN + "Search #{}: {} NOT FOUND".format(index, search_term.pattern))
-
-                                
-
+                                print(
+                                    Fore.GREEN + "Search #{}: {} NOT FOUND".format(index, search_term.pattern))
 
                     if len(self.comments) > 0:
                         print(Fore.CYAN + "Comments Added:")
@@ -419,12 +444,12 @@ class checker:
                             print(Fore.CYAN + comment)
                     print()
 
-
-                    options = ["Add comment", "Remove comment", "Confirm score", "Skip student", "Previous submission", "Search Menu"]
+                    options = ["Add comment", "Remove comment", "Confirm score",
+                        "Skip student", "Previous submission", "Search Menu"]
                     if self.useAnonymousNames:
                         options.append("Reveal real name")
                     options.append("Exit to main menu")
-                    
+
                     choice = pyip.inputMenu(options, numbered=True)
                     print()
 
@@ -453,7 +478,8 @@ class checker:
                             continue
                         if self.current_question not in self.graded_questions.keys():
                             self.graded_questions[self.current_question] = []
-                        self.graded_questions[self.current_question].append(student)
+                        self.graded_questions[self.current_question].append(
+                            student)
                         self.remove_student(student)
                         print(Fore.YELLOW + "Autosaving..")
                         self.save_files()
@@ -464,52 +490,54 @@ class checker:
                     elif choice == "Skip student":
                         first = student
                         self.remove_student(student)
-                        self.ungraded_questions[self.current_question].append(first)
+                        self.ungraded_questions[self.current_question].append(
+                            first)
                         break
 
                     elif choice == "Previous submission":
                         if self.current_question in self.graded_questions.keys():
                             if len(self.graded_questions[self.current_question]) == 0:
-                                self.graded_questions.pop(self.current_question)
+                                self.graded_questions.pop(
+                                    self.current_question)
 
                         if not self.graded_questions:
                             print(Fore.RED + "Can not go further back!")
                             continue
 
-                        int_graded_questions = [int(i) for i in self.graded_questions.keys()]
+                        int_graded_questions = [
+                            int(i) for i in self.graded_questions.keys()]
                         self.current_question = str(max(int_graded_questions))
-                        last_student = self.graded_questions[self.current_question].pop()
+                        last_student = self.graded_questions[self.current_question].pop(
+                        )
                         if self.current_question not in self.ungraded_questions.keys():
                             self.ungraded_questions[self.current_question] = []
-                        self.ungraded_questions[self.current_question].insert(0, last_student)
+                        self.ungraded_questions[self.current_question].insert(
+                            0, last_student)
                         break
-                    
+
                     elif choice == "Search Menu":
                         self.search_menu()
 
                     elif choice == "Reveal real name":
                         print(Fore.YELLOW + self.all_student_names[student])
 
-
                     elif choice == "Exit to main menu":
                         print(Fore.CYAN + "Main Menu")
                         self.options()
-
 
                     else:
                         print(Fore.RED + "Oops - error :o")
 
             self.ungraded_questions.pop(self.current_question)
-    
+
     def clear_comments(self, id):
         for grade in self.data:
             if grade["id"] == id:
                 if not "comments" in grade:
-                    return 
+                    return
                 for comment in grade["comments"]:
                     if "#{}".format(self.current_question) in comment:
                         grade["comments"].remove(comment)
-
 
     def auto_grade_names(self):
         print(Fore.YELLOW + "Automatically grading student names...")
@@ -518,17 +546,18 @@ class checker:
                 submission = f.read()
             search_string = ";type your name after the colon:\s*$"
             empty = re.search(search_string, submission, re.MULTILINE)
-            if  empty:
+            if empty:
                 print(Fore.RED + "{} did not enter name".format(student))
                 comment = "#0: -5 no name"
-                self.data.append({"id": student, "questions": {"0": -5}, "total_score": -5, "comments": [comment]})
+                self.data.append({"id": student, "questions": {
+                                 "0": -5}, "total_score": -5, "comments": [comment]})
                 self.save_files()
             else:
                 print(Fore.GREEN + "{} entered name".format(student))
         print(Fore.GREEN + "Done!")
 
     def check_late(self):
-        late_students = dict() # dictionary of late students 
+        late_students = dict()  # dictionary of late students
         with open(self.key_file, "r") as f:
             key = f.read()
         search_string = r"; put the due date here in MM\/DD\/YYYY HH:MM \(24hrs\) format after the colon:\s*(.*)$"
@@ -552,20 +581,22 @@ class checker:
                 date = datetime.datetime.strptime(
                     date_s, "%A, %B %d, %Y %I:%M:%S %p")
             else:
-                print(Fore.RED + "Date submitted not found for {}: ".format(student, self.all_student_names[student]))
+                print(Fore.RED + "Date submitted not found for {}: ".format(student,
+                      self.all_student_names[student]))
                 continue
-            
+
             delta = (due_date - date).total_seconds()
             if delta < 0:
                 late_students[student] = {"delta": delta * -1, "pass": False}
-        
+
         if len(late_students) == 0:
             return
         late_students = self.apply_late_pass(late_students)
         for student, info in late_students.items():
             penalty = info["penalty"] * -1
             if info["pass"]:
-                comment = "#00: -{} late submission but late pass used".format(penalty)
+                comment = "#00: -{} late submission but late pass used".format(
+                    penalty)
             else:
                 comment = "#00: -{} late submission".format(penalty)
             found = False
@@ -586,34 +617,31 @@ class checker:
                                  "00": penalty * -1}, "total_score": penalty * -1, "comments": [comment]})
 
             self.save_files()
-        
 
     def apply_late_pass(self, late_students):
         for student, info in late_students.items():
             days = math.ceil(info["delta"] / 60 / 60 / 24)
-            print(Fore.RED + "{} {} Days LATE!".format(self.all_student_names[student], days))
+            print(
+                Fore.RED + "{} {} Days LATE!".format(self.all_student_names[student], days))
             if days == 1:
                 penalty = -20
             elif days == 2:
                 penalty = -40
             elif days > 2:
                 penalty = -60
-            choice = pyip.inputYesNo(prompt=Fore.YELLOW + "Apply late pass? (yes/no): ")
+            choice = pyip.inputYesNo(
+                prompt=Fore.YELLOW + "Apply late pass? (yes/no): ")
             if choice == "yes":
                 penalty += 20
                 late_students[student]["pass"] = True
             late_students[student]["penalty"] = penalty
         return late_students
 
-
-
-                
-
-
     def auto_grader(self, student):
         with open("{}/{}/{}".format(self.main_dir_name, student, self.rkt_report_file), "r") as f:
             output = f.read()
-        search_string = "Q{}[A-Za-z.]* [Pp]assed (\d+)/(\d+)".format(self.current_question)
+        search_string = "Q{}[A-Za-z.]* [Pp]assed (\d+)/(\d+)".format(
+            self.current_question)
         match = re.search(search_string, output)
         if match:
             return match
@@ -629,7 +657,6 @@ class checker:
             else:
                 results[term] = [False, isGreen]
         return results
-
 
     def add_comment(self):
         comments_list = []
@@ -650,8 +677,9 @@ class checker:
             if choice == "Custom comment":
                 while True:
                     comment = "#{}: -".format(self.current_question)
-                    comment += pyip.inputStr("Enter custom comment: {}".format(comment))
-                    
+                    comment += pyip.inputStr(
+                        "Enter custom comment: {}".format(comment))
+
                     search_string = "#{}: -\d+".format(self.current_question)
                     match = re.search(search_string, comment)
                     if match:
@@ -670,7 +698,7 @@ class checker:
                 continue
             else:
                 break
-        
+
         return comment
 
     def extract_score(self, comment):
@@ -679,7 +707,8 @@ class checker:
         if match:
             s = float(match.group(1))
             if s > 0:
-                print(Fore.RED + "Positive values not accepted. Please change comment to negative value")
+                print(
+                    Fore.RED + "Positive values not accepted. Please change comment to negative value")
                 return None
         else:
             print(Fore.RED + "Unable to extract score from comments")
@@ -695,12 +724,13 @@ class checker:
                 if not 'comments' in grade:
                     grade['comments'] = []
                 grade['comments'].append(comment)
-        
+
         if not found:
             self.data.append({"id": id, "comments": [comment]})
-    
+
     def delete_comment(self, id):
-        comment = pyip.inputMenu(self.comments, numbered=True, prompt="Select which comment to delete\n", blank=True)
+        comment = pyip.inputMenu(self.comments, numbered=True,
+                                 prompt="Select which comment to delete\n", blank=True)
         if comment == "":
             comment = self.comments[0]
 
@@ -710,27 +740,26 @@ class checker:
                     grade['comments'].remove(comment)
                     return comment
 
-        
-
     def save_score(self, id):
         if not self.auto_feedback:
             self.score = pyip.inputInt(prompt="Score: ")
         else:
             if self.score < 0:
                 self.score = 0
-            print(Fore.GREEN + "Score: {}/{}".format(self.score, float(self.auto_feedback.group(2))))
+            print(Fore.GREEN + "Score: {}/{}".format(self.score,
+                  float(self.auto_feedback.group(2))))
             if input("Input blank to confirm: ") != "":
                 return False
 
         found = False
-        
+
         for grade in self.data:
             if grade['id'] == id:
                 found = True
                 if 'questions' not in grade:
                     grade['questions'] = dict()
 
-                grade['questions'][self.current_question] = self.score 
+                grade['questions'][self.current_question] = self.score
                 total = 0
                 for score in grade['questions'].values():
                     total += score
@@ -738,22 +767,24 @@ class checker:
                 grade['total_score'] = total
 
         if not found:
-            self.data.append({"id": id, "questions": {self.current_question: self.score}, "total_score": self.score})
+            self.data.append({"id": id, "questions": {
+                             self.current_question: self.score}, "total_score": self.score})
         return True
-    
+
     def remove_student(self, id):
         try:
             self.ungraded_questions[self.current_question].remove(id)
         except KeyError as e:
             print(e)
             raise
-    
+
     def search_menu(self):
         choices = ["Add search term", "Remove search term"]
         choice = pyip.inputMenu(choices, numbered=True)
         if choice == "Add search term":
             term = pyip.inputRegexStr(prompt="Enter regex search term: ")
-            new_choice = pyip.inputYesNo(prompt=Fore.YELLOW + "If found, display result in green? (yes/no): ")
+            new_choice = pyip.inputYesNo(
+                prompt=Fore.YELLOW + "If found, display result in green? (yes/no): ")
             if new_choice == "yes":
                 self.search_terms[term] = True
             elif new_choice == "no":
@@ -792,7 +823,7 @@ class checker:
             report += "\n"
 
             report += ("==================================") + "\n"
-        
+
         if save:
             with open("hr_grade_report.txt", "w") as f:
                 f.write(report)
@@ -806,7 +837,7 @@ class checker:
             self.current_question = min(int_ungraded_questions)
         total_questions = self.total_questions * len(self.all_student_names)
         remaining_questions = 0
-        
+
         for students in self.ungraded_questions.values():
             remaining_questions += len(students)
 
@@ -816,7 +847,8 @@ class checker:
         print(Fore.YELLOW + "Graded {} questions".format(graded_questions))
         print(Fore.YELLOW + "{} questions remaining".format(remaining_questions))
         print()
-        print(Fore.GREEN + "{}% completed".format(round(graded_questions/total_questions * 100, 1)))
+        print(Fore.GREEN + "{}% completed".format(round(graded_questions /
+              total_questions * 100, 1)))
         print()
 
     def save_as_csv(self):
@@ -828,14 +860,16 @@ class checker:
             header = next(csvFile)
             for lines in csvFile:
                 csv_data.append(lines)
-        
+
         for record in csv_data:
             student_grade = self.search_json("id", record[2])
             if not student_grade:
-                print(Fore.RED + "Grade for {} not found. Skipping..".format(record[2]))
+                print(
+                    Fore.RED + "Grade for {} not found. Skipping..".format(record[2]))
                 continue
             if "total_score" not in student_grade:
-                record[4] = pyip.inputInt( prompt= Fore.YELLOW + "Total score for {} not found. Please enter score manually: ".format(record[2]))
+                record[4] = pyip.inputInt(
+                    prompt=Fore.YELLOW + "Total score for {} not found. Please enter score manually: ".format(record[2]))
             else:
                 record[4] = student_grade["total_score"]
 
@@ -844,12 +878,12 @@ class checker:
                 for comment in student_grade["comments"]:
                     comments += "<p>" + comment + "</p>"
             record[7] = comments
-        
+
         with open("output.csv", "w", newline='') as f:
             csvwriter = csv.writer(f)
             csvwriter.writerow(header)
             csvwriter.writerows(csv_data)
-        
+
     def search_json(self, field, search):
         for student in self.data:
             if student[field] == search:
@@ -868,7 +902,7 @@ class checker:
         if grade is None:
             print(Fore.RED + "Student not found!")
             self.edit_grade()
-        
+
         while True:
             print(Fore.YELLOW + json.dumps(grade, indent=4))
             choices = ["id", "questions", "total_score", "comments", "go back"]
@@ -893,13 +927,15 @@ class checker:
         if "questions" not in grade:
             grade["questions"] = dict()
         questions = [key for key in grade["questions"].keys()]
-        question = pyip.inputMenu(questions, prompt=Fore.YELLOW + "What question would you like to edit?\n")
-        grade["questions"][question] = pyip.inputInt(prompt=Fore.YELLOW + "Enter marks for this question: ")
+        question = pyip.inputMenu(
+            questions, prompt=Fore.YELLOW + "What question would you like to edit?\n")
+        grade["questions"][question] = pyip.inputInt(
+            prompt=Fore.YELLOW + "Enter marks for this question: ")
         self.save_files()
 
-
     def edit_total_score(self, grade):
-        grade["total_score"] = pyip.inputInt(prompt=Fore.YELLOW + "Enter new total_score: ")
+        grade["total_score"] = pyip.inputInt(
+            prompt=Fore.YELLOW + "Enter new total_score: ")
         self.save_files()
 
     def edit_comments(self, grade):
@@ -913,11 +949,12 @@ class checker:
             print(Fore.GREEN + "Comment added!")
             self.save_files()
         elif choice == "Remove existing comment":
-            comment = pyip.inputMenu(grade["comments"], prompt=Fore.YELLOW + "What comment would you like to remove?\n", numbered=True)
+            comment = pyip.inputMenu(
+                grade["comments"], prompt=Fore.YELLOW + "What comment would you like to remove?\n", numbered=True)
             grade["comments"].remove(comment)
             print(Fore.GREEN + "Comment removed!")
             self.save_files()
-    
+
     def comment_analysis(self):
         comment_freq = dict()
         comment_to_students = dict()
@@ -931,22 +968,27 @@ class checker:
                     if comment not in comment_to_students:
                         comment_to_students[comment] = set()
                     if data["id"] not in comment_to_students[comment]:
-                        comment_to_students[comment].add(self.all_student_names[data["id"]])
+                        comment_to_students[comment].add(
+                            self.all_student_names[data["id"]])
 
-        sorted_comment_freq = sorted(comment_freq.items(), key=lambda kv: kv[1])
+        sorted_comment_freq = sorted(
+            comment_freq.items(), key=lambda kv: kv[1])
         sorted_comment_freq.reverse()
-        print(tabulate(sorted_comment_freq, headers=["Comment", "Frequency"], showindex=True))
+        print(tabulate(sorted_comment_freq, headers=[
+              "Comment", "Frequency"], showindex=True))
         print()
         while True:
             print(Fore.YELLOW + "Enter -2 to show comments analysis again")
             print(Fore.YELLOW + "Enter -1 to go back to main menu")
-            choice = pyip.inputInt(Fore.YELLOW + "Select a comment to find out which students made the same mistake:\n")
+            choice = pyip.inputInt(
+                Fore.YELLOW + "Select a comment to find out which students made the same mistake:\n")
             if choice == -2:
-                print(tabulate(sorted_comment_freq, headers=["Comment", "Frequency"], showindex=True))
+                print(tabulate(sorted_comment_freq, headers=[
+                      "Comment", "Frequency"], showindex=True))
                 print()
             elif choice == -1:
                 return
-            elif choice >=0 and choice < len(sorted_comment_freq):
+            elif choice >= 0 and choice < len(sorted_comment_freq):
                 comment = sorted_comment_freq[choice][0]
 
                 for student in comment_to_students[comment]:
@@ -954,11 +996,6 @@ class checker:
                 print()
             else:
                 print(Fore.RED + "Invalid choice. Try again!")
-
-
-
-
-        
 
     def plagarism_analysis(self):
         matches = dict()
@@ -980,10 +1017,12 @@ class checker:
                                 continue
                             if answer1 in matches:
                                 if question in matches[answer1]:
-                                    matches[answer1][question].add(first_student)
-                                    matches[answer1][question].add(second_student)
+                                    matches[answer1][question].add(
+                                        first_student)
+                                    matches[answer1][question].add(
+                                        second_student)
                                     continue
-                        
+
                             matches[answer1] = {question: {
                                 first_student, second_student}}
 
@@ -998,11 +1037,13 @@ class checker:
             print(Fore.GREEN + "Written plagarism report in plagarism.txt")
 
     def delete_data(self):
-        first_option = "Delete {} and {}".format(self.save_file, self.report_file)
+        first_option = "Delete {} and {}".format(
+            self.save_file, self.report_file)
         options = [first_option, "Delete ALL created data"]
         choice = pyip.inputMenu(options, numbered=True)
         if choice == first_option:
-            choice = pyip.inputYesNo(prompt=Fore.RED + "Are you sure you want to delete {} and {}? (yes/no) ".format(self.save_file, self.report_file))
+            choice = pyip.inputYesNo(
+                prompt=Fore.RED + "Are you sure you want to delete {} and {}? (yes/no) ".format(self.save_file, self.report_file))
             if choice == "yes":
                 to_delete = [self.save_file, self.report_file]
                 for file in to_delete:
@@ -1015,9 +1056,11 @@ class checker:
             elif choice == "no":
                 return
         elif choice == "Delete ALL created data":
-            choice = pyip.inputYesNo(prompt=Fore.RED + "Are you sure you want to delete ALL data? (yes/no) ")
+            choice = pyip.inputYesNo(
+                prompt=Fore.RED + "Are you sure you want to delete ALL data? (yes/no) ")
             if choice == "yes":
-                to_delete = [self.save_file, self.report_file, self.student_data_file, self.id_to_animals_file, self.submissions_directory, self.key_dir, self.main_dir_name]
+                to_delete = [self.save_file, self.report_file, self.student_data_file,
+                    self.id_to_animals_file, self.submissions_directory, self.key_dir, self.main_dir_name]
                 for file in to_delete:
                     if os.path.isfile(file):
                         os.remove(file)
@@ -1027,10 +1070,6 @@ class checker:
                 sys.exit()
             elif choice == "no":
                 return
-                
-                
-
-
 
     def end_program(self):
         self.save_files()
@@ -1046,7 +1085,7 @@ class checker:
     def save_files(self):
         with open(self.save_file, "w") as f:
             f.write(json.dumps(self.ungraded_questions, indent=4))
-    
+
         with open(self.report_file, "w") as f:
             f.write(json.dumps(self.data, indent=4))
 
@@ -1054,6 +1093,8 @@ class checker:
 # roster_file, grades_file, submissions_file, key_file
 # if no arguments are given, looks through config.json to search for the filenames
 # if still no filenames are found, prints usage message and exits program
+
+
 def get_filenames():
     is_imported = False
     if __name__ == "__main__":
@@ -1070,7 +1111,6 @@ def get_filenames():
     else:
         is_imported = True
 
-
     if is_imported or not args.roster or not args.grades or not args.submissions or not args.key:
         if os.path.isfile("config.json"):
             with open("config.json", "r") as f:
@@ -1081,7 +1121,8 @@ def get_filenames():
                     submissions_file = config["submissionsFile"]
                     key_file = config["keyFile"]
                 except KeyError as e:
-                    raise Exception("Filenames not found in config.json. Enter command line arguments again.")
+                    raise Exception(
+                        "Filenames not found in config.json. Enter command line arguments again.")
         else:
             if is_imported:
                 print(Fore.RED + "Error: config.json not found")
@@ -1100,7 +1141,267 @@ def get_filenames():
         grades_file = args.grades
         submissions_file = args.submissions
         key_file = args.key
-    
+
     return roster_file, grades_file, submissions_file, key_file
+
+
+# Prints a welcome message after starting the program
+def welcome_screen(roster, submitted_students):
+    all_students = roster.get_all_ids()
+    unsubmitted_students = roster.get_unsubmitted_students(submitted_students)
+    print(Fore.CYAN + "Welcome to the CS270 grading assistant")
+    print()
+
+    print(Fore.CYAN + "There are {} total students and {} submissions".format(
+        len(all_students), len(submitted_students)))
+
+    if len(unsubmitted_students) > 0:
+        print(Fore.CYAN + "The following students did not send any submissions: ")
+
+        for id in unsubmitted_students:
+                print(Fore.CYAN + roster.get_name(id))
+
+        print()
+
+
+def options():
+    options = ["Start Grading", "Print Grade Report", "View Grading Status", "Edit grade manually", "Toggle anonymous names",
+        "Save report as .csv for Blackboard", "Comment Analysis", "Plagarism Analysis", "Delete data", "Save and Exit"]
+
+    choice = pyip.inputMenu(options, numbered=True)
+    print()
+
+    if choice == "Start Grading":
+        grading()
+        remove_negatives()
+        print()
+        print(Fore.GREEN + "Finished Grading!")
+        print()
+        options()
+
+    elif choice == "Print Grade Report":
+        save_to_file = pyip.inputYesNo(prompt="Save to file? (yes/no): ")
+        if save_to_file == "yes":
+            save_to_file = True
+        else:
+            save_to_file = False
+        print_report(save_to_file)
+        options()
+
+    elif choice == "View Grading Status":
+        print_grading_status()
+        options()
+
+    elif choice == "Edit grade manually":
+        edit_grade()
+        options()
+
+    elif choice == "Toggle anonymous names":
+        useAnonymousNames = not useAnonymousNames
+        if useAnonymousNames:
+            print(Fore.GREEN + "Anonymous Names ON")
+        else:
+            print(Fore.RED + "Anonymous Names OFF")
+        options()
+
+    elif choice == "Save report as .csv for Blackboard":
+        save_as_csv()
+        print(Fore.GREEN + "Done!")
+        options()
+
+    elif choice == "Comment Analysis":
+        comment_analysis()
+        options()
+
+    elif choice == "Plagarism Analysis":
+        plagarism_analysis()
+        options()
+
+    elif choice == "Delete data":
+        delete_data()
+        options()
+
+    elif choice == "Save and Exit":
+        end_program()
+    else:
+        print(Fore.RED + "Oops - error :o")
+    
+
+def grading():
+       if not gradebook.names_graded: # checks if names have been graded
+            auto_grade_names()
+            names_graded = True
+
+        if not late_checked:
+            check_late()
+            late_checked = True
+
+        while len(ungraded_questions) != 0:
+            int_ungraded_questions = [int(i) for i in ungraded_questions]
+            current_question = min(int_ungraded_questions)
+            current_question = str(current_question)
+            search_terms = dict()
+
+            while len(ungraded_questions[current_question]) != 0:
+                student = ungraded_questions[current_question][0]
+                clear_comments(student)
+                with open("{}/{}/{}.txt".format(key_dir, key_answers_dir, current_question)) as f:
+                    correct_answer = f.read()
+
+                with open("{}/{}/{}.txt".format(main_dir_name, student, current_question)) as f:
+                    student_answer = f.read()
+
+                auto_feedback = auto_grader(student)
+
+                if auto_feedback:
+                    score = float(auto_feedback.group(2))
+                else:
+                    score = 0.0
+
+                comments = []
+                while True:
+                    print(
+                        Fore.CYAN + "======================================================")
+                    print()
+                    if useAnonymousNames:
+                        print(Fore.CYAN +
+                              "Grading {}".format(id_to_animals[student]))
+                    else:
+                        print(
+                            Fore.CYAN + "Grading {}".format(all_student_names[student]))
+                    total_submissions = len(submitted_student_names)
+                    submissions_left = len(
+                        ungraded_questions[current_question]) - 1
+                    submission_num = total_submissions - submissions_left
+                    print(Fore.CYAN + "Grading submission {}/{} for Question {}".format(
+                        submission_num, total_submissions, current_question))
+                    print()
+                    print(Fore.CYAN + "Correct Answer:")
+                    print()
+                    print(Fore.YELLOW + correct_answer)
+                    print()
+                    print(Fore.CYAN + "Student Answer:")
+                    print()
+                    print(Fore.YELLOW + student_answer)
+                    print()
+
+                    if auto_feedback:
+                        if auto_feedback.group(1) == auto_feedback.group(2):
+                            print(Fore.GREEN + auto_feedback.group())
+                        else:
+                            print(Fore.RED + auto_feedback.group())
+                    else:
+                        print(
+                            Fore.RED + "Auto grader unable to check rkt file automatically")
+
+                    search_results = get_search_results(student_answer)
+                    for index, (search_term, found) in enumerate(search_results.items()):
+                        if found[0]:
+                            if found[1]:
+                                print(
+                                    Fore.GREEN + "Search #{}: {} FOUND".format(index, search_term.pattern))
+                            else:
+                                print(
+                                    Fore.RED + "Search #{}: {} FOUND".format(index, search_term.pattern))
+                        else:
+                            if found[1]:
+                                print(
+                                    Fore.RED + "Search #{}: {} NOT FOUND".format(index, search_term.pattern))
+                            else:
+                                print(
+                                    Fore.GREEN + "Search #{}: {} NOT FOUND".format(index, search_term.pattern))
+
+                    if len(comments) > 0:
+                        print(Fore.CYAN + "Comments Added:")
+                        for comment in comments:
+                            print(Fore.CYAN + comment)
+                    print()
+
+                    options = ["Add comment", "Remove comment", "Confirm score",
+                               "Skip student", "Previous submission", "Search Menu"]
+                    if useAnonymousNames:
+                        options.append("Reveal real name")
+                    options.append("Exit to main menu")
+
+                    choice = pyip.inputMenu(options, numbered=True)
+                    print()
+
+                    if choice == "Add comment":
+                        comment = add_comment()
+                        if comment:
+                            num = extract_score(comment)
+                            if num is None:
+                                continue
+                            score += num
+                            comments.append(comment)
+                            save_comment(comment, student)
+
+                    elif choice == "Remove comment":
+                        if len(comments) == 0:
+                            print(Fore.RED + "No comments to remove")
+                            continue
+                        num = extract_score(comment)
+                        score -= extract_score(comment)
+                        comment = delete_comment(student)
+                        comments.remove(comment)
+
+                    elif choice == "Confirm score":
+                        res = save_score(student)
+                        if not res:
+                            continue
+                        if current_question not in graded_questions.keys():
+                            graded_questions[current_question] = []
+                        graded_questions[current_question].append(
+                            student)
+                        remove_student(student)
+                        print(Fore.YELLOW + "Autosaving..")
+                        save_files()
+                        print(Fore.GREEN + "Saved.")
+                        print(Fore.CYAN + "Next student..")
+                        break
+
+                    elif choice == "Skip student":
+                        first = student
+                        remove_student(student)
+                        ungraded_questions[current_question].append(
+                            first)
+                        break
+
+                    elif choice == "Previous submission":
+                        if current_question in graded_questions.keys():
+                            if len(graded_questions[current_question]) == 0:
+                                graded_questions.pop(
+                                    current_question)
+
+                        if not graded_questions:
+                            print(Fore.RED + "Can not go further back!")
+                            continue
+
+                        int_graded_questions = [
+                            int(i) for i in graded_questions.keys()]
+                        current_question = str(max(int_graded_questions))
+                        last_student = graded_questions[current_question].pop(
+                        )
+                        if current_question not in ungraded_questions.keys():
+                            ungraded_questions[current_question] = []
+                        ungraded_questions[current_question].insert(
+                            0, last_student)
+                        break
+
+                    elif choice == "Search Menu":
+                        search_menu()
+
+                    elif choice == "Reveal real name":
+                        print(Fore.YELLOW + all_student_names[student])
+
+                    elif choice == "Exit to main menu":
+                        print(Fore.CYAN + "Main Menu")
+                        options()
+
+                    else:
+                        print(Fore.RED + "Oops - error :o")
+
+            ungraded_questions.pop(current_question)
+
 if __name__ == "__main__":
     main()

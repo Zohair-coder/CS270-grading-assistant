@@ -1,3 +1,0 @@
-(define (dummy3)
-    [(is-IMPLIES? expression) (eval-IMPLIES expression environment)]
-  )

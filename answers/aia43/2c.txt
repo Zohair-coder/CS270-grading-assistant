@@ -1,0 +1,2 @@
+(define (multiplyby1 x)
+    (multiply 1 x))

@@ -45,6 +45,9 @@ class Roster:
     def get_student(self, id):
         return self.students[id]
     
+    def get_name(self, id):
+        return self.students[id].get_name()
+        
     def get_all_ids(self):
         return [id for id in self.students]
     

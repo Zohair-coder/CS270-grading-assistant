@@ -1,3 +1,0 @@
-(define (atleast-one-true L)
-  (foldr (λ (past present) (or past present)) #f L))
-

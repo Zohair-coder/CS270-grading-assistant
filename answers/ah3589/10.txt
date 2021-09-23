@@ -1,3 +1,0 @@
-(define (extend_table var_name current_table) ;I also think this one would work but i wasnt able to get the previous 2 problems right
-  (insert_multiple_bindings (make_bindings var_name) current_table))
-

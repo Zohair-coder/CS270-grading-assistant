@@ -1,0 +1,2 @@
+(define (subtractby1 x)
+    (subtract x 1)

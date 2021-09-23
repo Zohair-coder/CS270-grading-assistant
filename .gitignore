@@ -18,3 +18,5 @@ __pycache__
 plagarism.txt
 id_to_animals.json
 config.json
+!test_key.rkt
+!test_submissions.zip
