@@ -29,7 +29,7 @@ def move_txt():
 def rename():
     for file in os.listdir():
         name, ext = os.path.splitext(file)
-        search_string = "HW\d+\.Su21_(\w*?)_"
+        search_string = "HW\d+\.Fa21_(\w*?)_"
         match = re.search(search_string, name)
         if match:
             new_name = "{}{}".format(match.group(1), ext)
