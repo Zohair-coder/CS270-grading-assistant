@@ -5,12 +5,12 @@ def main(key_file, key_dir="key", key_answers_dir="answers"):
         key_string = f.read()
 
     matches = []
-    search_string = r"; ?Question [\d, ]*{}.*?(\(define.*?)(^;end$)".format(
+    search_string = r"\; ?Question [\d, ]*{}.*?(\(define.*?)\;end".format(
         len(matches)+1)
     match = re.search(search_string, key_string, re.DOTALL | re.MULTILINE)
     while match:
         matches.append(match)
-        search_string = r"; ?Question [\d, ]*{}.*?(\(define.*?)(^;end$)".format(
+        search_string = r"\; ?Question [\d, ]*{}.*?(\(define.*?)\;end".format(
             len(matches)+1)
         match = re.search(search_string, key_string, re.DOTALL | re.MULTILINE)
 

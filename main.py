@@ -16,10 +16,10 @@ import getStudents
 import unzip
 import getKey
 
-STUDENT_NAMES_CSV = "gc_41672.202045_fullgc_2021-08-25-15-06-36.csv"
-GRADES_CSV = "gc_41672.202045_column_2021-08-26-02-00-02.csv"
-KEY_FILE = "hw8k(1) (2).rkt"
-ANSWERS_ZIP_FILE = "gradebook_41672.202045_HW8.Su21_2021-08-26-01-58-59.zip"
+STUDENT_NAMES_CSV = "roster.csv"
+GRADES_CSV = "grade.csv"
+KEY_FILE = "hw2k (2).rkt"
+ANSWERS_ZIP_FILE = "hw2.zip"
 
 def main():
     if not os.path.isfile("students.json"):
@@ -131,8 +131,7 @@ class checker:
     def get_answer(self, question, file):
         with open(file, "r") as f:
             rkt = f.read()
-
-        search_string = r"; ?Question [\d, ]*{}.*?(\(define.*?)(;end$)".format(
+        search_string = r"\; ?Question [\d, ]*{}.*?(\(define.*?)\;end".format(
             question)
         match = re.search(search_string, rkt, re.DOTALL | re.MULTILINE)
         if match:
