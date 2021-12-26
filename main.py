@@ -792,7 +792,6 @@ class checker:
             if not student_grade:
                 print(Fore.RED + "Grade for {} not found. Skipping..".format(record[2]))
                 continue
-                # testing
             if "total_score" not in student_grade:
                 record[4] = pyip.inputInt( prompt= Fore.YELLOW + "Total score for {} not found. Please enter score manually: ".format(record[2]))
             else:
