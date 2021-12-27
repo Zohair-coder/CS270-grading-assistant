@@ -29,10 +29,10 @@ Similarly, this piece of code modifies the "comments" column (also known as Feed
 
 ```
 comments = ""
-            if "comments" in student_grade:
-                for comment in student_grade["comments"]:
-                    comments += "<p>" + comment + "</p>"
-            record[10] = comments
+if "comments" in student_grade:
+    for comment in student_grade["comments"]:
+        comments += "<p>" + comment + "</p>"
+record[10] = comments
 ```
 
 As of right now, the 11th column is being used by Blackboard to write comments. In the future, you can change `records[10]` to `records[column_number_of_comments - 1]`. 
