@@ -780,6 +780,8 @@ class checker:
     def save_as_csv(self):
         file = self.csv_file_name
 
+        #  read grading file template into csv_data variable
+
         csv_data = []
         with open(file, "r", encoding="utf-8-sig") as f:
             csvFile = csv.reader(f)
@@ -787,22 +789,30 @@ class checker:
             for lines in csvFile:
                 csv_data.append(lines)
         
+        # search for student grade corresponding to student id
+        # and modify csv_data to fill the column
+        
         for record in csv_data:
             student_grade = self.search_json("id", record[2])
             if not student_grade:
                 print(Fore.RED + "Grade for {} not found. Skipping..".format(record[2]))
                 continue
             if "total_score" not in student_grade:
-                record[4] = pyip.inputInt( prompt= Fore.YELLOW + "Total score for {} not found. Please enter score manually: ".format(record[2]))
+                record[7] = pyip.inputInt( prompt= Fore.YELLOW + "Total score for {} not found. Please enter score manually: ".format(record[2]))
             else:
-                record[4] = student_grade["total_score"]
-
+                record[7] = student_grade["total_score"]
+        
+            # search for comments corresponding to student id
+            # and modify csv_data to fill the column
+            
             comments = ""
             if "comments" in student_grade:
                 for comment in student_grade["comments"]:
                     comments += "<p>" + comment + "</p>"
-            record[7] = comments
+            record[10] = comments
         
+        # write the modified data to file
+
         with open("output.csv", "w", newline='') as f:
             csvwriter = csv.writer(f)
             csvwriter.writerow(header)
